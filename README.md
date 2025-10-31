@@ -27,7 +27,7 @@ data-mining-project/
 ├── reports/                       # Final documentation
 ├── src/                           # Source code
 │   └── data/                      # Data processing modules
-├── .kiro/specs/                   # Implementation specifications
+├── specs/                         # Implementation specifications
 ├── app.py                         # Streamlit dashboard
 ├── run_corrected_multimodal_eda.py # Main analysis pipeline
 └── .env                           # Environment configuration
@@ -188,15 +188,15 @@ Raw Data Sources → processed_data/ → Analysis Pipeline → Dashboard
 
 ## 📚 Documentation
 
-- **Implementation Plan**: `.kiro/specs/multimodal-fake-news-detection/tasks.md`
-- **System Design**: `.kiro/specs/multimodal-fake-news-detection/design.md`
-- **Requirements**: `.kiro/specs/multimodal-fake-news-detection/requirements.md`
+- **Implementation Plan**: `specs/multimodal-fake-news-detection/tasks.md`
+- **System Design**: `specs/multimodal-fake-news-detection/design.md`
+- **Requirements**: `specs/multimodal-fake-news-detection/requirements.md`
 
 ## 🤝 Contributing
 
 This project follows a spec-driven development approach. To contribute:
 
-1. Review the implementation plan in `.kiro/specs/`
+1. Review the implementation plan in `specs/`
 2. Select a task from `tasks.md`
 3. Implement following the design specifications
 4. Update task status and documentation

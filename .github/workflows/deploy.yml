@@ -23,9 +23,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Create mock data for demo
+    - name: Verify real data availability
       run: |
-        python create_demo_data.py
+        echo "Checking for real data files..."
+        ls -la processed_data/text_data/ || echo "Processed data not available - app will show appropriate messages"
+        ls -la analysis_results/ || echo "Analysis results not available - app will show appropriate messages"
     
     - name: Test Streamlit app
       run: |

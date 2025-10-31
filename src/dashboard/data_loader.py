@@ -54,17 +54,9 @@ def load_sample_data():
             df = pd.read_parquet('analysis_results/train_clean.parquet')
             return df.head(100)
         else:
-            return pd.DataFrame({
-                'clean_title': [
-                    'Scientists discover new treatment for cancer',
-                    'SHOCKING: Aliens found in government facility!!!',
-                    'Local community raises funds for school',
-                    'You won\'t believe what happens next in this video',
-                    'Research shows benefits of exercise'
-                ],
-                '2_way_label': [0, 1, 0, 1, 0],
-                'title_length': [45, 52, 38, 48, 35]
-            })
+            st.error("Real dataset not found. Please ensure the data processing pipeline has been run.")
+            st.info("Expected locations: processed_data/text_data/train_clean.parquet or analysis_results/train_clean.parquet")
+            return None
     except Exception as e:
         st.error(f"Error loading sample data: {e}")
         return None

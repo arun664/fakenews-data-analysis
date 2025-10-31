@@ -1,0 +1,33 @@
+Data Leakage Mitigation Report
+==============================
+
+Mitigation Timestamp: 2025-10-31 00:05:59.478759
+
+Dataset Size Changes:
+  Train:
+    Original: 10,000 records
+    Cleaned:  7,027 records
+    Removed:  2,973 records (29.7%)
+  Validation:
+    Original: 10,000 records
+    Cleaned:  1,427 records
+    Removed:  8,573 records (85.7%)
+  Test:
+    Original: 10,000 records
+    Cleaned:  1,383 records
+    Removed:  8,617 records (86.2%)
+
+Mitigation Actions Performed:
+  Exact duplicates removed: 856
+  Near-duplicates removed: 3
+  Temporal splitting applied: True
+  Metadata columns removed: 0
+
+Mitigation Strategies Applied:
+  1. Removed 856 exact duplicate content items
+  2. Removed 3 near-duplicate content pairs
+  3. Applied strict temporal splitting with buffer period
+  4. Applied engagement metric capping to reduce post-hoc bias
+  5. Validated all features are available at prediction time
+
+

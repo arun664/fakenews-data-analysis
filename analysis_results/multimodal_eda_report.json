@@ -1,0 +1,178 @@
+{
+  "analysis_timestamp": "2025-10-31T01:24:29.741355",
+  "dataset_summary": {
+    "total_records": 9837,
+    "modalities_analyzed": {
+      "text": true,
+      "images": true,
+      "comments": true
+    }
+  },
+  "text_analysis": {
+    "clean_title": {
+      "basic_stats": {
+        "count": 9837,
+        "avg_length": 41.86306800853919,
+        "median_length": 34.0,
+        "std_length": 31.770390647581102,
+        "max_length": "367",
+        "min_length": "1",
+        "avg_words": 7.436921825759886,
+        "median_words": 6.0
+      },
+      "linguistic_features": {
+        "avg_readability": 61.408073211831436,
+        "avg_sentiment": 0.009995000000000006,
+        "sentiment_std": 0.31198451319737014
+      }
+    },
+    "title": {
+      "basic_stats": {
+        "count": 9837,
+        "avg_length": 46.28189488665244,
+        "median_length": 38.0,
+        "std_length": 35.76673572543292,
+        "max_length": "380",
+        "min_length": "2",
+        "avg_words": 7.976313916844567,
+        "median_words": 7.0
+      },
+      "linguistic_features": {
+        "avg_readability": 60.0607908960235,
+        "avg_sentiment": 0.005330000000000009,
+        "sentiment_std": 0.317407698236826
+      }
+    },
+    "category_patterns": {
+      "True": {
+        "avg_length": 34.165082541270635,
+        "exclamation_density": 0.0,
+        "question_density": 0.0,
+        "caps_ratio": 0.0,
+        "sample_count": 5997
+      },
+      "False": {
+        "avg_length": 53.88515625,
+        "exclamation_density": 0.0,
+        "question_density": 0.0,
+        "caps_ratio": 0.0,
+        "sample_count": 3840
+      }
+    }
+  },
+  "image_analysis": {
+    "basic_stats": {
+      "total_images": 9837,
+      "avg_width": 580.5200772593271,
+      "avg_height": 508.02592253735895,
+      "avg_aspect_ratio": 1.251088008290231,
+      "avg_file_size_kb": 111.09172480176883,
+      "format_distribution": {
+        "JPEG": 9252,
+        "PNG": 583,
+        "GIF": 2
+      }
+    },
+    "quality_metrics": {
+      "avg_quality": 0.22001166077373693,
+      "quality_std": 0.24481880313223528,
+      "low_quality_pct": 88.15695842228321
+    },
+    "category_patterns": {
+      "True": {
+        "count": 5997,
+        "avg_width": 749.5881273970318,
+        "avg_height": 642.0491912622978,
+        "avg_file_size": 167.34594250250126,
+        "avg_aspect_ratio": 1.2443718588248915,
+        "avg_quality": 0.2945757250369977
+      },
+      "False": {
+        "count": 3840,
+        "avg_width": 316.48333333333335,
+        "avg_height": 298.7192708333333,
+        "avg_file_size": 23.238458251953126,
+        "avg_aspect_ratio": 1.2615767448380537,
+        "avg_quality": 0.10356356353759769
+      }
+    }
+  },
+  "comments_analysis": {
+    "engagement_stats": {
+      "total_posts_with_comments": 5056,
+      "avg_comments_per_post": 19.19323575949367,
+      "median_comments_per_post": 4.0,
+      "max_comments_per_post": "498"
+    },
+    "sentiment_analysis": {
+      "overall_avg_sentiment": 0.1208214898126306,
+      "sentiment_std": 0.2522931680827817,
+      "positive_posts_pct": 49.94066455696203,
+      "negative_posts_pct": 12.83623417721519,
+      "neutral_posts_pct": 37.223101265822784
+    },
+    "social_dynamics": {
+      "total_comment_score": {
+        "mean": 558.0253164556962,
+        "median": 8.0,
+        "std": 4315.1970583939055
+      },
+      "avg_comment_score": {
+        "mean": 5.148372494333124,
+        "median": 2.0,
+        "std": 16.18190894529018
+      }
+    },
+    "category_patterns": {
+      "True": {
+        "sample_count": 1859,
+        "avg_comments": 12.515868746637977,
+        "avg_sentiment": 0.11742648644481045,
+        "avg_total_score": 171.0473372781065,
+        "avg_comment_score": 4.79926247442155
+      },
+      "False": {
+        "sample_count": 3197,
+        "avg_comments": 23.076008758210822,
+        "avg_sentiment": 0.12279562533367464,
+        "avg_total_score": 783.0462934000626,
+        "avg_comment_score": 5.351373910353023
+      }
+    }
+  },
+  "cross_modal_analysis": {
+    "text_image_correlation": {
+      "length_size_correlation": -0.22116908167647126,
+      "interpretation": "negative"
+    },
+    "text_engagement_correlation": {
+      "length_comments_correlation": 0.09962386228445554,
+      "avg_comments_short_titles": 10.58093525179856,
+      "avg_comments_long_titles": 23.433293978748523
+    },
+    "image_sentiment_correlation": {
+      "quality_sentiment_correlation": 0.028762548583834747,
+      "high_quality_sentiment": -0.010191666666666654,
+      "low_quality_sentiment": 0.12071862594336609
+    },
+    "authenticity_patterns": {
+      "True": {
+        "avg_text_length": 34.165082541270635,
+        "avg_image_quality": 0.2945757250369977,
+        "avg_engagement": 12.515868746637977,
+        "avg_sentiment": 0.11742648644481045
+      },
+      "False": {
+        "avg_text_length": 53.88515625,
+        "avg_image_quality": 0.10356356353759769,
+        "avg_engagement": 23.076008758210822,
+        "avg_sentiment": 0.12279562533367464
+      }
+    }
+  },
+  "key_insights": [
+    "False content has 57.7% longer headlines than true content",
+    "True content has 184.4% higher image quality",
+    "False content generates 84.4% more comments"
+  ]
+}

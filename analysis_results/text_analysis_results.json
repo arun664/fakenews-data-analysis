@@ -1,0 +1,524 @@
+{
+  "linguistic_features": {
+    "basic_statistics": {
+      "overall": {
+        "total_samples": 9837,
+        "avg_char_length": 41.86306800853919,
+        "median_char_length": 34.0,
+        "std_char_length": 31.770390647581102,
+        "avg_word_count": 7.436921825759886,
+        "median_word_count": 6.0,
+        "std_word_count": 5.6263818057218655
+      },
+      "by_category": {
+        "True": {
+          "sample_count": 5997,
+          "avg_char_length": 34.165082541270635,
+          "median_char_length": 26.0,
+          "std_char_length": 28.5472542497083,
+          "avg_word_count": 6.123728530932133,
+          "median_word_count": 5.0,
+          "std_word_count": 5.094441525949199
+        },
+        "False": {
+          "sample_count": 3840,
+          "avg_char_length": 53.88515625,
+          "median_char_length": 49.0,
+          "std_char_length": 32.80438582861547,
+          "avg_word_count": 9.487760416666667,
+          "median_word_count": 9.0,
+          "std_word_count": 5.802637137034822
+        }
+      }
+    },
+    "readability_metrics": {
+      "by_category": {
+        "True": {
+          "flesch_reading_ease": {
+            "mean": 58.85671216188561,
+            "std": 46.78443388215625,
+            "median": 66.7871428571429
+          },
+          "flesch_kincaid_grade": {
+            "mean": 6.7151359242606725,
+            "std": 6.488423038992555,
+            "median": 5.246666666666666
+          },
+          "sample_size": 259
+        },
+        "False": {
+          "flesch_reading_ease": {
+            "mean": 63.61075029466901,
+            "std": 29.29264310822637,
+            "median": 66.10000000000002
+          },
+          "flesch_kincaid_grade": {
+            "mean": 6.693374966399809,
+            "std": 4.419938235805399,
+            "median": 6.416666666666668
+          },
+          "sample_size": 197
+        }
+      }
+    },
+    "sentiment_analysis": {
+      "by_category": {
+        "True": {
+          "compound": {
+            "mean": 0.006597795275590552,
+            "std": 0.3124555198250704,
+            "median": 0.0
+          },
+          "positive": {
+            "mean": 0.09627874015748032,
+            "std": 0.1951996178476321,
+            "median": 0.0
+          },
+          "negative": {
+            "mean": 0.09396062992125984,
+            "std": 0.20339641297771605,
+            "median": 0.0
+          },
+          "neutral": {
+            "mean": 0.8081826771653542,
+            "std": 0.2622325253238329,
+            "median": 1.0
+          },
+          "sample_size": 635
+        },
+        "False": {
+          "compound": {
+            "mean": 0.002594520547945207,
+            "std": 0.3125085820149413,
+            "median": 0.0
+          },
+          "positive": {
+            "mean": 0.07602465753424659,
+            "std": 0.138552089784986,
+            "median": 0.0
+          },
+          "negative": {
+            "mean": 0.07640000000000001,
+            "std": 0.15059319783070121,
+            "median": 0.0
+          },
+          "neutral": {
+            "mean": 0.8475863013698631,
+            "std": 0.1888372389812088,
+            "median": 1.0
+          },
+          "sample_size": 365
+        }
+      }
+    },
+    "lexical_diversity": {
+      "by_category": {
+        "True": {
+          "type_token_ratio": {
+            "mean": 0.9863467499502873,
+            "std": 0.07434992625717211,
+            "median": 1.0
+          },
+          "unique_word_ratio": {
+            "mean": 0.9863467499502873,
+            "std": 0.07434992625717211,
+            "median": 1.0
+          },
+          "avg_word_length": {
+            "mean": 5.998487486788454,
+            "std": 2.1636755815252937,
+            "median": 5.75
+          },
+          "sample_size": 295
+        },
+        "False": {
+          "type_token_ratio": {
+            "mean": 0.987710734863525,
+            "std": 0.0498485787554762,
+            "median": 1.0
+          },
+          "unique_word_ratio": {
+            "mean": 0.987710734863525,
+            "std": 0.0498485787554762,
+            "median": 1.0
+          },
+          "avg_word_length": {
+            "mean": 5.7986667311293,
+            "std": 1.0347480042932724,
+            "median": 5.714285714285714
+          },
+          "sample_size": 299
+        }
+      }
+    },
+    "syntactic_features": {
+      "by_category": {
+        "True": {
+          "sentence_count": {
+            "mean": 1.0,
+            "std": 0.0,
+            "median": 1.0
+          },
+          "avg_sentence_length": {
+            "mean": 6.29,
+            "std": 5.556608677961766,
+            "median": 4.5
+          },
+          "punctuation_ratio": {
+            "mean": 0.0,
+            "std": 0.0,
+            "median": 0.0
+          },
+          "capitalization_ratio": {
+            "mean": 0.0,
+            "std": 0.0,
+            "median": 0.0
+          },
+          "question_ratio": {
+            "mean": 0.0,
+            "std": 0.0,
+            "median": 0.0
+          },
+          "exclamation_ratio": {
+            "mean": 0.0,
+            "std": 0.0,
+            "median": 0.0
+          },
+          "sample_size": 200
+        },
+        "False": {
+          "sentence_count": {
+            "mean": 1.0,
+            "std": 0.0,
+            "median": 1.0
+          },
+          "avg_sentence_length": {
+            "mean": 9.075,
+            "std": 5.239215112972553,
+            "median": 8.5
+          },
+          "punctuation_ratio": {
+            "mean": 0.0,
+            "std": 0.0,
+            "median": 0.0
+          },
+          "capitalization_ratio": {
+            "mean": 0.0,
+            "std": 0.0,
+            "median": 0.0
+          },
+          "question_ratio": {
+            "mean": 0.0,
+            "std": 0.0,
+            "median": 0.0
+          },
+          "exclamation_ratio": {
+            "mean": 0.0,
+            "std": 0.0,
+            "median": 0.0
+          },
+          "sample_size": 200
+        }
+      }
+    },
+    "category_comparisons": {
+      "length_comparison": {
+        "statistic": 6318884.0,
+        "p_value": 0.0,
+        "significant": "True",
+        "true_mean": 34.165082541270635,
+        "false_mean": 53.88515625,
+        "effect_size": 0.6413119500186409
+      },
+      "word_count_comparison": {
+        "statistic": 6569288.0,
+        "p_value": 3.913007191411555e-285,
+        "significant": "True",
+        "true_mean": 6.123728530932133,
+        "false_mean": 9.487760416666667,
+        "effect_size": 0.6161192728666162
+      }
+    }
+  },
+  "authenticity_patterns": {
+    "keyword_analysis": {
+      "by_category": {
+        "True": {
+          "top_keywords": [
+            [
+              "discussions",
+              142
+            ],
+            [
+              "like",
+              136
+            ],
+            [
+              "cutouts",
+              134
+            ],
+            [
+              "new",
+              96
+            ],
+            [
+              "happy",
+              91
+            ],
+            [
+              "man",
+              87
+            ],
+            [
+              "one",
+              86
+            ],
+            [
+              "little",
+              85
+            ],
+            [
+              "first",
+              84
+            ],
+            [
+              "dont",
+              83
+            ],
+            [
+              "looks",
+              76
+            ],
+            [
+              "circa",
+              75
+            ],
+            [
+              "get",
+              67
+            ],
+            [
+              "time",
+              66
+            ],
+            [
+              "war",
+              66
+            ],
+            [
+              "look",
+              63
+            ],
+            [
+              "trump",
+              63
+            ],
+            [
+              "guy",
+              59
+            ],
+            [
+              "poster",
+              57
+            ],
+            [
+              "day",
+              53
+            ]
+          ],
+          "total_words": 23061,
+          "unique_words": 8884,
+          "vocabulary_size": 8884
+        },
+        "False": {
+          "top_keywords": [
+            [
+              "like",
+              148
+            ],
+            [
+              "man",
+              138
+            ],
+            [
+              "found",
+              130
+            ],
+            [
+              "dog",
+              114
+            ],
+            [
+              "looks",
+              104
+            ],
+            [
+              "cat",
+              96
+            ],
+            [
+              "new",
+              88
+            ],
+            [
+              "one",
+              74
+            ],
+            [
+              "way",
+              70
+            ],
+            [
+              "old",
+              68
+            ],
+            [
+              "trump",
+              65
+            ],
+            [
+              "police",
+              64
+            ],
+            [
+              "two",
+              64
+            ],
+            [
+              "water",
+              56
+            ],
+            [
+              "made",
+              51
+            ],
+            [
+              "got",
+              50
+            ],
+            [
+              "tree",
+              50
+            ],
+            [
+              "woman",
+              49
+            ],
+            [
+              "girl",
+              47
+            ],
+            [
+              "years",
+              47
+            ]
+          ],
+          "total_words": 23603,
+          "unique_words": 8620,
+          "vocabulary_size": 8620
+        }
+      }
+    },
+    "linguistic_signatures": {
+      "tfidf_signatures": {
+        "true_distinctive_features": [
+          [
+            "discussions",
+            0.023678505919626485,
+            0.0
+          ],
+          [
+            "cutouts",
+            0.022344505586126395,
+            0.0
+          ],
+          [
+            "happy",
+            0.010424194208748993,
+            0.004176695179901779
+          ],
+          [
+            "just",
+            0.01076399351433116,
+            0.0053195087439855335
+          ]
+        ],
+        "false_distinctive_features": [
+          [
+            "dog",
+            0.019640128706294776,
+            0.006171279392819176
+          ],
+          [
+            "cat",
+            0.01790793319974215,
+            0.005231529591092141
+          ],
+          [
+            "man",
+            0.018715646457933312,
+            0.008186603896388674
+          ],
+          [
+            "way",
+            0.011415821501839733,
+            0.003242382879754991
+          ],
+          [
+            "looks like",
+            0.010637707541402764,
+            0.003738749227995638
+          ],
+          [
+            "looks",
+            0.01203158991716453,
+            0.006229270004446616
+          ],
+          [
+            "trump",
+            0.010135414371627925,
+            0.004914931785359309
+          ]
+        ]
+      }
+    },
+    "distinguishing_features": {
+      "length_patterns": {
+        "true_content": {
+          "avg_length": 34.165082541270635,
+          "median_length": 26.0,
+          "length_variance": 814.9457251974886
+        },
+        "false_content": {
+          "avg_length": 53.88515625,
+          "median_length": 49.0,
+          "length_variance": 1076.1277295926675
+        },
+        "length_difference": 19.720073708729366,
+        "relative_difference": 57.71996506933057
+      },
+      "punctuation_patterns": {
+        "true_content": {
+          "avg_punctuation_ratio": 0.0,
+          "median_punctuation_ratio": 0.0
+        },
+        "false_content": {
+          "avg_punctuation_ratio": 0.0,
+          "median_punctuation_ratio": 0.0
+        },
+        "punctuation_difference": 0.0
+      },
+      "capitalization_patterns": {
+        "true_content": {
+          "avg_capitalization_ratio": 0.0,
+          "median_capitalization_ratio": 0.0
+        },
+        "false_content": {
+          "avg_capitalization_ratio": 0.0,
+          "median_capitalization_ratio": 0.0
+        },
+        "capitalization_difference": 0.0
+      }
+    }
+  }
+}

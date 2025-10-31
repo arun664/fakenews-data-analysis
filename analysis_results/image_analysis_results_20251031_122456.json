@@ -1,0 +1,184 @@
+{
+  "metadata": {
+    "analysis_timestamp": "2025-10-31T12:24:56.455687",
+    "total_images_analyzed": 1000,
+    "libraries_used": [
+      "PIL",
+      "CV2",
+      "SCIPY"
+    ],
+    "analysis_version": "1.0"
+  },
+  "results": {
+    "image_metadata": {
+      "basic_properties": {
+        "overall": {
+          "width": {
+            "mean": 574.677,
+            "median": 320.0,
+            "std": 560.1952654266246,
+            "min": 0.0,
+            "max": 4172.0,
+            "q25": 320.0,
+            "q75": 600.0
+          },
+          "height": {
+            "mean": 508.263,
+            "median": 393.5,
+            "std": 484.36024886615303,
+            "min": 0.0,
+            "max": 3822.0,
+            "q25": 213.75,
+            "q75": 569.0
+          },
+          "aspect_ratio": {
+            "mean": 1.2435820849922818,
+            "median": 1.3333333333333333,
+            "std": 0.4580919103899362,
+            "min": 0.0,
+            "max": 3.764705882352941,
+            "q25": 0.75,
+            "q75": 1.5720991411549274
+          },
+          "total_pixels": {
+            "mean": 528252.822,
+            "median": 134080.0,
+            "std": 1268672.8970954076,
+            "min": 0.0,
+            "max": 12192768.0,
+            "q25": 68160.0,
+            "q75": 293917.5
+          },
+          "file_size_kb": {
+            "mean": 107.2251015625,
+            "median": 26.158203125,
+            "std": 221.9831597210819,
+            "min": 0.0,
+            "max": 3857.1923828125,
+            "q25": 16.005859375,
+            "q75": 103.93359375
+          },
+          "megapixels": {
+            "mean": 0.528252822,
+            "median": 0.13408,
+            "std": 1.2686728970954078,
+            "min": 0.0,
+            "max": 12.192768,
+            "q25": 0.06816,
+            "q75": 0.2939175
+          }
+        },
+        "format_distribution": {
+          "JPEG": 934,
+          "PNG": 65,
+          "unknown": 1
+        },
+        "mode_distribution": {
+          "RGB": 970,
+          "P": 26,
+          "RGBA": 3,
+          "unknown": 1
+        },
+        "resolution_distribution": {
+          "Low (<0.5MP)": 788,
+          "Medium (0.5-2MP)": 146,
+          "High (2-8MP)": 60,
+          "Very High (>8MP)": 5
+        }
+      },
+      "quality_metrics": {
+        "overall": {
+          "mean_brightness": {
+            "mean": 114.79867623007434,
+            "median": 113.09864281973073,
+            "std": 38.99123912069072,
+            "min": 0.0,
+            "max": 248.30792317708332
+          },
+          "mean_contrast": {
+            "mean": 59.67492579822112,
+            "median": 59.766602314333575,
+            "std": 15.5293218900616,
+            "min": 0.0,
+            "max": 116.04318277311744
+          },
+          "image_variance": {
+            "mean": 4038.014725908301,
+            "median": 3776.4596053533633,
+            "std": 2062.5228093879164,
+            "min": 0.0,
+            "max": 14372.693948034683
+          }
+        },
+        "contrast_distribution": {
+          "Medium Contrast": 329,
+          "High Contrast": 321,
+          "Low Contrast": 320
+        },
+        "brightness_distribution": {
+          "Medium": 688,
+          "Dark": 208,
+          "Bright": 74
+        }
+      },
+      "format_analysis": {
+        "size_by_format": {
+          "JPEG": {
+            "count": 934,
+            "mean_size_kb": 108.14445283224036,
+            "median_size_kb": 25.41162109375,
+            "std_size_kb": 228.06924876017877
+          },
+          "PNG": {
+            "count": 65,
+            "mean_size_kb": 95.66434795673077,
+            "median_size_kb": 73.494140625,
+            "std_size_kb": 102.75383918188982
+          },
+          "unknown": {
+            "count": 1,
+            "mean_size_kb": 0.0,
+            "median_size_kb": 0.0,
+            "std_size_kb": NaN
+          }
+        },
+        "exif_analysis": {
+          "images_with_exif": 0,
+          "images_without_exif": 1000,
+          "exif_percentage": 0.0
+        },
+        "aspect_ratio_distribution": {
+          "Portrait": 308,
+          "Standard (4:3)": 166,
+          "Widescreen (16:9)": 142,
+          "Classic (3:2)": 136,
+          "Square (1:1)": 121,
+          "Other Landscape": 109,
+          "Panoramic": 13,
+          "Ultra-wide (21:9)": 4,
+          "Unknown": 1
+        }
+      },
+      "category_comparisons": {
+        "statistical_comparisons": {
+          "width": {
+            "true_content": {
+              "mean": 724.6471518987341,
+              "median": 320.0,
+              "std": 659.7522974582083,
+              "count": 632
+            },
+            "false_content": {
+              "mean": 317.1195652173913,
+              "median": 320.0,
+              "std": 24.57634155825691,
+              "count": 368
+            },
+            "difference": {
+              "absolute": -407.5275866813428,
+              "relative_percent": -56.23807195178113
+            },
+            "statistical_test": {
+              "statistic": 164861.5,
+              "p_value": 2.575228004533555e-40,
+              "significant": 

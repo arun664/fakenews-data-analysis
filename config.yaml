@@ -1,0 +1,31 @@
+# Fakeddit Dataset Processing Configuration
+
+# Dataset configuration
+dataset:
+  data_dir: "./data/fakeddit"  # Path to Fakeddit dataset directory
+  splits: ["train", "validation", "test"]
+  categories: ["True", "Satire", "Misleading", "False"]
+
+# Processing configuration
+processing:
+  chunk_size: 10000  # Number of rows to process at once
+  memory_limit_gb: 8.0  # Memory limit in GB
+  preserve_original: true  # Keep original data during processing
+  
+# Data quality thresholds
+quality:
+  missing_value_threshold: 0.5  # 50% missing values threshold
+  duplicate_threshold: 0.1      # 10% duplicates threshold
+  outlier_threshold: 0.05       # 5% outliers threshold
+
+# Output configuration
+output:
+  output_dir: "./processed_data"
+  format: "parquet"  # Output format: parquet, csv, pickle
+  compression: "snappy"  # Compression method
+  
+# Logging configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_file: "dataset_processing.log"
+  console_output: true

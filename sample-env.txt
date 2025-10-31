@@ -1,0 +1,33 @@
+# Multimodal Fake News Detection - Environment Configuration
+# Updated for optimized processed_data structure
+
+# Processed Data Paths (Data Only)
+PROCESSED_DATA_DIR=processed_data
+PROCESSED_IMAGES_DIR=processed_data/images
+PROCESSED_TEXT_DATA_DIR=processed_data/text_data
+PROCESSED_COMMENTS_FILE=processed_data/comments/all_relevant_comments.parquet
+
+# Analysis Results and Reports (Main Folder)
+ANALYSIS_OUTPUT_DIR=analysis_results
+VISUALIZATIONS_DIR=visualizations
+REPORTS_DIR=reports
+
+# Original Data Sources (for reference only)
+FAKEDDIT_BASE_DIR=../Projects
+TRAIN_TSV_PATH=../Projects/multimodal_train.tsv
+VALIDATION_TSV_PATH=../Projects/multimodal_validate.tsv
+TEST_TSV_PATH=../Projects/multimodal_test_public.tsv
+COMMENTS_TSV_PATH=../Projects/all_comments.tsv
+IMAGES_FOLDER_PATH=../Projects/public_image_set
+
+# Pipeline Configuration
+OUTPUT_DIR=processed_data
+CHUNK_SIZE=10000
+MEMORY_LIMIT_GB=8.0
+
+# Data Coverage Statistics (for validation)
+TOTAL_RECORDS=9837
+IMAGE_MAPPING_SUCCESS_RATE=100.0
+COMMENT_COVERAGE_RATE=51.40
+TOTAL_COMMENTS=97041
+POSTS_WITH_COMMENTS=5056

@@ -1,0 +1,162 @@
+{
+  "task": "Dataset Loading and Preprocessing",
+  "status": "completed",
+  "timestamp": "2025-10-31T00:13:36.994494",
+  "dataset_statistics": {
+    "total_records": 9837,
+    "splits": {
+      "train": {
+        "records": 7027,
+        "percentage": 71.43438040052862
+      },
+      "validation": {
+        "records": 1427,
+        "percentage": 14.506455220087425
+      },
+      "test": {
+        "records": 1383,
+        "percentage": 14.05916437938396
+      }
+    }
+  },
+  "data_quality": {
+    "columns_total": 14,
+    "columns_list": [
+      "domain",
+      "6_way_label",
+      "author",
+      "authenticity_label",
+      "created_utc",
+      "subreddit",
+      "image_url",
+      "category_label",
+      "2_way_label",
+      "num_comments",
+      "clean_title",
+      "hasImage",
+      "title",
+      "id"
+    ],
+    "missing_values": {
+      "train": {
+        "domain": 2842,
+        "6_way_label": 0,
+        "author": 478,
+        "authenticity_label": 0,
+        "created_utc": 0,
+        "subreddit": 0,
+        "image_url": 8,
+        "category_label": 0,
+        "2_way_label": 0,
+        "num_comments": 0,
+        "clean_title": 0,
+        "hasImage": 0,
+        "title": 0,
+        "id": 0
+      },
+      "validation": {
+        "domain": 66,
+        "6_way_label": 0,
+        "author": 19,
+        "authenticity_label": 0,
+        "created_utc": 0,
+        "subreddit": 0,
+        "image_url": 3,
+        "category_label": 0,
+        "2_way_label": 0,
+        "num_comments": 0,
+        "clean_title": 0,
+        "hasImage": 0,
+        "title": 0,
+        "id": 0
+      },
+      "test": {
+        "domain": 47,
+        "6_way_label": 0,
+        "author": 17,
+        "authenticity_label": 0,
+        "created_utc": 0,
+        "subreddit": 0,
+        "image_url": 12,
+        "category_label": 0,
+        "2_way_label": 0,
+        "num_comments": 0,
+        "clean_title": 0,
+        "hasImage": 0,
+        "title": 0,
+        "id": 0
+      }
+    },
+    "data_types": {
+      "domain": "object",
+      "6_way_label": "int64",
+      "author": "object",
+      "authenticity_label": "object",
+      "created_utc": "datetime64[ns]",
+      "subreddit": "object",
+      "image_url": "object",
+      "category_label": "object",
+      "2_way_label": "int64",
+      "num_comments": "float64",
+      "clean_title": "object",
+      "hasImage": "bool",
+      "title": "object",
+      "id": "object"
+    }
+  },
+  "category_distribution": {
+    "train": {
+      "0": 4990,
+      "1": 2037
+    },
+    "validation": {
+      "1": 845,
+      "0": 582
+    },
+    "test": {
+      "1": 958,
+      "0": 425
+    }
+  },
+  "text_statistics": {
+    "train": {
+      "avg_length": 38.92628433186282,
+      "max_length": "367",
+      "min_length": "1"
+    },
+    "validation": {
+      "avg_length": 48.19831814996496,
+      "max_length": "287",
+      "min_length": "2"
+    },
+    "test": {
+      "avg_length": 50.248011569052785,
+      "max_length": "287",
+      "min_length": "2"
+    }
+  },
+  "multimodal_features": {
+    "has_image_column": true,
+    "has_url_column": true,
+    "has_comments_column": true,
+    "multimodal_samples": {
+      "train": "7027",
+      "validation": "1427",
+      "test": "1383"
+    }
+  },
+  "preprocessing_applied": [
+    "Removed Unnamed columns as per dataset guidelines",
+    "Used clean_title column for filtered text data",
+    "Filtered to multimodal samples (text + image)",
+    "Applied proper train/validation/test splitting",
+    "Standardized data formats and column names"
+  ],
+  "key_insights": [
+    "Successfully loaded 9,837 multimodal records",
+    "Dataset follows proper 7027/1427/1383 train/val/test split",
+    "All samples have both text and image components",
+    "Data quality is high with minimal missing values",
+    "Ready for comprehensive multimodal analysis"
+  ]
+}

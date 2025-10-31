@@ -1,0 +1,35 @@
+================================================================================
+IMAGE ANALYSIS SUMMARY REPORT
+================================================================================
+Generated: 2025-10-31 12:37:11
+
+DATASET OVERVIEW
+----------------------------------------
+Total images analyzed: 9,837
+True content images: 5,997 (61.0%)
+False content images: 3,840 (39.0%)
+
+KEY VISUAL AUTHENTICITY FINDINGS
+----------------------------------------
+Most distinguishing feature: width
+Effect size: 0.795 (medium)
+Finding: False content has lower width by 57.7% on average
+
+IMAGE QUALITY PATTERNS
+------------------------------
+Average brightness - True: 112.4, False: 113.9
+Average contrast - True: 60.2, False: 57.5
+
+TECHNICAL CHARACTERISTICS
+------------------------------
+Average resolution - True: 0.83MP, False: 0.10MP
+Average file size - True: 165.9KB, False: 23.2KB
+EXIF data presence - True: 0.3%, False: 0.0%
+
+PROCESSING STATISTICS
+------------------------------
+Images processed successfully: 9,837
+Processing errors: 0
+Success rate: 100.0%
+
+================================================================================

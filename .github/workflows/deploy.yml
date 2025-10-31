@@ -1,0 +1,41 @@
+name: Deploy Streamlit App
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Create mock data for demo
+      run: |
+        python create_demo_data.py
+    
+    - name: Test Streamlit app
+      run: |
+        streamlit run app.py --server.headless true --server.port 8501 &
+        sleep 10
+        curl -f http://localhost:8501 || exit 1
+        pkill -f streamlit
+    
+    - name: Deploy to Streamlit Cloud
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      run: |
+        echo "App ready for Streamlit Cloud deployment"
+        echo "Visit: https://share.streamlit.io/ and connect your GitHub repo"

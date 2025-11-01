@@ -14,8 +14,12 @@ from pathlib import Path
 def load_eda_data():
     """Load EDA results from main analysis_results folder."""
     try:
-        from dotenv import load_dotenv
-        load_dotenv()
+        # Try to load dotenv if available, but don't fail if it's not
+        try:
+            from dotenv import load_dotenv
+            load_dotenv()
+        except ImportError:
+            pass  # dotenv not available, use environment variables or defaults
         
         analysis_results_dir = os.getenv('ANALYSIS_OUTPUT_DIR', 'analysis_results')
         
@@ -42,8 +46,12 @@ def load_eda_data():
 def load_sample_data():
     """Load a sample of the clean dataset from processed_data structure."""
     try:
-        from dotenv import load_dotenv
-        load_dotenv()
+        # Try to load dotenv if available, but don't fail if it's not
+        try:
+            from dotenv import load_dotenv
+            load_dotenv()
+        except ImportError:
+            pass  # dotenv not available, use environment variables or defaults
         
         processed_text_dir = os.getenv('PROCESSED_TEXT_DATA_DIR', 'processed_data/text_data')
         
@@ -63,8 +71,12 @@ def load_sample_data():
 
 def detect_completed_analyses():
     """Detect which analyses have been completed based on organized structure."""
-    from dotenv import load_dotenv
-    load_dotenv()
+    # Try to load dotenv if available, but don't fail if it's not
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        pass  # dotenv not available, use environment variables or defaults
     
     analysis_dir = os.getenv('ANALYSIS_OUTPUT_DIR', 'analysis_results')
     text_data_dir = os.getenv('PROCESSED_TEXT_DATA_DIR', 'processed_data/text_data')

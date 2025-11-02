@@ -1,0 +1,17 @@
+{
+  "linguistic_features_chart": {
+    "type": "bar",
+    "title": "Top Discriminative Linguistic Features",
+    "data_source": "linguistic_analysis_dashboard.json",
+    "x_field": "feature_name",
+    "y_field": "effect_size",
+    "color_field": "direction"
+  },
+  "content_type_distribution": {
+    "type": "pie",
+    "title": "Content Type Distribution",
+    "data_source": "linguistic_analysis_dashboard.json",
+    "value_field": "total_count",
+    "label_field": "content_type"
+  }
+}

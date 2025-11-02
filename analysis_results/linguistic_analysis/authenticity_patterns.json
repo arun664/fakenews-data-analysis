@@ -1,0 +1,466 @@
+{
+  "overall_comparisons": {
+    "text_length": {
+      "fake_mean": 38.95441241513657,
+      "real_mean": 57.386831183899325,
+      "fake_std": 35.75812700271689,
+      "real_std": 31.981511447674738,
+      "t_statistic": -216.82203260727505,
+      "p_value": 0.0,
+      "effect_size": -0.5370732456700973,
+      "significant": "True"
+    },
+    "word_count": {
+      "fake_mean": 6.776052379076406,
+      "real_mean": 9.824657503681557,
+      "fake_std": 6.165060153671773,
+      "real_std": 5.623158460283953,
+      "t_statistic": -206.58939920384614,
+      "p_value": 0.0,
+      "effect_size": -0.511726773415195,
+      "significant": "True"
+    },
+    "avg_word_length": {
+      "fake_mean": 5.345527320461201,
+      "real_mean": 5.111512568664652,
+      "fake_std": 2.7411489706586063,
+      "real_std": 1.076424331271754,
+      "t_statistic": 42.20580167667058,
+      "p_value": 0.0,
+      "effect_size": 0.10454475783674272,
+      "significant": "True"
+    },
+    "sentence_count": {
+      "fake_mean": 1.107581093067603,
+      "real_mean": 1.0639549585731922,
+      "fake_std": 0.39440509876597,
+      "real_std": 0.28792174318189595,
+      "t_statistic": 49.43398258472222,
+      "p_value": 0.0,
+      "effect_size": 0.12244913099428717,
+      "significant": "True"
+    },
+    "avg_sentence_length": {
+      "fake_mean": 6.13077907317128,
+      "real_mean": 9.283790653476938,
+      "fake_std": 5.086659332388779,
+      "real_std": 4.751542969522432,
+      "t_statistic": -256.7705166910417,
+      "p_value": 0.0,
+      "effect_size": -0.6360265750364456,
+      "significant": "True"
+    },
+    "flesch_reading_ease": {
+      "fake_mean": 64.3869419420097,
+      "real_mean": 62.68627507552141,
+      "fake_std": 52.85695088186401,
+      "real_std": 28.962108469993865,
+      "t_statistic": 15.262012391393966,
+      "p_value": 1.3973009635792792e-52,
+      "effect_size": 0.0378043616321498,
+      "significant": "True"
+    },
+    "flesch_kincaid_grade": {
+      "fake_mean": 5.8092805509347905,
+      "real_mean": 6.807079816474602,
+      "fake_std": 7.390394766713974,
+      "real_std": 4.120331794828256,
+      "t_statistic": -63.8589420995611,
+      "p_value": 0.0,
+      "effect_size": -0.15818009307472625,
+      "significant": "True"
+    },
+    "sentiment_compound": {
+      "fake_mean": 0.007996254528668069,
+      "real_mean": 0.010879960432564298,
+      "fake_std": 0.30922047308505546,
+      "real_std": 0.31661380261328836,
+      "t_statistic": -3.7295152155860203,
+      "p_value": 0.0001918640255116073,
+      "effect_size": -0.009238096412640994,
+      "significant": "True"
+    },
+    "sentiment_positive": {
+      "fake_mean": 0.09043191469306566,
+      "real_mean": 0.07604580005057493,
+      "fake_std": 0.19150212444453102,
+      "real_std": 0.13878435622067573,
+      "t_statistic": 33.63575120045448,
+      "p_value": 8.052805621942322e-248,
+      "effect_size": 0.08331654237602523,
+      "significant": "True"
+    },
+    "sentiment_negative": {
+      "fake_mean": 0.08094244633875763,
+      "real_mean": 0.06876128638790961,
+      "fake_std": 0.17990351825738332,
+      "real_std": 0.13527747343107593,
+      "t_statistic": 30.025500448109767,
+      "p_value": 6.1448052539389854e-198,
+      "effect_size": 0.07437386682811774,
+      "significant": "True"
+    },
+    "sentiment_neutral": {
+      "fake_mean": 0.8282873235964455,
+      "real_mean": 0.855189254317462,
+      "fake_std": 0.24563393583323306,
+      "real_std": 0.18257170640245354,
+      "t_statistic": -48.71688080490363,
+      "p_value": 0.0,
+      "effect_size": -0.12067285311453607,
+      "significant": "True"
+    },
+    "polarity": {
+      "fake_mean": 0.034926698880320815,
+      "real_mean": 0.028301783763504767,
+      "fake_std": 0.251834809599138,
+      "real_std": 0.21761281287631876,
+      "t_statistic": 11.193373508737059,
+      "p_value": 4.4196505352827215e-29,
+      "effect_size": 0.027726247964956065,
+      "significant": "True"
+    },
+    "subjectivity": {
+      "fake_mean": 0.2266827226036791,
+      "real_mean": 0.21226341680709818,
+      "fake_std": 0.32548103728060584,
+      "real_std": 0.30569332441419517,
+      "t_statistic": 18.315320911200473,
+      "p_value": 6.510032793614262e-75,
+      "effect_size": 0.045367478244633844,
+      "significant": "True"
+    },
+    "exclamation_count": {
+      "fake_mean": 0.12097555788115132,
+      "real_mean": 0.021817870795959957,
+      "fake_std": 0.45595959334283825,
+      "real_std": 0.17782175681277765,
+      "t_statistic": 107.5802293646968,
+      "p_value": 0.0,
+      "effect_size": 0.2664787441573527,
+      "significant": "True"
+    },
+    "question_count": {
+      "fake_mean": 0.05299538613617303,
+      "real_mean": 0.01393785235098993,
+      "fake_std": 0.2484652428694427,
+      "real_std": 0.12912792442920562,
+      "t_statistic": 75.18350923012112,
+      "p_value": 0.0,
+      "effect_size": 0.18623131070921445,
+      "significant": "True"
+    },
+    "uppercase_ratio": {
+      "fake_mean": 0.0975154482280132,
+      "real_mean": 0.06511853090622831,
+      "fake_std": 0.12557598087832544,
+      "real_std": 0.05489598156483727,
+      "t_statistic": 126.1759566749336,
+      "p_value": 0.0,
+      "effect_size": 0.3125407956103738,
+      "significant": "True"
+    },
+    "digit_ratio": {
+      "fake_mean": 0.013778046904501198,
+      "real_mean": 0.005535009605596472,
+      "fake_std": 0.03764985156403553,
+      "real_std": 0.02016787222738685,
+      "t_statistic": 104.23023078126272,
+      "p_value": 0.0,
+      "effect_size": 0.2581807193184562,
+      "significant": "True"
+    },
+    "punctuation_ratio": {
+      "fake_mean": 0.043384018737635324,
+      "real_mean": 0.02400428103156358,
+      "fake_std": 0.062465235682073246,
+      "real_std": 0.025724343600900732,
+      "t_statistic": 152.68840968796314,
+      "p_value": 0.0,
+      "effect_size": 0.3782127617807803,
+      "significant": "True"
+    },
+    "unique_word_ratio": {
+      "fake_mean": 0.988076205407304,
+      "real_mean": 0.9848330888807524,
+      "fake_std": 0.04504984369376525,
+      "real_std": 0.04025661808609007,
+      "t_statistic": 30.289708462737195,
+      "p_value": 2.132623203878533e-201,
+      "effect_size": 0.07502831625948626,
+      "significant": "True"
+    },
+    "stopword_ratio": {
+      "fake_mean": 0.266917950492922,
+      "real_mean": 0.29669235968828683,
+      "fake_std": 0.21759616307581833,
+      "real_std": 0.15711565395722998,
+      "t_statistic": -61.323770835189,
+      "p_value": 0.0,
+      "effect_size": -0.15190041456183234,
+      "significant": "True"
+    },
+    "clickbait_word_count": {
+      "fake_mean": 0.008405981346358818,
+      "real_mean": 0.006875957576568938,
+      "fake_std": 0.09287286890790568,
+      "real_std": 0.0833528909356678,
+      "t_statistic": 6.921310032705088,
+      "p_value": 4.478777078591814e-12,
+      "effect_size": 0.017144246822401586,
+      "significant": "True"
+    },
+    "emotional_word_count": {
+      "fake_mean": 0.0030187092299028646,
+      "real_mean": 0.002075059128028917,
+      "fake_std": 0.05516738704023901,
+      "real_std": 0.04558726218853462,
+      "t_statistic": 7.382055141984873,
+      "p_value": 1.560403787914296e-13,
+      "effect_size": 0.018285523233714112,
+      "significant": "True"
+    }
+  },
+  "significant_features": {
+    "text_length": {
+      "fake_mean": 38.95441241513657,
+      "real_mean": 57.386831183899325,
+      "fake_std": 35.75812700271689,
+      "real_std": 31.981511447674738,
+      "t_statistic": -216.82203260727505,
+      "p_value": 0.0,
+      "effect_size": -0.5370732456700973,
+      "significant": "True"
+    },
+    "word_count": {
+      "fake_mean": 6.776052379076406,
+      "real_mean": 9.824657503681557,
+      "fake_std": 6.165060153671773,
+      "real_std": 5.623158460283953,
+      "t_statistic": -206.58939920384614,
+      "p_value": 0.0,
+      "effect_size": -0.511726773415195,
+      "significant": "True"
+    },
+    "avg_sentence_length": {
+      "fake_mean": 6.13077907317128,
+      "real_mean": 9.283790653476938,
+      "fake_std": 5.086659332388779,
+      "real_std": 4.751542969522432,
+      "t_statistic": -256.7705166910417,
+      "p_value": 0.0,
+      "effect_size": -0.6360265750364456,
+      "significant": "True"
+    },
+    "exclamation_count": {
+      "fake_mean": 0.12097555788115132,
+      "real_mean": 0.021817870795959957,
+      "fake_std": 0.45595959334283825,
+      "real_std": 0.17782175681277765,
+      "t_statistic": 107.5802293646968,
+      "p_value": 0.0,
+      "effect_size": 0.2664787441573527,
+      "significant": "True"
+    },
+    "uppercase_ratio": {
+      "fake_mean": 0.0975154482280132,
+      "real_mean": 0.06511853090622831,
+      "fake_std": 0.12557598087832544,
+      "real_std": 0.05489598156483727,
+      "t_statistic": 126.1759566749336,
+      "p_value": 0.0,
+      "effect_size": 0.3125407956103738,
+      "significant": "True"
+    },
+    "digit_ratio": {
+      "fake_mean": 0.013778046904501198,
+      "real_mean": 0.005535009605596472,
+      "fake_std": 0.03764985156403553,
+      "real_std": 0.02016787222738685,
+      "t_statistic": 104.23023078126272,
+      "p_value": 0.0,
+      "effect_size": 0.2581807193184562,
+      "significant": "True"
+    },
+    "punctuation_ratio": {
+      "fake_mean": 0.043384018737635324,
+      "real_mean": 0.02400428103156358,
+      "fake_std": 0.062465235682073246,
+      "real_std": 0.025724343600900732,
+      "t_statistic": 152.68840968796314,
+      "p_value": 0.0,
+      "effect_size": 0.3782127617807803,
+      "significant": "True"
+    }
+  },
+  "content_type_analysis": {
+    "text_only": {
+      "total_count": 491594,
+      "fake_count": 222686,
+      "real_count": 268908,
+      "fake_rate": 0.4529876280019691,
+      "real_rate": 0.5470123719980309
+    }
+  },
+  "content_type_comparisons": {
+    "text_only": {
+      "text_length": {
+        "fake_mean": 53.129595035161614,
+        "real_mean": 57.386831183899325,
+        "effect_size": -0.11898653595118613,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "word_count": {
+        "fake_mean": 9.145083211337937,
+        "real_mean": 9.824657503681557,
+        "effect_size": -0.10976818079094694,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "avg_word_length": {
+        "fake_mean": 5.092764711983939,
+        "real_mean": 5.111512568664652,
+        "effect_size": -0.014657453927460456,
+        "p_value": 3.1272587686395454e-07,
+        "significant": "True"
+      },
+      "sentence_count": {
+        "fake_mean": 1.1448003017702055,
+        "real_mean": 1.0639549585731922,
+        "effect_size": 0.21906630353770334,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "avg_sentence_length": {
+        "fake_mean": 8.145238117756035,
+        "real_mean": 9.283790653476938,
+        "effect_size": -0.22011166101617807,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "flesch_reading_ease": {
+        "fake_mean": 63.82272508320429,
+        "real_mean": 62.68627507552141,
+        "effect_size": 0.03339654413635118,
+        "p_value": 2.1610392335849455e-31,
+        "significant": "True"
+      },
+      "flesch_kincaid_grade": {
+        "fake_mean": 6.3830719136112695,
+        "real_mean": 6.807079816474602,
+        "effect_size": -0.08681111201103414,
+        "p_value": 1.8453807804939215e-201,
+        "significant": "True"
+      },
+      "sentiment_compound": {
+        "fake_mean": 0.0011632702549778603,
+        "real_mean": 0.010879960432564298,
+        "effect_size": -0.029317087176849298,
+        "p_value": 1.4317115238936991e-24,
+        "significant": "True"
+      },
+      "sentiment_positive": {
+        "fake_mean": 0.09331093108682179,
+        "real_mean": 0.07604580005057493,
+        "effect_size": 0.11004799484033133,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "sentiment_negative": {
+        "fake_mean": 0.08960088195935084,
+        "real_mean": 0.06876128638790961,
+        "effect_size": 0.13704067658740188,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "sentiment_neutral": {
+        "fake_mean": 0.8166886647566528,
+        "real_mean": 0.855189254317462,
+        "effect_size": -0.1898488884453528,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "polarity": {
+        "fake_mean": 0.045343434610865686,
+        "real_mean": 0.028301783763504767,
+        "effect_size": 0.07043550867734338,
+        "p_value": 2.3072422599086395e-133,
+        "significant": "True"
+      },
+      "subjectivity": {
+        "fake_mean": 0.2604636959700383,
+        "real_mean": 0.21226341680709818,
+        "effect_size": 0.14991823760589332,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "exclamation_count": {
+        "fake_mean": 0.08564974897389149,
+        "real_mean": 0.021817870795959957,
+        "effect_size": 0.21948038400683034,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "question_count": {
+        "fake_mean": 0.047223444670971684,
+        "real_mean": 0.01393785235098993,
+        "effect_size": 0.17950425692957697,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "uppercase_ratio": {
+        "fake_mean": 0.08850318235999581,
+        "real_mean": 0.06511853090622831,
+        "effect_size": 0.30439912444105305,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "digit_ratio": {
+        "fake_mean": 0.022737729232416348,
+        "real_mean": 0.005535009605596472,
+        "effect_size": 0.5287490512398215,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "punctuation_ratio": {
+        "fake_mean": 0.040602742181359536,
+        "real_mean": 0.02400428103156358,
+        "effect_size": 0.4187838096025297,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "unique_word_ratio": {
+        "fake_mean": 0.9845239525593297,
+        "real_mean": 0.9848330888807524,
+        "effect_size": -0.007302633893895919,
+        "p_value": 0.010811765355069535,
+        "significant": "True"
+      },
+      "stopword_ratio": {
+        "fake_mean": 0.27073159412881886,
+        "real_mean": 0.29669235968828683,
+        "effect_size": -0.15280102831529407,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "clickbait_word_count": {
+        "fake_mean": 0.011235551404219394,
+        "real_mean": 0.006875957576568938,
+        "effect_size": 0.04587207530277141,
+        "p_value": 1.1239565849839371e-57,
+        "significant": "True"
+      },
+      "emotional_word_count": {
+        "fake_mean": 0.004284059168515308,
+        "real_mean": 0.002075059128028917,
+        "effect_size": 0.03971627259933442,
+        "p_value": 1.1029928766425157e-43,
+        "significant": "True"
+      }
+    }
+  },
+  "fake_sample_size": 413753,
+  "real_sample_size": 268908,
+  "multimodal_integration": true
+}

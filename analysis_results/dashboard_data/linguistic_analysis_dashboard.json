@@ -1,0 +1,75 @@
+{
+  "generation_timestamp": "2025-11-02T16:28:33.008296",
+  "task_name": "linguistic_pattern_mining",
+  "total_records": 682661,
+  "fake_records": 413753,
+  "real_records": 268908,
+  "significant_features_count": 7,
+  "content_type_distribution": {
+    "text_only": {
+      "total_count": 491594,
+      "fake_count": 222686,
+      "real_count": 268908,
+      "fake_rate": 0.4529876280019691,
+      "real_rate": 0.5470123719980309
+    }
+  },
+  "top_discriminative_features": [
+    {
+      "feature_name": "avg_sentence_length",
+      "effect_size": -0.6360265750364456,
+      "p_value": 0.0,
+      "fake_mean": 6.13077907317128,
+      "real_mean": 9.283790653476938,
+      "direction": "lower"
+    },
+    {
+      "feature_name": "text_length",
+      "effect_size": -0.5370732456700973,
+      "p_value": 0.0,
+      "fake_mean": 38.95441241513657,
+      "real_mean": 57.386831183899325,
+      "direction": "lower"
+    },
+    {
+      "feature_name": "word_count",
+      "effect_size": -0.511726773415195,
+      "p_value": 0.0,
+      "fake_mean": 6.776052379076406,
+      "real_mean": 9.824657503681557,
+      "direction": "lower"
+    },
+    {
+      "feature_name": "punctuation_ratio",
+      "effect_size": 0.3782127617807803,
+      "p_value": 0.0,
+      "fake_mean": 0.043384018737635324,
+      "real_mean": 0.02400428103156358,
+      "direction": "higher"
+    },
+    {
+      "feature_name": "uppercase_ratio",
+      "effect_size": 0.3125407956103738,
+      "p_value": 0.0,
+      "fake_mean": 0.0975154482280132,
+      "real_mean": 0.06511853090622831,
+      "direction": "higher"
+    },
+    {
+      "feature_name": "exclamation_count",
+      "effect_size": 0.2664787441573527,
+      "p_value": 0.0,
+      "fake_mean": 0.12097555788115132,
+      "real_mean": 0.021817870795959957,
+      "direction": "higher"
+    },
+    {
+      "feature_name": "digit_ratio",
+      "effect_size": 0.2581807193184562,
+      "p_value": 0.0,
+      "fake_mean": 0.013778046904501198,
+      "real_mean": 0.005535009605596472,
+      "direction": "higher"
+    }
+  ]
+}

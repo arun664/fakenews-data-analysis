@@ -1,1 +1,0 @@
-# Multimodal Fake News Detection System

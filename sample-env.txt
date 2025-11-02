@@ -13,21 +13,21 @@ VISUALIZATIONS_DIR=visualizations
 REPORTS_DIR=reports
 
 # Original Data Sources (for reference only)
-FAKEDDIT_BASE_DIR=../Projects
-TRAIN_TSV_PATH=../Projects/multimodal_train.tsv
-VALIDATION_TSV_PATH=../Projects/multimodal_validate.tsv
-TEST_TSV_PATH=../Projects/multimodal_test_public.tsv
-COMMENTS_TSV_PATH=../Projects/all_comments.tsv
-IMAGES_FOLDER_PATH=../Projects/public_image_set
+FAKEDDIT_BASE_DIR=../
+TRAIN_TSV_PATH=../multimodal_train.tsv
+VALIDATION_TSV_PATH=../multimodal_validate.tsv
+TEST_TSV_PATH=../multimodal_test_public.tsv
+COMMENTS_TSV_PATH=../all_comments.tsv
+IMAGES_FOLDER_PATH=../public_image_set
 
 # Pipeline Configuration
 OUTPUT_DIR=processed_data
 CHUNK_SIZE=10000
 MEMORY_LIMIT_GB=8.0
 
-# Data Coverage Statistics (for validation)
-TOTAL_RECORDS=9837
-IMAGE_MAPPING_SUCCESS_RATE=100.0
-COMMENT_COVERAGE_RATE=51.40
-TOTAL_COMMENTS=97041
-POSTS_WITH_COMMENTS=5056
+# Large-Scale Processing Configuration (1.5M+ images, 780K+ records)
+BATCH_SIZE=10000
+MAX_WORKERS=4
+RESUME_FROM_BATCH=0
+ENABLE_PARALLEL_PROCESSING=true
+IMAGE_PROCESSING_TIMEOUT=30

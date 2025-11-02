@@ -18,19 +18,33 @@ A comprehensive multimodal analysis system for fake news detection using the Fak
 
 ```
 data-mining-project/
-├── processed_data/                 # Optimized data storage (data only)
-│   ├── images/                    # 9,837 dataset-specific images
-│   ├── text_data/                 # Clean datasets (train/val/test)
-│   └── comments/                  # Relevant comments (97,041 comments)
-├── analysis_results/              # Analysis outputs and reports
-├── visualizations/                # Generated charts and plots
-├── reports/                       # Final documentation
-├── src/                           # Source code
-│   └── data/                      # Data processing modules
-├── specs/                         # Implementation specifications
-├── app.py                         # Streamlit dashboard
-├── run_corrected_multimodal_eda.py # Main analysis pipeline
-└── .env                           # Environment configuration
+├── tasks/                         # Task execution scripts and utilities
+│   ├── run_task*.py              # Individual task execution scripts
+│   ├── dashboard_data_loader.py  # Dashboard data processing
+│   ├── chart_generator.py        # Visualization generation
+│   └── README.md                 # Task documentation
+├── logs/                          # Execution logs and debugging info
+│   ├── task*.log                 # Task execution logs
+│   └── README.md                 # Log documentation
+├── processed_data/                # Optimized data storage (results only)
+│   ├── images/                   # Mapped images and metadata
+│   ├── text_data/                # Clean datasets (train/val/test)
+│   ├── comments/                 # Comment data and engagement metrics
+│   └── social_engagement/        # Social analysis results
+├── analysis_results/              # Analysis outputs and intermediate results
+│   ├── image_catalog/            # Image mapping and catalog results
+│   ├── text_integration/         # Text processing results
+│   ├── social_analysis/          # Social engagement analysis
+│   └── dashboard_data/           # Dashboard-ready processed data
+├── visualizations/                # Generated charts and interactive plots
+│   ├── dashboard_charts/         # Dashboard-optimized visualizations
+│   ├── social_engagement/        # Social analysis visualizations
+│   └── multimodal_features/      # Cross-modal analysis charts
+├── reports/                       # Final documentation and methodology
+├── scripts/                       # Utility and visualization scripts
+├── streamlit_dashboard.py         # Enhanced interactive dashboard
+├── config.yaml                    # Configuration settings
+└── .env                          # Environment variables
 ```
 
 ## 🎯 Analysis Pipeline
@@ -69,17 +83,44 @@ pip install -r requirements.txt
 # Check .env file for current configuration
 ```
 
-### 2. **Run Analysis Pipeline**
+### 2. **Run Analysis Tasks**
 ```bash
-# Execute corrected multimodal EDA
-python run_corrected_multimodal_eda.py
+# Execute individual tasks
+python tasks/run_task1_image_catalog.py
+python tasks/run_task2_text_integration.py
+python tasks/run_task3_comment_integration.py
+python tasks/run_task5_social_engagement_analysis.py
+
+# Or run dashboard preparation tasks
+python tasks/run_dashboard_tasks.py
 ```
 
-### 3. **Launch Dashboard**
+### 3. **Launch Enhanced Dashboard**
 ```bash
-# Start interactive dashboard
-streamlit run app.py
+# Launch enhanced multimodal dashboard
+streamlit run streamlit_dashboard.py
 ```
+
+## 📊 Enhanced Interactive Dashboard
+
+The enhanced dashboard integrates analysis results from completed tasks:
+
+### **Analysis Views**
+- **📊 Data Overview**: Dataset statistics, content distributions, authenticity breakdown
+- **👥 Social Analysis**: Engagement patterns, comment dynamics, sentiment analysis
+- **🔗 Cross-Modal Analysis**: Multimodal relationships, authenticity consistency
+- **🖼️ Image Analysis**: Visual characteristics and mapping results (773K+ images)
+- **📝 Text Analysis**: Linguistic patterns and content classification (682K+ records)
+- **📈 Data Quality**: Validation metrics and integrity assessment
+- **⚙️ System Status**: Task progress and performance monitoring
+
+### **Technical Features**
+- **Real Data Integration**: All visualizations based on actual analysis results
+- **Performance Optimized**: Handles large datasets with caching and optimization
+- **Interactive Exploration**: Multiple views for comprehensive analysis
+- **Professional Quality**: Suitable for research presentations and publications
+- **Modular Architecture**: Easy maintenance and extension
+- **Responsive Design**: Optimized for different screen sizes
 
 ## 📊 Data Mapping Validation
 

@@ -1,0 +1,20 @@
+{
+  "task_name": "Task 2: Text Data Integration",
+  "start_timestamp": "2025-11-01T13:47:11.350444",
+  "end_timestamp": null,
+  "total_duration_seconds": 0,
+  "total_duration_formatted": "",
+  "phase_durations": {
+    "Load Text Data": 14.214773654937744,
+    "Analyze ID Mapping Patterns": 5.41874361038208,
+    "Clean and Standardize Text": 8.519453525543213,
+    "Generate Mapping Statistics": 1.8046228885650635,
+    "Create Visualizations": 3.8969526290893555,
+    "Generate Report": 0.0031175613403320312
+  },
+  "memory_usage_mb": 0,
+  "records_processed": 682661,
+  "processing_rate_per_second": 48042.401336790914,
+  "success": false,
+  "error_message": null
+}

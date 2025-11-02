@@ -1,0 +1,356 @@
+{
+  "duplicate_detection": {
+    "text_duplicates": {
+      "text_train_vs_text_validation_titles": 3018,
+      "text_test_vs_text_train_titles": 3043,
+      "text_test_vs_text_validation_titles": 730
+    },
+    "image_duplicates": {
+      "near_duplicates": 0,
+      "hash_collisions": [],
+      "total_processed": 0
+    },
+    "cross_split_duplicates": {
+      "text_train_vs_text_validation_ids": 0,
+      "text_test_vs_text_train_ids": 0,
+      "text_test_vs_text_validation_ids": 0
+    },
+    "metadata_duplicates": {
+      "text_train_url_patterns": {
+        "https://external-preview.redd.it/ESPM-tTuK3werLgfWG_wBsw_trUSDNU4bI5s2jVRAgQ.png?width=108&crop=smart&auto=webp&s=HASH": 2459,
+        "https://external-preview.redd.it/JE5v1BJsIlc2DiVs1rwqi6CLE49u9lcH1SVOoMRTF3k.jpg?width=320&crop=smart&auto=webp&s=HASH": 355,
+        "https://external-preview.redd.it/rw3C157-mb0CTpawp_iy2QUuOWtOs9AaKwKVk8JT52w.jpg?width=108&crop=smart&auto=webp&s=HASH": 262,
+        "https://external-preview.redd.it/FUQYbH92hUUaXCQoy7XlxfEVH-efilnwLJTPLhl1cZE.jpg?width=216&crop=smart&auto=webp&s=HASH": 209,
+        "https://external-preview.redd.it/TpYwgZl_YAu-BVWDwCP4lSt8o3uqYqsdOLy4qm3_zjw.jpg?width=320&crop=smart&auto=webp&s=HASH": 204,
+        "https://external-preview.redd.it/D_OE3MNJ9mu28Ix4mkZXDvR9mRFh3w0KaFqkRxHEc68.jpg?width=320&crop=smart&auto=webp&s=HASH": 196,
+        "https://external-preview.redd.it/K9a5X4oJnk8_o2dlWwf24fM0oHFEudF16sF4LLH1RGU.jpg?width=320&crop=smart&auto=webp&s=HASH": 169,
+        "https://external-preview.redd.it/jyVqfIPG4_Ae6mXEWd4LR1KDBYOaMMnNopNKUPMUw-8.jpg?width=320&crop=smart&auto=webp&s=HASH": 142,
+        "https://external-preview.redd.it/t0otWoPoXX6bgb9MAYZLlSUwu76I1IOWdXjMYgoqPd4.jpg?width=320&crop=smart&auto=webp&s=HASH": 134,
+        "https://external-preview.redd.it/3hPWkCPHtgqmBs5VgVi86KZxuguBfT5xerMPgPL__gg.jpg?width=320&crop=smart&auto=webp&s=HASH": 133
+      },
+      "text_train_domains": {
+        "i.redd.it": 176260,
+        "[No Domain]": 167857,
+        "i.imgur.com": 74782,
+        "imgur.com": 29656,
+        "i.reddituploads.com": 3997,
+        "theonion.com": 3714,
+        "archive.is": 3198,
+        "clickhole.com": 2507,
+        "reuters.com": 2282,
+        "web.archive.org": 2277
+      },
+      "text_train_hour_patterns": {
+        "0": 25677,
+        "1": 24641,
+        "2": 23309,
+        "3": 21798,
+        "4": 19422,
+        "5": 16471,
+        "6": 13720,
+        "7": 12178,
+        "8": 11255,
+        "9": 11543,
+        "10": 12463,
+        "11": 15118,
+        "12": 19111,
+        "13": 23960,
+        "14": 28736,
+        "15": 32635,
+        "16": 33048,
+        "17": 33403,
+        "18": 32944,
+        "19": 32794,
+        "20": 32392,
+        "21": 31572,
+        "22": 28965,
+        "23": 26845
+      },
+      "text_validation_url_patterns": {
+        "https://external-preview.redd.it/ESPM-tTuK3werLgfWG_wBsw_trUSDNU4bI5s2jVRAgQ.png?width=108&crop=smart&auto=webp&s=HASH": 253,
+        "https://external-preview.redd.it/JE5v1BJsIlc2DiVs1rwqi6CLE49u9lcH1SVOoMRTF3k.jpg?width=320&crop=smart&auto=webp&s=HASH": 37,
+        "https://external-preview.redd.it/rw3C157-mb0CTpawp_iy2QUuOWtOs9AaKwKVk8JT52w.jpg?width=108&crop=smart&auto=webp&s=HASH": 23,
+        "https://external-preview.redd.it/FUQYbH92hUUaXCQoy7XlxfEVH-efilnwLJTPLhl1cZE.jpg?width=216&crop=smart&auto=webp&s=HASH": 22,
+        "https://external-preview.redd.it/sQnNPBfBmZ2_AXk1bjXIWw5rFPWjRNy8B9wbEaJcpRQ.jpg?width=108&crop=smart&auto=webp&s=HASH": 18,
+        "https://external-preview.redd.it/D_OE3MNJ9mu28Ix4mkZXDvR9mRFh3w0KaFqkRxHEc68.jpg?width=320&crop=smart&auto=webp&s=HASH": 17,
+        "https://external-preview.redd.it/t0otWoPoXX6bgb9MAYZLlSUwu76I1IOWdXjMYgoqPd4.jpg?width=320&crop=smart&auto=webp&s=HASH": 17,
+        "https://external-preview.redd.it/TpYwgZl_YAu-BVWDwCP4lSt8o3uqYqsdOLy4qm3_zjw.jpg?width=320&crop=smart&auto=webp&s=HASH": 16,
+        "https://external-preview.redd.it/K9a5X4oJnk8_o2dlWwf24fM0oHFEudF16sF4LLH1RGU.jpg?width=320&crop=smart&auto=webp&s=HASH": 16,
+        "https://external-preview.redd.it/lezawYJ8x4GvQfSsuU6tfRCHWLb9-ZBIIq2k4njKNIA.jpg?width=320&crop=smart&auto=webp&s=HASH": 15
+      },
+      "text_validation_domains": {
+        "i.redd.it": 18357,
+        "[No Domain]": 17810,
+        "i.imgur.com": 7969,
+        "imgur.com": 3086,
+        "i.reddituploads.com": 458,
+        "theonion.com": 413,
+        "archive.is": 350,
+        "clickhole.com": 282,
+        "theguardian.com": 253,
+        "reuters.com": 248
+      },
+      "text_validation_hour_patterns": {
+        "0": 2773,
+        "1": 2567,
+        "2": 2425,
+        "3": 2295,
+        "4": 1960,
+        "5": 1693,
+        "6": 1447,
+        "7": 1264,
+        "8": 1188,
+        "9": 1168,
+        "10": 1338,
+        "11": 1547,
+        "12": 2057,
+        "13": 2493,
+        "14": 3033,
+        "15": 3470,
+        "16": 3502,
+        "17": 3515,
+        "18": 3451,
+        "19": 3468,
+        "20": 3416,
+        "21": 3266,
+        "22": 3111,
+        "23": 2895
+      },
+      "text_test_url_patterns": {
+        "https://external-preview.redd.it/ESPM-tTuK3werLgfWG_wBsw_trUSDNU4bI5s2jVRAgQ.png?width=108&crop=smart&auto=webp&s=HASH": 256,
+        "https://external-preview.redd.it/JE5v1BJsIlc2DiVs1rwqi6CLE49u9lcH1SVOoMRTF3k.jpg?width=320&crop=smart&auto=webp&s=HASH": 33,
+        "https://external-preview.redd.it/FUQYbH92hUUaXCQoy7XlxfEVH-efilnwLJTPLhl1cZE.jpg?width=216&crop=smart&auto=webp&s=HASH": 29,
+        "https://external-preview.redd.it/D_OE3MNJ9mu28Ix4mkZXDvR9mRFh3w0KaFqkRxHEc68.jpg?width=320&crop=smart&auto=webp&s=HASH": 26,
+        "https://external-preview.redd.it/TpYwgZl_YAu-BVWDwCP4lSt8o3uqYqsdOLy4qm3_zjw.jpg?width=320&crop=smart&auto=webp&s=HASH": 23,
+        "https://external-preview.redd.it/t0otWoPoXX6bgb9MAYZLlSUwu76I1IOWdXjMYgoqPd4.jpg?width=320&crop=smart&auto=webp&s=HASH": 21,
+        "https://external-preview.redd.it/ap2mKTmMTE2HRfEmNGU4cT-jnJoHC1q0vI7k2_9TDyE.jpg?width=216&crop=smart&auto=webp&s=HASH": 20,
+        "https://external-preview.redd.it/rw3C157-mb0CTpawp_iy2QUuOWtOs9AaKwKVk8JT52w.jpg?width=108&crop=smart&auto=webp&s=HASH": 17,
+        "https://external-preview.redd.it/K9a5X4oJnk8_o2dlWwf24fM0oHFEudF16sF4LLH1RGU.jpg?width=320&crop=smart&auto=webp&s=HASH": 15,
+        "https://external-preview.redd.it/5l5zRucPAXhSfnN2BlgUfFRq5iXyo-DmDEcB7bDQb8s.jpg?width=320&crop=smart&auto=webp&s=HASH": 14
+      },
+      "text_test_domains": {
+        "i.redd.it": 18653,
+        "[No Domain]": 17472,
+        "i.imgur.com": 7812,
+        "imgur.com": 3108,
+        "i.reddituploads.com": 426,
+        "theonion.com": 394,
+        "archive.is": 357,
+        "theguardian.com": 275,
+        "clickhole.com": 269,
+        "reuters.com": 227
+      },
+      "text_test_hour_patterns": {
+        "0": 2661,
+        "1": 2580,
+        "2": 2466,
+        "3": 2207,
+        "4": 1951,
+        "5": 1739,
+        "6": 1480,
+        "7": 1261,
+        "8": 1153,
+        "9": 1219,
+        "10": 1260,
+        "11": 1661,
+        "12": 2029,
+        "13": 2597,
+        "14": 3010,
+        "15": 3356,
+        "16": 3539,
+        "17": 3414,
+        "18": 3549,
+        "19": 3451,
+        "20": 3592,
+        "21": 3305,
+        "22": 3022,
+        "23": 2817
+      }
+    }
+  },
+  "text_overlap": {
+    "text_train_vs_text_validation": 3.3000000000000003,
+    "text_test_vs_text_train": 3.3000000000000003,
+    "text_test_vs_text_validation": 3.0
+  },
+  "temporal_validation": {
+    "text_train_date_range": {
+      "min_date": "2008-06-01T05:15:05",
+      "max_date": "2019-11-15T22:56:34",
+      "span_days": 4184
+    },
+    "text_train_future_dates": 0,
+    "text_train_max_daily_posts": "768",
+    "text_train_suspicious_days": "32",
+    "text_validation_date_range": {
+      "min_date": "2008-07-03T12:12:23",
+      "max_date": "2019-10-23T07:37:54",
+      "span_days": 4128
+    },
+    "text_validation_future_dates": 0,
+    "text_validation_max_daily_posts": "90",
+    "text_validation_suspicious_days": "24",
+    "text_test_date_range": {
+      "min_date": "2008-06-19T23:33:20",
+      "max_date": "2019-10-23T14:58:57",
+      "span_days": 4142
+    },
+    "text_test_future_dates": 0,
+    "text_test_max_daily_posts": "92",
+    "text_test_suspicious_days": "29"
+  },
+  "author_leakage": {
+    "text_train_vs_text_validation": {
+      "overlap_count": 20000,
+      "overlap_percentage": 52.33410090014654
+    },
+    "text_test_vs_text_train": {
+      "overlap_count": 19738,
+      "overlap_percentage": 51.71618718230886
+    },
+    "text_test_vs_text_validation": {
+      "overlap_count": 7134,
+      "overlap_percentage": 18.6920295551014
+    },
+    "prolific_authors": 0,
+    "top_prolific": {
+      "PhysicsIsMyMistress": 3,
+      "billbill5": 3,
+      "negativekarz": 3,
+      "neo1616": 3,
+      "TheBigBadBurritos": 3,
+      "Burritozi11a": 3,
+      "Equinoqs": 3,
+      "Dawgmeat9": 3,
+      "heisgone": 3,
+      "thisisnotariot": 3
+    }
+  },
+  "quality_metrics": {
+    "text_train_text_image": {
+      "total_records": 564000,
+      "missing_values": {
+        "author": 0.0,
+        "clean_title": 0.0,
+        "created_utc": 0.0,
+        "domain": 0.0,
+        "hasImage": 0.0,
+        "id": 0.0,
+        "image_url": 0.2719858156028369,
+        "linked_submission_id": 70.23812056737589,
+        "num_comments": 29.76187943262411,
+        "score": 0.0,
+        "subreddit": 0.0,
+        "title": 0.0,
+        "upvote_ratio": 29.76187943262411,
+        "2_way_label": 0.0,
+        "3_way_label": 0.0,
+        "6_way_label": 0.0,
+        "split": 0.0,
+        "hour": 0.0,
+        "datetime": 0.0,
+        "date": 0.0,
+        "content_type": 0.0
+      },
+      "duplicate_count": "0",
+      "duplicate_percentage": 0.0,
+      "completeness_score": 93.80791117865586,
+      "consistency_score": 99.92070035460992,
+      "accuracy_score": 100.0,
+      "anomaly_count": 79259,
+      "content_type_distribution": {
+        "text_image": 564000
+      }
+    },
+    "text_validation_text_image": {
+      "total_records": 59342,
+      "missing_values": {
+        "author": 0.0,
+        "clean_title": 0.0,
+        "created_utc": 0.0,
+        "domain": 0.0,
+        "hasImage": 0.0,
+        "id": 0.0,
+        "image_url": 0.2915304506083381,
+        "linked_submission_id": 69.98752991136126,
+        "num_comments": 30.012470088638736,
+        "score": 0.0,
+        "subreddit": 0.0,
+        "title": 0.0,
+        "upvote_ratio": 30.012470088638736,
+        "2_way_label": 0.0,
+        "3_way_label": 0.0,
+        "6_way_label": 0.0,
+        "split": 0.0,
+        "hour": 0.0,
+        "datetime": 0.0,
+        "date": 0.0,
+        "content_type": 0.0
+      },
+      "duplicate_count": "0",
+      "duplicate_percentage": 0.0,
+      "completeness_score": 93.79504759336919,
+      "consistency_score": 99.91700650466785,
+      "accuracy_score": 100.0,
+      "anomaly_count": 8367,
+      "content_type_distribution": {
+        "text_image": 59342
+      }
+    },
+    "text_test_text_image": {
+      "total_records": 59319,
+      "missing_values": {
+        "author": 0.0,
+        "clean_title": 0.0,
+        "created_utc": 0.0,
+        "domain": 0.0,
+        "hasImage": 0.0,
+        "id": 0.0,
+        "image_url": 0.26298487836949375,
+        "linked_submission_id": 70.5456936226167,
+        "num_comments": 29.4543063773833,
+        "score": 0.0,
+        "subreddit": 0.0,
+        "title": 0.0,
+        "upvote_ratio": 29.4543063773833,
+        "2_way_label": 0.0,
+        "3_way_label": 0.0,
+        "6_way_label": 0.0,
+        "split": 0.0,
+        "hour": 0.0,
+        "datetime": 0.0,
+        "date": 0.0,
+        "content_type": 0.0
+      },
+      "duplicate_count": "0",
+      "duplicate_percentage": 0.0,
+      "completeness_score": 93.82298613067844,
+      "consistency_score": 99.91570997488157,
+      "accuracy_score": 100.0,
+      "anomaly_count": 8340,
+      "content_type_distribution": {
+        "text_image": 59319
+      }
+    }
+  },
+  "mapping_validation": {
+    "text_image_mapping_rate": 100.0,
+    "text_comment_mapping_rate": 53.44673271213677,
+    "image_comment_mapping_rate": 53.44673271213677,
+    "cross_modal_consistency_score": 80.31292251937639,
+    "mapping_confidence_intervals": {
+      "text_image": [
+        100.0,
+        100
+      ],
+      "text_comment": [
+        53.32840425848001,
+        53.56506116579352
+      ],
+      "image_comment": [
+        53.32840425848001,
+        53.56506116579352
+      ]
+    }
+  }
+}

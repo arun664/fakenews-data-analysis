@@ -1,0 +1,9 @@
+{
+  "test_size": 0.2,
+  "validation_size": 0.2,
+  "random_state": 42,
+  "stratify_column": "2_way_label",
+  "min_samples_per_class": 10,
+  "max_missing_threshold": 0.5,
+  "duplicate_threshold": 0.95
+}

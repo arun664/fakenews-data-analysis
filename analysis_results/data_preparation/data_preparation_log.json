@@ -1,0 +1,109 @@
+[
+  {
+    "step": "text_encoding_standardization",
+    "timestamp": "2025-11-01T19:22:01.155281",
+    "columns_processed": [
+      "title",
+      "clean_title",
+      "author",
+      "subreddit",
+      "domain"
+    ],
+    "records_processed": 682661
+  },
+  {
+    "step": "numeric_format_standardization",
+    "timestamp": "2025-11-01T19:22:01.488900",
+    "columns_processed": [
+      "score",
+      "num_comments",
+      "upvote_ratio",
+      "created_utc",
+      "hasImage"
+    ],
+    "records_processed": 682661
+  },
+  {
+    "step": "cross_modal_consistency_validation",
+    "timestamp": "2025-11-01T19:22:01.817711",
+    "consistency_issues_fixed": {
+      "image_url_hasimage_mismatch": "1863",
+      "negative_comments": "0",
+      "invalid_upvote_ratios": "0",
+      "future_timestamps": "0"
+    },
+    "records_processed": 682661
+  },
+  {
+    "step": "duplicate_anomaly_removal",
+    "timestamp": "2025-11-01T19:22:03.889449",
+    "removal_statistics": {
+      "initial_size": 682661,
+      "exact_duplicates": 0,
+      "near_duplicates": 60759,
+      "anomalies": "1237",
+      "final_size": 620665
+    },
+    "records_remaining": 620665
+  },
+  {
+    "step": "balanced_sampling_strategy",
+    "timestamp": "2025-11-01T19:22:04.054998",
+    "content_type_distribution": {
+      "text_image": 618828,
+      "text_only": 1837
+    },
+    "sampling_strategy": "keep_all_data",
+    "records_processed": 620665
+  },
+  {
+    "step": "rigorous_split_creation",
+    "timestamp": "2025-11-01T19:22:08.216217",
+    "split_statistics": {
+      "total_records": 620665,
+      "train_size": 372399,
+      "validation_size": 124133,
+      "test_size": 124133,
+      "train_percentage": 60.0,
+      "validation_percentage": 20.0,
+      "test_percentage": 20.0,
+      "train_class_distribution": {
+        "0": 214029,
+        "1": 158370
+      },
+      "validation_class_distribution": {
+        "0": 71343,
+        "1": 52790
+      },
+      "test_class_distribution": {
+        "0": 71343,
+        "1": 52790
+      },
+      "leakage_validation": {
+        "no_leakage_detected": true,
+        "id_overlaps": {
+          "train_vs_validation": 0,
+          "train_vs_test": 0,
+          "validation_vs_test": 0
+        },
+        "author_overlaps": {
+          "train_vs_validation": 30117,
+          "train_vs_test": 30289,
+          "validation_vs_test": 17541
+        },
+        "title_overlaps": {
+          "train_vs_validation": 0,
+          "train_vs_test": 0,
+          "validation_vs_test": 0
+        },
+        "temporal_validation": {
+          "train_max_timestamp": 1573858594.0,
+          "validation_min_timestamp": 1213906112.0,
+          "test_min_timestamp": 1212297305.0,
+          "temporal_ordering_valid": "False"
+        }
+      }
+    },
+    "validation_passed": true
+  }
+]

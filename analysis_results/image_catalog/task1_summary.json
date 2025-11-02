@@ -1,0 +1,22 @@
+{
+  "total_images": 773563,
+  "multimodal_images": 0,
+  "image_only": 0,
+  "mapping_analysis": {
+    "total_images": 773563,
+    "images_with_text_match": "682660",
+    "images_without_text_match": "90903",
+    "text_records_with_images": "682660",
+    "text_records_without_images": "1",
+    "mapping_success_rate": 88.24879163041666,
+    "batches_processed": 0,
+    "processing_errors": 0,
+    "total_items": 773563,
+    "processed_items": 780000,
+    "failed_items": 0,
+    "batches_completed": 78,
+    "processing_time": 20555.84841775894,
+    "memory_cleanups": 0
+  },
+  "performance": {}
+}

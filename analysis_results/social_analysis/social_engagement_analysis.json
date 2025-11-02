@@ -1,0 +1,249 @@
+{
+  "sentiment_analysis": {
+    "overall_sentiment": {
+      "positive": 10418,
+      "negative": 5060,
+      "neutral": 34522,
+      "total_analyzed": 50000
+    },
+    "sentiment_by_content_type": {},
+    "sentiment_distribution": {
+      "polarity_mean": 0.042741851091399004,
+      "polarity_std": 0.23090151875250906,
+      "polarity_median": 0.0,
+      "subjectivity_mean": 0.24009378170109852,
+      "subjectivity_std": 0.318289539440779,
+      "subjectivity_median": 0.0
+    },
+    "temporal_sentiment": {}
+  },
+  "engagement_analysis": {
+    "mapping_type_distribution": {
+      "text_image": 489731,
+      "full_multimodal": 191067,
+      "text_only": 1863
+    },
+    "engagement_by_type": {
+      "text_image": {
+        "count": 489731,
+        "percentage": 71.73853493901072,
+        "score": {
+          "mean": 516.5949449799992,
+          "median": 16.0,
+          "std": 3629.4157628524645,
+          "min": -109.0,
+          "max": 137179.0,
+          "count": 489731
+        },
+        "num_comments": {
+          "mean": 20.523886287079275,
+          "median": 2.0,
+          "std": 143.83766069724112,
+          "min": 0.0,
+          "max": 17355.0,
+          "count": 477659
+        },
+        "comment_count": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "count": 489731
+        },
+        "avg_comment_score": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "count": 489731
+        },
+        "avg_sentiment": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "count": 489731
+        }
+      },
+      "full_multimodal": {
+        "count": 191067,
+        "percentage": 27.988562405059024,
+        "score": {
+          "mean": 101.8316559112772,
+          "median": 7.0,
+          "std": 407.75381382017287,
+          "min": -950.0,
+          "max": 15907.0,
+          "count": 191067
+        },
+        "comment_count": {
+          "mean": 74.456499552513,
+          "median": 24.0,
+          "std": 95.10186176311187,
+          "min": 1.0,
+          "max": 445.0,
+          "count": 191067
+        },
+        "avg_comment_score": {
+          "mean": 28.95176400948358,
+          "median": 9.909,
+          "std": 48.287316596496964,
+          "min": -6.0,
+          "max": 801.227,
+          "count": 191067
+        },
+        "avg_sentiment": {
+          "mean": 0.08211689616731303,
+          "median": 0.083,
+          "std": 0.09023437330866284,
+          "min": -1.0,
+          "max": 1.0,
+          "count": 191067
+        }
+      },
+      "text_only": {
+        "count": 1863,
+        "percentage": 0.2729026559302494,
+        "score": {
+          "mean": 142.97208803005904,
+          "median": 13.0,
+          "std": 1370.763610436683,
+          "min": 1.0,
+          "max": 29126.0,
+          "count": 1863
+        },
+        "num_comments": {
+          "mean": 6.618894256575416,
+          "median": 2.0,
+          "std": 23.328704893997863,
+          "min": 0.0,
+          "max": 471.0,
+          "count": 1863
+        },
+        "comment_count": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "count": 1863
+        },
+        "avg_comment_score": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "count": 1863
+        },
+        "avg_sentiment": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "count": 1863
+        }
+      }
+    },
+    "statistical_comparisons": {
+      "score": {
+        "text_image_vs_text_only": {
+          "statistic": 492510553.5,
+          "p_value": 2.7795122454640053e-09,
+          "significant": "True",
+          "effect_size": 0.1361934920378254
+        },
+        "text_image_vs_full_multimodal": {
+          "statistic": 58135201604.5,
+          "p_value": 0.0,
+          "significant": "True",
+          "effect_size": 0.1606034764578647
+        },
+        "text_only_vs_full_multimodal": {
+          "statistic": 212177057.0,
+          "p_value": 1.4715189670181454e-46,
+          "significant": "True",
+          "effect_size": 0.040682722093228714
+        }
+      },
+      "num_comments": {
+        "text_image_vs_text_only": {
+          "statistic": 472217925.0,
+          "p_value": 3.82664131171926e-06,
+          "significant": "True",
+          "effect_size": 0.1349506365880349
+        }
+      }
+    }
+  },
+  "authenticity_analysis": {
+    "engagement_by_label": {
+      "1": {
+        "count": 268908,
+        "avg_score": 661.8612201942672,
+        "avg_comments": 29.94531587011171,
+        "avg_comment_sentiment": 0.0,
+        "content_type_distribution": {
+          "text_image": 267601,
+          "text_only": 1307
+        }
+      },
+      "0": {
+        "count": 413753,
+        "avg_score": 228.9670600575706,
+        "avg_comments": 8.371784401796651,
+        "avg_comment_sentiment": 13.369635250983077,
+        "content_type_distribution": {
+          "text_image": 222130,
+          "full_multimodal": 191067,
+          "text_only": 556
+        }
+      }
+    },
+    "authenticity_indicators": {
+      "high_engagement_authenticity": {
+        "fake_percentage": 100.0,
+        "real_percentage": 0.0,
+        "total_posts": 68086
+      },
+      "low_engagement_authenticity": {
+        "fake_percentage": NaN,
+        "real_percentage": NaN,
+        "total_posts": 0
+      }
+    },
+    "cross_modal_patterns": {
+      "text_image": {
+        "total_posts": 489731,
+        "fake_posts": 222130,
+        "real_posts": 267601,
+        "avg_engagement_fake": 338.16958087606355,
+        "avg_engagement_real": 664.7021124734213,
+        "avg_comments_fake": 8.382189680945263,
+        "avg_comments_real": 30.05471952645917
+      },
+      "full_multimodal": {
+        "total_posts": 191067,
+        "fake_posts": 191067,
+        "real_posts": 0,
+        "avg_engagement_fake": 101.8316559112772,
+        "avg_engagement_real": NaN,
+        "avg_comments_fake": NaN,
+        "avg_comments_real": NaN
+      },
+      "text_only": {
+        "total_posts": 1863,
+        "fake_posts": 556,
+        "real_posts": 1307,
+        "avg_engagement_fake": 290.521582733813,
+        "avg_engagement_real": 80.20428462127009,
+        "avg_comments_fake": 4.440647482014389,
+        "avg_comments_real": 7.545524100994644
+      }
+    }
+  }
+}

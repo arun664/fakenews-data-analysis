@@ -1,0 +1,38 @@
+{
+  "generation_timestamp": "2025-11-01T23:08:16.048711",
+  "data_sources": [
+    "social_analysis",
+    "text_integration",
+    "image_catalog",
+    "image_mapping",
+    "train_sample",
+    "engagement_data"
+  ],
+  "visualizations_created": {
+    "authenticity_analysis": [
+      "authenticity_distribution.png",
+      "cross_modal_authenticity_patterns.png",
+      "engagement_authenticity_analysis.png"
+    ],
+    "multimodal_features": [
+      "content_modality_distribution.png",
+      "text_image_integration_analysis.png",
+      "image_catalog_analysis.png"
+    ],
+    "social_engagement": [
+      "engagement_by_content_type.png",
+      "sentiment_analysis_overview.png"
+    ],
+    "interactive": [
+      "authenticity_comparison.html",
+      "content_type_distribution.html",
+      "engagement_analysis.html"
+    ]
+  },
+  "total_visualizations": 11,
+  "export_formats": [
+    "PNG",
+    "HTML",
+    "JSON"
+  ]
+}

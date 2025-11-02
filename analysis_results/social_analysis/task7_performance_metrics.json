@@ -1,0 +1,24 @@
+{
+  "start_time": "2025-11-01 20:57:28.640784",
+  "processing_steps": [
+    "sentiment_analysis",
+    "engagement_analysis",
+    "authenticity_analysis",
+    "visualizations",
+    "report_generation"
+  ],
+  "data_loaded": {
+    "text_records": 682661,
+    "comment_records": 13812385,
+    "image_records": 773563
+  },
+  "analysis_results": {
+    "sentiment_analysis_completed": true,
+    "engagement_analysis_completed": true,
+    "authenticity_analysis_completed": true,
+    "visualizations_created": true,
+    "report_generated": true
+  },
+  "end_time": "2025-11-01 20:58:39.840079",
+  "total_duration": "0:01:11.199295"
+}

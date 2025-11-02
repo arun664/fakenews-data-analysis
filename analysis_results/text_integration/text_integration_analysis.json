@@ -1,0 +1,36 @@
+{
+  "generation_timestamp": "2025-11-01T13:47:39.616682",
+  "dataset_overview": {
+    "total_records": 682661,
+    "unique_ids": 682661,
+    "splits": {
+      "train": 564000,
+      "validation": 59342,
+      "test": 59319
+    }
+  },
+  "mapping_success_analysis": {},
+  "content_type_distribution": {},
+  "text_quality_metrics": {
+    "title_length_stats": {
+      "mean": 46.21023904983586,
+      "median": 38.0,
+      "std": 35.480991597756116,
+      "min": 1,
+      "max": 2904
+    },
+    "empty_titles": 0,
+    "very_short_titles": 43970,
+    "very_long_titles": 4393
+  },
+  "missing_data_analysis": {
+    "image_url": {
+      "missing_count": 1863,
+      "missing_percentage": 0.2729026559302494
+    },
+    "linked_submission_id": {
+      "missing_count": 479522,
+      "missing_percentage": 70.24306354105478
+    }
+  }
+}

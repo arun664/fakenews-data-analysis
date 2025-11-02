@@ -383,11 +383,28 @@ if st.sidebar.button("⚙️ Task Process Flow"):
 # Helper functions
 @st.cache_data
 def load_image_catalog():
-    """Load image catalog data"""
+    """Load image catalog data from JSON summary"""
     try:
+        # Try JSON summary first (for deployment)
+        json_path = Path(f'{analysis_dir}/image_catalog/image_catalog_summary.json')
+        if json_path.exists():
+            with open(json_path, 'r') as f:
+                summary = json.load(f)
+            
+            # Convert to DataFrame-like structure for compatibility
+            if summary.get('sample_records'):
+                df = pd.DataFrame(summary['sample_records'])
+                # Add summary stats as attributes
+                df.attrs['total_images'] = summary.get('total_images', 0)
+                df.attrs['mapping_success_rate'] = summary.get('mapping_success_rate', 0)
+                df.attrs['content_type_distribution'] = summary.get('content_type_distribution', {})
+                return df
+        
+        # Fallback to original parquet file
         catalog_path = Path(f'{analysis_dir}/image_catalog/comprehensive_image_catalog.parquet')
         if catalog_path.exists():
             return pd.read_parquet(catalog_path)
+            
     except Exception as e:
         st.error(f"Error loading image catalog: {e}")
     return None
@@ -574,11 +591,20 @@ elif selected_tab == "🖼️ Image Analysis":
         
         with col1:
             st.subheader("📊 Content Type Distribution")
-            content_dist = catalog_df['content_type'].value_counts()
+            
+            # Use JSON summary data if available
+            if hasattr(catalog_df, 'attrs') and 'content_type_distribution' in catalog_df.attrs:
+                content_dist_dict = catalog_df.attrs['content_type_distribution']
+                labels = list(content_dist_dict.keys())
+                values = list(content_dist_dict.values())
+            else:
+                content_dist = catalog_df['content_type'].value_counts()
+                labels = content_dist.index.tolist()
+                values = content_dist.values.tolist()
             
             fig = px.pie(
-                values=content_dist.values, 
-                names=content_dist.index,
+                values=values, 
+                names=labels,
                 title="Multimodal vs Image-Only Content",
                 color_discrete_sequence=px.colors.qualitative.Set3
             )
@@ -605,19 +631,28 @@ elif selected_tab == "🖼️ Image Analysis":
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.metric("Total Images", f"{len(catalog_df):,}")
-            st.metric("Unique Image IDs", f"{catalog_df['image_id'].nunique():,}")
+            # Use JSON summary data if available
+            total_images = getattr(catalog_df, 'attrs', {}).get('total_images', len(catalog_df))
+            st.metric("Total Images", f"{total_images:,}")
+            st.metric("Sample Records", f"{len(catalog_df):,}")
         
         with col2:
             if 'file_size_mb' in catalog_df.columns:
                 avg_size = catalog_df['file_size_mb'].mean()
+                st.metric("Avg File Size", f"{avg_size:.1f} MB")
+            elif hasattr(catalog_df, 'attrs') and 'average_file_size_mb' in catalog_df.attrs:
+                avg_size = catalog_df.attrs['average_file_size_mb']
                 st.metric("Avg File Size", f"{avg_size:.1f} MB")
             
             if 'dimensions' in catalog_df.columns:
                 st.metric("Dimension Variety", f"{catalog_df['dimensions'].nunique():,}")
         
         with col3:
-            mapping_success = len(catalog_df[catalog_df['content_type'] == 'multimodal']) / len(catalog_df) * 100
+            # Use JSON summary mapping success rate if available
+            if hasattr(catalog_df, 'attrs') and 'mapping_success_rate' in catalog_df.attrs:
+                mapping_success = catalog_df.attrs['mapping_success_rate']
+            else:
+                mapping_success = len(catalog_df[catalog_df['content_type'] == 'multimodal']) / len(catalog_df) * 100
             st.metric("Mapping Success Rate", f"{mapping_success:.1f}%")
         
         # Sample data preview
@@ -641,8 +676,22 @@ elif selected_tab == "📝 Text Analysis":
             
             # Load sample text data
             try:
-                sample_file = text_files[0]
+                # Try to load validation data first (smaller), then sample data, then any available
+                sample_file = None
+                for preferred_file in ['validation_clean.parquet', 'test_clean.parquet', 'sample_clean.parquet']:
+                    preferred_path = text_dir / preferred_file
+                    if preferred_path.exists():
+                        sample_file = preferred_path
+                        break
+                
+                if sample_file is None:
+                    sample_file = text_files[0]
+                
                 df = pd.read_parquet(sample_file)
+                
+                # Show info if using sample data
+                if 'sample_clean.parquet' in str(sample_file):
+                    st.info("📊 Using sample data for demonstration (500 records from 682K total)")
                 
                 col1, col2 = st.columns(2)
                 

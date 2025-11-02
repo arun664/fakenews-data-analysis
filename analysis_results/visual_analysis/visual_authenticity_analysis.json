@@ -1,0 +1,208 @@
+{
+  "sample_sizes": {
+    "total_valid": 618419,
+    "fake_samples": 355767,
+    "real_samples": 262652
+  },
+  "feature_comparisons": {
+    "mean_brightness": {
+      "fake_mean": 113.18005105146628,
+      "fake_std": 42.254773262851735,
+      "real_mean": 114.68335399170674,
+      "real_std": 37.56747265035208,
+      "difference": -1.5033029402404594,
+      "effect_size": -0.03727448751347263
+    },
+    "std_brightness": {
+      "fake_mean": 57.37526663229882,
+      "fake_std": 15.632249169177657,
+      "real_mean": 55.396557234086266,
+      "real_std": 14.399603526163549,
+      "difference": 1.9787093982125512,
+      "effect_size": 0.13085831088650415
+    },
+    "mean_contrast": {
+      "fake_mean": 57.37526663229882,
+      "fake_std": 15.632249169177657,
+      "real_mean": 55.396557234086266,
+      "real_std": 14.399603526163549,
+      "difference": 1.9787093982125512,
+      "effect_size": 0.13085831088650415
+    },
+    "color_diversity": {
+      "fake_mean": 0.4848882427209524,
+      "fake_std": 0.22948102829893477,
+      "real_mean": 0.5315010993906615,
+      "real_std": 0.21043268442041452,
+      "difference": -0.0466128566697091,
+      "effect_size": -0.21035533264896816
+    },
+    "texture_contrast": {
+      "fake_mean": 140.64479830001383,
+      "fake_std": 43.07010912189214,
+      "real_mean": 131.13984120437252,
+      "real_std": 38.85433193036161,
+      "difference": 9.504957095641316,
+      "effect_size": 0.22996511277712753
+    },
+    "texture_homogeneity": {
+      "fake_mean": 0.008311771575148915,
+      "fake_std": 0.019511429356045197,
+      "real_mean": 0.008863261454688387,
+      "real_std": 0.019633719824112467,
+      "difference": -0.0005514898795394713,
+      "effect_size": -0.02818979064163424
+    },
+    "sharpness_score": {
+      "fake_mean": 3353.2499131155364,
+      "fake_std": 5244.584444806296,
+      "real_mean": 1555.295839129581,
+      "real_std": 1951.584729314592,
+      "difference": 1797.9540739859553,
+      "effect_size": 0.4305170953062378
+    },
+    "noise_level": {
+      "fake_mean": 114.35708963900406,
+      "fake_std": 12.775365798261337,
+      "real_mean": 115.66820184038527,
+      "real_std": 10.517942575668252,
+      "difference": -1.3111122013812064,
+      "effect_size": -0.11046366259368252
+    },
+    "manipulation_score": {
+      "fake_mean": 0.26954943215189286,
+      "fake_std": 0.08854833685238102,
+      "real_mean": 0.2615053226154488,
+      "real_std": 0.08073272395306964,
+      "difference": 0.008044109536444077,
+      "effect_size": 0.09428557383212723
+    },
+    "meme_characteristics": {
+      "fake_mean": 0.43601767448920214,
+      "fake_std": 0.20820519049846553,
+      "real_mean": 0.3753651219103605,
+      "real_std": 0.19212167734942656,
+      "difference": 0.06065255257884167,
+      "effect_size": 0.30095869773747025
+    },
+    "edge_density": {
+      "fake_mean": 0.1523002993518054,
+      "fake_std": 0.07198632549041843,
+      "real_mean": 0.1465024231389837,
+      "real_std": 0.07463111834893889,
+      "difference": 0.005797876212821684,
+      "effect_size": 0.07929121200075318
+    },
+    "visual_entropy": {
+      "fake_mean": 6.8614656286633116,
+      "fake_std": 1.2621523133005148,
+      "real_mean": 7.0524558644512645,
+      "real_std": 1.0344394600885325,
+      "difference": -0.19099023578795293,
+      "effect_size": -0.16311932790870154
+    }
+  },
+  "statistical_tests": {
+    "mean_brightness": {
+      "t_statistic": -14.489168260747682,
+      "p_value": 1.4442389380896141e-47,
+      "significant": true
+    },
+    "std_brightness": {
+      "t_statistic": 50.866643949604445,
+      "p_value": 0.0,
+      "significant": true
+    },
+    "mean_contrast": {
+      "t_statistic": 50.866643949604445,
+      "p_value": 0.0,
+      "significant": true
+    },
+    "color_diversity": {
+      "t_statistic": -81.7683625615192,
+      "p_value": 0.0,
+      "significant": true
+    },
+    "texture_contrast": {
+      "t_statistic": 89.39098658097677,
+      "p_value": 0.0,
+      "significant": true
+    },
+    "texture_homogeneity": {
+      "t_statistic": -10.957806453925317,
+      "p_value": 6.132121757717046e-28,
+      "significant": true
+    },
+    "sharpness_score": {
+      "t_statistic": 167.34863573284005,
+      "p_value": 0.0,
+      "significant": true
+    },
+    "noise_level": {
+      "t_statistic": -42.93892956783983,
+      "p_value": 0.0,
+      "significant": true
+    },
+    "manipulation_score": {
+      "t_statistic": 36.65025691690771,
+      "p_value": 9.401111630446355e-294,
+      "significant": true
+    },
+    "meme_characteristics": {
+      "t_statistic": 116.98728814118726,
+      "p_value": 0.0,
+      "significant": true
+    },
+    "edge_density": {
+      "t_statistic": 30.82171718289296,
+      "p_value": 1.9323434712771124e-208,
+      "significant": true
+    },
+    "visual_entropy": {
+      "t_statistic": -63.40699889689947,
+      "p_value": 0.0,
+      "significant": true
+    }
+  },
+  "authenticity_signatures": {
+    "strong_indicators": [],
+    "moderate_indicators": [],
+    "weak_indicators": [
+      {
+        "feature": "color_diversity",
+        "effect_size": 0.21035533264896816,
+        "direction": "higher_in_real",
+        "fake_mean": 0.4848882427209524,
+        "real_mean": 0.5315010993906615
+      },
+      {
+        "feature": "texture_contrast",
+        "effect_size": 0.22996511277712753,
+        "direction": "higher_in_fake",
+        "fake_mean": 140.64479830001383,
+        "real_mean": 131.13984120437252
+      },
+      {
+        "feature": "sharpness_score",
+        "effect_size": 0.4305170953062378,
+        "direction": "higher_in_fake",
+        "fake_mean": 3353.2499131155364,
+        "real_mean": 1555.295839129581
+      },
+      {
+        "feature": "meme_characteristics",
+        "effect_size": 0.30095869773747025,
+        "direction": "higher_in_fake",
+        "fake_mean": 0.43601767448920214,
+        "real_mean": 0.3753651219103605
+      }
+    ],
+    "summary": {
+      "total_features_analyzed": 12,
+      "strong_indicators_count": 0,
+      "moderate_indicators_count": 0,
+      "weak_indicators_count": 4,
+      "most_discriminative_feature": "sharpness_score"
+    }
+  }
+}

@@ -1,0 +1,545 @@
+{
+  "clustering_overview": {
+    "kmeans_optimal_k": 6,
+    "hierarchical_clusters": 8,
+    "topic_count": 10,
+    "total_records": 200000,
+    "silhouette_score": 0.021729221318104338
+  },
+  "cluster_distributions": {
+    "kmeans": {
+      "0": {
+        "size": 89840,
+        "fake_rate": 0.5849844167408726,
+        "real_rate": 0.41501558325912735,
+        "authenticity_enrichment": -0.021320583259127335
+      },
+      "1": {
+        "size": 107961,
+        "fake_rate": 0.630014542288419,
+        "real_rate": 0.369985457711581,
+        "authenticity_enrichment": 0.02370954228841904
+      },
+      "2": {
+        "size": 337,
+        "fake_rate": 0.3768545994065282,
+        "real_rate": 0.6231454005934718,
+        "authenticity_enrichment": -0.22945040059347177
+      },
+      "3": {
+        "size": 1105,
+        "fake_rate": 0.2850678733031674,
+        "real_rate": 0.7149321266968326,
+        "authenticity_enrichment": -0.3212371266968326
+      },
+      "4": {
+        "size": 281,
+        "fake_rate": 0.5693950177935944,
+        "real_rate": 0.43060498220640564,
+        "authenticity_enrichment": -0.03690998220640562
+      },
+      "5": {
+        "size": 476,
+        "fake_rate": 0.18277310924369747,
+        "real_rate": 0.8172268907563025,
+        "authenticity_enrichment": -0.4235318907563025
+      }
+    },
+    "hierarchical": {
+      "0": {
+        "size": 196650,
+        "fake_rate": 0.6059954233409611,
+        "real_rate": 0.3940045766590389,
+        "authenticity_enrichment": -0.0003095766590388571
+      },
+      "1": {
+        "size": 413,
+        "fake_rate": 0.6803874092009685,
+        "real_rate": 0.3196125907990315,
+        "authenticity_enrichment": 0.07408240920096854
+      },
+      "2": {
+        "size": 463,
+        "fake_rate": 0.2548596112311015,
+        "real_rate": 0.7451403887688985,
+        "authenticity_enrichment": -0.35144538876889847
+      },
+      "3": {
+        "size": 411,
+        "fake_rate": 0.35766423357664234,
+        "real_rate": 0.6423357664233577,
+        "authenticity_enrichment": -0.24864076642335764
+      },
+      "4": {
+        "size": 545,
+        "fake_rate": 0.9963302752293578,
+        "real_rate": 0.003669724770642202,
+        "authenticity_enrichment": 0.3900252752293578
+      },
+      "5": {
+        "size": 360,
+        "fake_rate": 0.9972222222222222,
+        "real_rate": 0.002777777777777768,
+        "authenticity_enrichment": 0.39091722222222225
+      },
+      "6": {
+        "size": 811,
+        "fake_rate": 0.6596794081381011,
+        "real_rate": 0.3403205918618989,
+        "authenticity_enrichment": 0.053374408138101126
+      },
+      "7": {
+        "size": 347,
+        "fake_rate": 0.31412103746397696,
+        "real_rate": 0.6858789625360231,
+        "authenticity_enrichment": -0.292183962536023
+      }
+    }
+  },
+  "topic_analysis": {
+    "topics": [
+      {
+        "topic_id": 0,
+        "words": [
+          "this",
+          "that",
+          "like",
+          "has",
+          "looks",
+          "out",
+          "found",
+          "these",
+          "cutouts",
+          "had"
+        ],
+        "weights": [
+          0.1683766394853592,
+          0.039644330739974976,
+          0.03838229551911354,
+          0.03226308524608612,
+          0.024334266781806946,
+          0.024088677018880844,
+          0.022166378796100616,
+          0.016113964840769768,
+          0.015180897898972034,
+          0.012773789465427399
+        ],
+        "fake_prevalence": 0.15737028419971466,
+        "real_prevalence": 0.1679687201976776,
+        "authenticity_difference": -0.010598435997962952
+      },
+      {
+        "topic_id": 1,
+        "words": [
+          "psbattle:",
+          "his",
+          "man",
+          "dog",
+          "cat",
+          "little",
+          "guy",
+          "old",
+          "two",
+          "being"
+        ],
+        "weights": [
+          0.12241184711456299,
+          0.05614767223596573,
+          0.03728771582245827,
+          0.027188558131456375,
+          0.02309616282582283,
+          0.02210724726319313,
+          0.019352899864315987,
+          0.01722349412739277,
+          0.0172105822712183,
+          0.013659452088177204
+        ],
+        "fake_prevalence": 0.11237532645463943,
+        "real_prevalence": 0.13290947675704956,
+        "authenticity_difference": -0.020534150302410126
+      },
+      {
+        "topic_id": 2,
+        "words": [
+          "from",
+          "new",
+          "water",
+          "(x-post",
+          "life",
+          "big",
+          "ice",
+          "inside",
+          "family",
+          "under"
+        ],
+        "weights": [
+          0.10671120882034302,
+          0.045745428651571274,
+          0.01469517219811678,
+          0.012115639634430408,
+          0.011891153641045094,
+          0.011516431346535683,
+          0.009862990118563175,
+          0.009810693562030792,
+          0.008214202709496021,
+          0.007971477694809437
+        ],
+        "fake_prevalence": 0.08355288207530975,
+        "real_prevalence": 0.08934405446052551,
+        "authenticity_difference": -0.005791172385215759
+      },
+      {
+        "topic_id": 3,
+        "words": [
+          "trump",
+          "war",
+          "american",
+          "president",
+          "circa",
+          "poster",
+          "donald",
+          "tiny",
+          "against",
+          "bill"
+        ],
+        "weights": [
+          0.031654875725507736,
+          0.014602407813072205,
+          0.013648583553731441,
+          0.01346089318394661,
+          0.011840380728244781,
+          0.01180365588515997,
+          0.011132472194731236,
+          0.010145362466573715,
+          0.01005973108112812,
+          0.009923159144818783
+        ],
+        "fake_prevalence": 0.07690723240375519,
+        "real_prevalence": 0.0728154107928276,
+        "authenticity_difference": 0.004091821610927582
+      },
+      {
+        "topic_id": 4,
+        "words": [
+          "are",
+          "other",
+          "discussions",
+          "into",
+          "their",
+          "see",
+          "down",
+          "people",
+          "black",
+          "going"
+        ],
+        "weights": [
+          0.040973961353302,
+          0.03979296609759331,
+          0.030037028715014458,
+          0.022884175181388855,
+          0.022876091301441193,
+          0.01744229905307293,
+          0.016847606748342514,
+          0.015717629343271255,
+          0.011380831710994244,
+          0.010611176490783691
+        ],
+        "fake_prevalence": 0.0916556864976883,
+        "real_prevalence": 0.08733426034450531,
+        "authenticity_difference": 0.004321426153182983
+      },
+      {
+        "topic_id": 5,
+        "words": [
+          "made",
+          "more",
+          "through",
+          "work",
+          "home",
+          "than",
+          "saw",
+          "sign",
+          "great",
+          "really"
+        ],
+        "weights": [
+          0.02040574699640274,
+          0.017450060695409775,
+          0.0139051778241992,
+          0.012823105789721012,
+          0.012455386109650135,
+          0.011653210036456585,
+          0.011295188218355179,
+          0.00988044124096632,
+          0.009791575372219086,
+          0.009580032899975777
+        ],
+        "fake_prevalence": 0.08446897566318512,
+        "real_prevalence": 0.08500299602746964,
+        "authenticity_difference": -0.0005340203642845154
+      },
+      {
+        "topic_id": 6,
+        "words": [
+          "after",
+          "her",
+          "over",
+          "who",
+          "years",
+          "woman",
+          "here",
+          "before",
+          "house",
+          "police"
+        ],
+        "weights": [
+          0.048502564430236816,
+          0.02243177406489849,
+          0.020581265911459923,
+          0.01993337832391262,
+          0.01482060644775629,
+          0.01413001585751772,
+          0.013944992795586586,
+          0.01297230925410986,
+          0.012959491461515427,
+          0.012604160234332085
+        ],
+        "fake_prevalence": 0.09770839661359787,
+        "real_prevalence": 0.09957416355609894,
+        "authenticity_difference": -0.0018657669425010681
+      },
+      {
+        "topic_id": 7,
+        "words": [
+          "first",
+          "happy",
+          "time",
+          "day",
+          "good",
+          "he's",
+          "very",
+          "local",
+          "love",
+          "kids"
+        ],
+        "weights": [
+          0.037176068872213364,
+          0.03159394487738609,
+          0.025587793439626694,
+          0.016931846737861633,
+          0.01493834238499403,
+          0.01466060895472765,
+          0.014009387232363224,
+          0.01298429723829031,
+          0.01121706236153841,
+          0.009414239786565304
+        ],
+        "fake_prevalence": 0.07723849266767502,
+        "real_prevalence": 0.0718851163983345,
+        "authenticity_difference": 0.005353376269340515
+      },
+      {
+        "topic_id": 8,
+        "words": [
+          "you",
+          "was",
+          "one",
+          "not",
+          "just",
+          "have",
+          "what",
+          "all",
+          "your",
+          "how"
+        ],
+        "weights": [
+          0.047375984489917755,
+          0.033323124051094055,
+          0.02385603077709675,
+          0.023504292592406273,
+          0.022595081478357315,
+          0.020586222410202026,
+          0.019796699285507202,
+          0.01764584891498089,
+          0.017410755157470703,
+          0.015779854729771614
+        ],
+        "fake_prevalence": 0.1605442762374878,
+        "real_prevalence": 0.1345098465681076,
+        "authenticity_difference": 0.026034429669380188
+      },
+      {
+        "topic_id": 9,
+        "words": [
+          "u.s.",
+          "think",
+          "friend",
+          "doing",
+          "next",
+          "british",
+          "using",
+          "surprised",
+          "shot",
+          "dead"
+        ],
+        "weights": [
+          0.014621869660913944,
+          0.013999557122588158,
+          0.012290677055716515,
+          0.01192229613661766,
+          0.011133757419884205,
+          0.010287879966199398,
+          0.009593402966856956,
+          0.009410347789525986,
+          0.00932256318628788,
+          0.009242902509868145
+        ],
+        "fake_prevalence": 0.058188654482364655,
+        "real_prevalence": 0.05864953249692917,
+        "authenticity_difference": -0.00046087801456451416
+      }
+    ],
+    "authenticity_bias": [
+      {
+        "topic_id": 0,
+        "top_words": [
+          "this",
+          "that",
+          "like",
+          "has",
+          "looks"
+        ],
+        "fake_prevalence": 0.15737028419971466,
+        "real_prevalence": 0.1679687201976776,
+        "bias_direction": "real",
+        "bias_strength": 0.010598435997962952
+      },
+      {
+        "topic_id": 1,
+        "top_words": [
+          "psbattle:",
+          "his",
+          "man",
+          "dog",
+          "cat"
+        ],
+        "fake_prevalence": 0.11237532645463943,
+        "real_prevalence": 0.13290947675704956,
+        "bias_direction": "real",
+        "bias_strength": 0.020534150302410126
+      },
+      {
+        "topic_id": 2,
+        "top_words": [
+          "from",
+          "new",
+          "water",
+          "(x-post",
+          "life"
+        ],
+        "fake_prevalence": 0.08355288207530975,
+        "real_prevalence": 0.08934405446052551,
+        "bias_direction": "real",
+        "bias_strength": 0.005791172385215759
+      },
+      {
+        "topic_id": 3,
+        "top_words": [
+          "trump",
+          "war",
+          "american",
+          "president",
+          "circa"
+        ],
+        "fake_prevalence": 0.07690723240375519,
+        "real_prevalence": 0.0728154107928276,
+        "bias_direction": "fake",
+        "bias_strength": 0.004091821610927582
+      },
+      {
+        "topic_id": 4,
+        "top_words": [
+          "are",
+          "other",
+          "discussions",
+          "into",
+          "their"
+        ],
+        "fake_prevalence": 0.0916556864976883,
+        "real_prevalence": 0.08733426034450531,
+        "bias_direction": "fake",
+        "bias_strength": 0.004321426153182983
+      },
+      {
+        "topic_id": 5,
+        "top_words": [
+          "made",
+          "more",
+          "through",
+          "work",
+          "home"
+        ],
+        "fake_prevalence": 0.08446897566318512,
+        "real_prevalence": 0.08500299602746964,
+        "bias_direction": "real",
+        "bias_strength": 0.0005340203642845154
+      },
+      {
+        "topic_id": 6,
+        "top_words": [
+          "after",
+          "her",
+          "over",
+          "who",
+          "years"
+        ],
+        "fake_prevalence": 0.09770839661359787,
+        "real_prevalence": 0.09957416355609894,
+        "bias_direction": "real",
+        "bias_strength": 0.0018657669425010681
+      },
+      {
+        "topic_id": 7,
+        "top_words": [
+          "first",
+          "happy",
+          "time",
+          "day",
+          "good"
+        ],
+        "fake_prevalence": 0.07723849266767502,
+        "real_prevalence": 0.0718851163983345,
+        "bias_direction": "fake",
+        "bias_strength": 0.005353376269340515
+      },
+      {
+        "topic_id": 8,
+        "top_words": [
+          "you",
+          "was",
+          "one",
+          "not",
+          "just"
+        ],
+        "fake_prevalence": 0.1605442762374878,
+        "real_prevalence": 0.1345098465681076,
+        "bias_direction": "fake",
+        "bias_strength": 0.026034429669380188
+      },
+      {
+        "topic_id": 9,
+        "top_words": [
+          "u.s.",
+          "think",
+          "friend",
+          "doing",
+          "next"
+        ],
+        "fake_prevalence": 0.058188654482364655,
+        "real_prevalence": 0.05864953249692917,
+        "bias_direction": "real",
+        "bias_strength": 0.00046087801456451416
+      }
+    ]
+  }
+}

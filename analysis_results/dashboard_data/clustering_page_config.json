@@ -1,0 +1,36 @@
+{
+  "page_title": "Multimodal Clustering Analysis",
+  "description": "Interactive exploration of content patterns and authenticity-based groupings",
+  "charts": [
+    {
+      "type": "cluster_overview",
+      "title": "Clustering Overview",
+      "data_source": "clustering_dashboard_data.json",
+      "chart_type": "metrics"
+    },
+    {
+      "type": "cluster_distribution",
+      "title": "Cluster Authenticity Distribution",
+      "data_source": "clustering_dashboard_data.json",
+      "chart_type": "bar_chart"
+    },
+    {
+      "type": "topic_bias",
+      "title": "Topic Authenticity Bias",
+      "data_source": "clustering_dashboard_data.json",
+      "chart_type": "scatter_plot"
+    },
+    {
+      "type": "interactive_exploration",
+      "title": "Interactive Cluster Exploration",
+      "data_source": "clustering_dashboard_data.json",
+      "chart_type": "interactive"
+    }
+  ],
+  "visualizations": [
+    "visualizations/clustering_patterns/cluster_pca_visualization.png",
+    "visualizations/clustering_patterns/authenticity_cluster_analysis.png",
+    "visualizations/clustering_patterns/topic_authenticity_analysis.png",
+    "visualizations/clustering_patterns/interactive_tsne_clusters.html"
+  ]
+}

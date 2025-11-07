@@ -1,0 +1,686 @@
+{
+  "yearly_trends": [
+    {
+      "year": 2008,
+      "total_posts": 25,
+      "fake_count": 0,
+      "fake_rate": 0.0,
+      "real_count": 25,
+      "real_rate": 1.0
+    },
+    {
+      "year": 2009,
+      "total_posts": 65,
+      "fake_count": 3,
+      "fake_rate": 0.0462,
+      "real_count": 62,
+      "real_rate": 0.9538
+    },
+    {
+      "year": 2010,
+      "total_posts": 107,
+      "fake_count": 31,
+      "fake_rate": 0.2897,
+      "real_count": 76,
+      "real_rate": 0.7103
+    },
+    {
+      "year": 2011,
+      "total_posts": 1223,
+      "fake_count": 1071,
+      "fake_rate": 0.8757,
+      "real_count": 152,
+      "real_rate": 0.1243
+    },
+    {
+      "year": 2012,
+      "total_posts": 26380,
+      "fake_count": 20272,
+      "fake_rate": 0.7685,
+      "real_count": 6108,
+      "real_rate": 0.2315
+    },
+    {
+      "year": 2013,
+      "total_posts": 63799,
+      "fake_count": 46674,
+      "fake_rate": 0.7316,
+      "real_count": 17125,
+      "real_rate": 0.2684
+    },
+    {
+      "year": 2014,
+      "total_posts": 83835,
+      "fake_count": 60589,
+      "fake_rate": 0.7227,
+      "real_count": 23246,
+      "real_rate": 0.2773
+    },
+    {
+      "year": 2015,
+      "total_posts": 74850,
+      "fake_count": 48941,
+      "fake_rate": 0.6539,
+      "real_count": 25909,
+      "real_rate": 0.3461
+    },
+    {
+      "year": 2016,
+      "total_posts": 73844,
+      "fake_count": 49544,
+      "fake_rate": 0.6709,
+      "real_count": 24300,
+      "real_rate": 0.3291
+    },
+    {
+      "year": 2017,
+      "total_posts": 90013,
+      "fake_count": 61334,
+      "fake_rate": 0.6814,
+      "real_count": 28679,
+      "real_rate": 0.3186
+    },
+    {
+      "year": 2018,
+      "total_posts": 94982,
+      "fake_count": 65375,
+      "fake_rate": 0.6883,
+      "real_count": 29607,
+      "real_rate": 0.3117
+    },
+    {
+      "year": 2019,
+      "total_posts": 173538,
+      "fake_count": 59919,
+      "fake_rate": 0.3453,
+      "real_count": 113619,
+      "real_rate": 0.6547
+    }
+  ],
+  "seasonal_patterns": [
+    {
+      "season": "Fall",
+      "total_posts": 162613,
+      "fake_count": 95150,
+      "fake_rate": 0.5851,
+      "real_count": 67463,
+      "real_rate": 0.4149
+    },
+    {
+      "season": "Spring",
+      "total_posts": 185979,
+      "fake_count": 111137,
+      "fake_rate": 0.5976,
+      "real_count": 74842,
+      "real_rate": 0.4024
+    },
+    {
+      "season": "Summer",
+      "total_posts": 204573,
+      "fake_count": 119218,
+      "fake_rate": 0.5828,
+      "real_count": 85355,
+      "real_rate": 0.4172
+    },
+    {
+      "season": "Winter",
+      "total_posts": 129496,
+      "fake_count": 88248,
+      "fake_rate": 0.6815,
+      "real_count": 41248,
+      "real_rate": 0.3185
+    }
+  ],
+  "statistical_tests": {
+    "seasonal_chi2": {
+      "chi2_statistic": 3904.03908781213,
+      "p_value": 0.0,
+      "degrees_of_freedom": 3,
+      "significant": "True"
+    }
+  },
+  "analysis_metadata": {
+    "total_records_analyzed": 682661,
+    "date_range": "2008-2019",
+    "analysis_timestamp": "2025-11-05T22:42:24.913866"
+  },
+  "hourly_patterns": [
+    {
+      "hour": 0,
+      "total_posts": 31111,
+      "fake_count": 18309,
+      "fake_rate": 0.5885,
+      "total_check": 31111
+    },
+    {
+      "hour": 1,
+      "total_posts": 29788,
+      "fake_count": 17627,
+      "fake_rate": 0.5917,
+      "total_check": 29788
+    },
+    {
+      "hour": 2,
+      "total_posts": 28200,
+      "fake_count": 16931,
+      "fake_rate": 0.6004,
+      "total_check": 28200
+    },
+    {
+      "hour": 3,
+      "total_posts": 26300,
+      "fake_count": 15982,
+      "fake_rate": 0.6077,
+      "total_check": 26300
+    },
+    {
+      "hour": 4,
+      "total_posts": 23333,
+      "fake_count": 14470,
+      "fake_rate": 0.6202,
+      "total_check": 23333
+    },
+    {
+      "hour": 5,
+      "total_posts": 19903,
+      "fake_count": 12629,
+      "fake_rate": 0.6345,
+      "total_check": 19903
+    },
+    {
+      "hour": 6,
+      "total_posts": 16647,
+      "fake_count": 10756,
+      "fake_rate": 0.6461,
+      "total_check": 16647
+    },
+    {
+      "hour": 7,
+      "total_posts": 14703,
+      "fake_count": 9479,
+      "fake_rate": 0.6447,
+      "total_check": 14703
+    },
+    {
+      "hour": 8,
+      "total_posts": 13596,
+      "fake_count": 8732,
+      "fake_rate": 0.6422,
+      "total_check": 13596
+    },
+    {
+      "hour": 9,
+      "total_posts": 13930,
+      "fake_count": 8822,
+      "fake_rate": 0.6333,
+      "total_check": 13930
+    },
+    {
+      "hour": 10,
+      "total_posts": 15061,
+      "fake_count": 9282,
+      "fake_rate": 0.6163,
+      "total_check": 15061
+    },
+    {
+      "hour": 11,
+      "total_posts": 18326,
+      "fake_count": 10971,
+      "fake_rate": 0.5987,
+      "total_check": 18326
+    },
+    {
+      "hour": 12,
+      "total_posts": 23197,
+      "fake_count": 13337,
+      "fake_rate": 0.5749,
+      "total_check": 23197
+    },
+    {
+      "hour": 13,
+      "total_posts": 29050,
+      "fake_count": 16830,
+      "fake_rate": 0.5793,
+      "total_check": 29050
+    },
+    {
+      "hour": 14,
+      "total_posts": 34779,
+      "fake_count": 20659,
+      "fake_rate": 0.594,
+      "total_check": 34779
+    },
+    {
+      "hour": 15,
+      "total_posts": 39461,
+      "fake_count": 24178,
+      "fake_rate": 0.6127,
+      "total_check": 39461
+    },
+    {
+      "hour": 16,
+      "total_posts": 40089,
+      "fake_count": 24395,
+      "fake_rate": 0.6085,
+      "total_check": 40089
+    },
+    {
+      "hour": 17,
+      "total_posts": 40332,
+      "fake_count": 24227,
+      "fake_rate": 0.6007,
+      "total_check": 40332
+    },
+    {
+      "hour": 18,
+      "total_posts": 39944,
+      "fake_count": 24183,
+      "fake_rate": 0.6054,
+      "total_check": 39944
+    },
+    {
+      "hour": 19,
+      "total_posts": 39713,
+      "fake_count": 24257,
+      "fake_rate": 0.6108,
+      "total_check": 39713
+    },
+    {
+      "hour": 20,
+      "total_posts": 39400,
+      "fake_count": 24050,
+      "fake_rate": 0.6104,
+      "total_check": 39400
+    },
+    {
+      "hour": 21,
+      "total_posts": 38143,
+      "fake_count": 23328,
+      "fake_rate": 0.6116,
+      "total_check": 38143
+    },
+    {
+      "hour": 22,
+      "total_posts": 35098,
+      "fake_count": 21023,
+      "fake_rate": 0.599,
+      "total_check": 35098
+    },
+    {
+      "hour": 23,
+      "total_posts": 32557,
+      "fake_count": 19296,
+      "fake_rate": 0.5927,
+      "total_check": 32557
+    }
+  ],
+  "day_of_week_patterns": [
+    {
+      "day_of_week": 0,
+      "total_posts": 98486,
+      "fake_count": 60929,
+      "fake_rate": 0.6187,
+      "total_check": 98486,
+      "day_name": "Monday"
+    },
+    {
+      "day_of_week": 1,
+      "total_posts": 101448,
+      "fake_count": 62597,
+      "fake_rate": 0.617,
+      "total_check": 101448,
+      "day_name": "Tuesday"
+    },
+    {
+      "day_of_week": 2,
+      "total_posts": 101496,
+      "fake_count": 61318,
+      "fake_rate": 0.6041,
+      "total_check": 101496,
+      "day_name": "Wednesday"
+    },
+    {
+      "day_of_week": 3,
+      "total_posts": 100677,
+      "fake_count": 60502,
+      "fake_rate": 0.601,
+      "total_check": 100677,
+      "day_name": "Thursday"
+    },
+    {
+      "day_of_week": 4,
+      "total_posts": 101484,
+      "fake_count": 60661,
+      "fake_rate": 0.5977,
+      "total_check": 101484,
+      "day_name": "Friday"
+    },
+    {
+      "day_of_week": 5,
+      "total_posts": 87971,
+      "fake_count": 52333,
+      "fake_rate": 0.5949,
+      "total_check": 87971,
+      "day_name": "Saturday"
+    },
+    {
+      "day_of_week": 6,
+      "total_posts": 91099,
+      "fake_count": 55413,
+      "fake_rate": 0.6083,
+      "total_check": 91099,
+      "day_name": "Sunday"
+    }
+  ],
+  "content_evolution": [
+    {
+      "year": 2008,
+      "2_way_label": 1,
+      "avg_title_length": 35.16,
+      "avg_score": 10.04,
+      "avg_comments": 2.28
+    },
+    {
+      "year": 2009,
+      "2_way_label": 0,
+      "avg_title_length": 42.6667,
+      "avg_score": 13.0,
+      "avg_comments": 0.0
+    },
+    {
+      "year": 2009,
+      "2_way_label": 1,
+      "avg_title_length": 42.1774,
+      "avg_score": 15.8548,
+      "avg_comments": 4.0806
+    },
+    {
+      "year": 2010,
+      "2_way_label": 0,
+      "avg_title_length": 34.871,
+      "avg_score": 17.2903,
+      "avg_comments": 0.9032
+    },
+    {
+      "year": 2010,
+      "2_way_label": 1,
+      "avg_title_length": 51.2763,
+      "avg_score": 10.8026,
+      "avg_comments": 3.6974
+    },
+    {
+      "year": 2011,
+      "2_way_label": 0,
+      "avg_title_length": 53.4846,
+      "avg_score": 44.8254,
+      "avg_comments": 3.282
+    },
+    {
+      "year": 2011,
+      "2_way_label": 1,
+      "avg_title_length": 37.0658,
+      "avg_score": 12.5526,
+      "avg_comments": 2.5132
+    },
+    {
+      "year": 2012,
+      "2_way_label": 0,
+      "avg_title_length": 29.2907,
+      "avg_score": 53.6114,
+      "avg_comments": 4.2386
+    },
+    {
+      "year": 2012,
+      "2_way_label": 1,
+      "avg_title_length": 56.4885,
+      "avg_score": 99.368,
+      "avg_comments": 15.4185
+    },
+    {
+      "year": 2013,
+      "2_way_label": 0,
+      "avg_title_length": 27.5813,
+      "avg_score": 70.1967,
+      "avg_comments": 4.1601
+    },
+    {
+      "year": 2013,
+      "2_way_label": 1,
+      "avg_title_length": 52.6881,
+      "avg_score": 132.5689,
+      "avg_comments": 16.4117
+    },
+    {
+      "year": 2014,
+      "2_way_label": 0,
+      "avg_title_length": 24.5299,
+      "avg_score": 71.3613,
+      "avg_comments": 5.3796
+    },
+    {
+      "year": 2014,
+      "2_way_label": 1,
+      "avg_title_length": 55.4266,
+      "avg_score": 190.2647,
+      "avg_comments": 25.2664
+    },
+    {
+      "year": 2015,
+      "2_way_label": 0,
+      "avg_title_length": 31.1078,
+      "avg_score": 112.8794,
+      "avg_comments": 7.4885
+    },
+    {
+      "year": 2015,
+      "2_way_label": 1,
+      "avg_title_length": 58.5751,
+      "avg_score": 336.9536,
+      "avg_comments": 38.2157
+    },
+    {
+      "year": 2016,
+      "2_way_label": 0,
+      "avg_title_length": 42.9384,
+      "avg_score": 189.3727,
+      "avg_comments": 9.3273
+    },
+    {
+      "year": 2016,
+      "2_way_label": 1,
+      "avg_title_length": 59.7736,
+      "avg_score": 734.3792,
+      "avg_comments": 47.9492
+    },
+    {
+      "year": 2017,
+      "2_way_label": 0,
+      "avg_title_length": 48.4772,
+      "avg_score": 290.107,
+      "avg_comments": 8.5135
+    },
+    {
+      "year": 2017,
+      "2_way_label": 1,
+      "avg_title_length": 60.6719,
+      "avg_score": 1299.899,
+      "avg_comments": 53.0582
+    },
+    {
+      "year": 2018,
+      "2_way_label": 0,
+      "avg_title_length": 49.1006,
+      "avg_score": 364.7473,
+      "avg_comments": 8.1707
+    },
+    {
+      "year": 2018,
+      "2_way_label": 1,
+      "avg_title_length": 60.1726,
+      "avg_score": 1292.1173,
+      "avg_comments": 41.0641
+    },
+    {
+      "year": 2019,
+      "2_way_label": 0,
+      "avg_title_length": 47.7081,
+      "avg_score": 491.5779,
+      "avg_comments": 9.9313
+    },
+    {
+      "year": 2019,
+      "2_way_label": 1,
+      "avg_title_length": 56.2523,
+      "avg_score": 603.4613,
+      "avg_comments": 19.33
+    }
+  ],
+  "quarterly_patterns": [
+    {
+      "year": 2008,
+      "quarter": 2,
+      "total_posts": 5,
+      "fake_count": 0,
+      "fake_rate": 0.0
+    },
+    {
+      "year": 2008,
+      "quarter": 3,
+      "total_posts": 10,
+      "fake_count": 0,
+      "fake_rate": 0.0
+    },
+    {
+      "year": 2008,
+      "quarter": 4,
+      "total_posts": 10,
+      "fake_count": 0,
+      "fake_rate": 0.0
+    },
+    {
+      "year": 2009,
+      "quarter": 1,
+      "total_posts": 18,
+      "fake_count": 0,
+      "fake_rate": 0.0
+    },
+    {
+      "year": 2009,
+      "quarter": 2,
+      "total_posts": 19,
+      "fake_count": 0,
+      "fake_rate": 0.0
+    },
+    {
+      "year": 2009,
+      "quarter": 3,
+      "total_posts": 24,
+      "fake_count": 3,
+      "fake_rate": 0.125
+    },
+    {
+      "year": 2009,
+      "quarter": 4,
+      "total_posts": 4,
+      "fake_count": 0,
+      "fake_rate": 0.0
+    },
+    {
+      "year": 2010,
+      "quarter": 1,
+      "total_posts": 6,
+      "fake_count": 0,
+      "fake_rate": 0.0
+    },
+    {
+      "year": 2010,
+      "quarter": 2,
+      "total_posts": 20,
+      "fake_count": 4,
+      "fake_rate": 0.2
+    },
+    {
+      "year": 2010,
+      "quarter": 3,
+      "total_posts": 28,
+      "fake_count": 2,
+      "fake_rate": 0.0714
+    },
+    {
+      "year": 2010,
+      "quarter": 4,
+      "total_posts": 53,
+      "fake_count": 25,
+      "fake_rate": 0.4717
+    },
+    {
+      "year": 2011,
+      "quarter": 1,
+      "total_posts": 63,
+      "fake_count": 40,
+      "fake_rate": 0.6349
+    },
+    {
+      "year": 2011,
+      "quarter": 2,
+      "total_posts": 236,
+      "fake_count": 201,
+      "fake_rate": 0.8517
+    },
+    {
+      "year": 2011,
+      "quarter": 3,
+      "total_posts": 390,
+      "fake_count": 365,
+      "fake_rate": 0.9359
+    },
+    {
+      "year": 2011,
+      "quarter": 4,
+      "total_posts": 534,
+      "fake_count": 465,
+      "fake_rate": 0.8708
+    },
+    {
+      "year": 2012,
+      "quarter": 1,
+      "total_posts": 1713,
+      "fake_count": 1471,
+      "fake_rate": 0.8587
+    },
+    {
+      "year": 2012,
+      "quarter": 2,
+      "total_posts": 4580,
+      "fake_count": 3561,
+      "fake_rate": 0.7775
+    },
+    {
+      "year": 2012,
+      "quarter": 3,
+      "total_posts": 9258,
+      "fake_count": 7181,
+      "fake_rate": 0.7757
+    },
+    {
+      "year": 2012,
+      "quarter": 4,
+      "total_posts": 10829,
+      "fake_count": 8059,
+      "fake_rate": 0.7442
+    },
+    {
+      "year": 2013,
+      "quarter": 1,
+      "total_posts": 14964,
+      "fake_count": 11196,
+      "fake_rate": 0.7482
+    }
+  ],
+  "enhanced_analysis_metadata": {
+    "hourly_analysis_completed": true,
+    "content_evolution_completed": true,
+    "quarterly_analysis_completed": true,
+    "enhanced_timestamp": "2025-11-05T22:48:20.109608"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "content_type_analysis": {
+    "full_multimodal": {
+      "sample_size": 327526,
+      "fake_percentage": 35.5,
+      "real_percentage": 64.5
+    },
+    "bimodal": {
+      "sample_size": 293138,
+      "fake_percentage": 82.0,
+      "real_percentage": 18.0
+    },
+    "text_only": {
+      "sample_size": 1,
+      "fake_percentage": 100.0,
+      "real_percentage": 0.0
+    }
+  },
+  "statistical_significance": {
+    "total_comparisons": 3,
+    "significant_comparisons": 1,
+    "mean_p_value": 0.272470657540807
+  },
+  "effect_sizes": {
+    "mean_effect_size": 0.35558618923893953,
+    "max_effect_size": 1.0667585677168185,
+    "large_effects": 1,
+    "medium_effects": 0,
+    "small_effects": 0
+  }
+}

@@ -1,0 +1,263 @@
+{
+  "completeness": {
+    "text_data": {
+      "available": true,
+      "record_count": 682661,
+      "columns": [
+        "author",
+        "clean_title",
+        "created_utc",
+        "domain",
+        "hasImage",
+        "id",
+        "image_url",
+        "linked_submission_id",
+        "num_comments",
+        "score",
+        "subreddit",
+        "title",
+        "upvote_ratio",
+        "2_way_label",
+        "3_way_label",
+        "6_way_label",
+        "split"
+      ],
+      "authenticity_labels": true
+    },
+    "image_catalog": {
+      "available": true,
+      "record_count": 773563,
+      "columns": [
+        "image_id",
+        "file_path",
+        "file_size_bytes",
+        "width",
+        "height",
+        "format",
+        "has_text_match",
+        "text_record_id",
+        "content_type",
+        "color_complexity",
+        "brightness_mean",
+        "contrast_std",
+        "aspect_ratio",
+        "has_text_overlay",
+        "quality_score",
+        "visual_complexity_score",
+        "extraction_timestamp",
+        "file_hash",
+        "batch_num"
+      ],
+      "authenticity_labels": false
+    },
+    "social_engagement": {
+      "available": true,
+      "record_count": 682661,
+      "columns": [
+        "author",
+        "clean_title",
+        "created_utc",
+        "domain",
+        "hasImage",
+        "id",
+        "image_url",
+        "linked_submission_id",
+        "num_comments",
+        "score",
+        "subreddit",
+        "title",
+        "upvote_ratio",
+        "2_way_label",
+        "3_way_label",
+        "6_way_label",
+        "split",
+        "has_text",
+        "has_image",
+        "submission_id",
+        "comment_count",
+        "avg_comment_score",
+        "total_comment_score",
+        "comment_score_std",
+        "avg_sentiment",
+        "sentiment_std",
+        "has_comments",
+        "content_type"
+      ],
+      "authenticity_labels": true
+    },
+    "visual_features": {
+      "available": true,
+      "record_count": 618828,
+      "columns": [
+        "image_id",
+        "file_path",
+        "text_record_id",
+        "authenticity_label",
+        "width",
+        "height",
+        "aspect_ratio",
+        "file_size_kb",
+        "format",
+        "mean_brightness",
+        "std_brightness",
+        "mean_contrast",
+        "std_contrast",
+        "color_diversity",
+        "dominant_colors",
+        "texture_contrast",
+        "texture_dissimilarity",
+        "texture_homogeneity",
+        "texture_energy",
+        "sharpness_score",
+        "noise_level",
+        "compression_artifacts",
+        "has_text_overlay",
+        "text_overlay_confidence",
+        "manipulation_score",
+        "meme_characteristics",
+        "edge_density",
+        "structural_complexity",
+        "visual_entropy",
+        "processing_success",
+        "processing_time_ms",
+        "error_message",
+        "modality_type",
+        "has_comments"
+      ],
+      "authenticity_labels": true
+    },
+    "linguistic_features": {
+      "available": true,
+      "record_count": 682661,
+      "columns": [
+        "text_length",
+        "word_count",
+        "avg_word_length",
+        "sentence_count",
+        "avg_sentence_length",
+        "flesch_reading_ease",
+        "flesch_kincaid_grade",
+        "sentiment_compound",
+        "sentiment_positive",
+        "sentiment_negative",
+        "sentiment_neutral",
+        "polarity",
+        "subjectivity",
+        "exclamation_count",
+        "question_count",
+        "uppercase_ratio",
+        "digit_ratio",
+        "punctuation_ratio",
+        "unique_word_ratio",
+        "stopword_ratio",
+        "clickbait_word_count",
+        "emotional_word_count",
+        "record_id",
+        "authenticity_label",
+        "split",
+        "content_type"
+      ],
+      "authenticity_labels": true
+    },
+    "coverage_metrics": {
+      "visual_features_coverage": 0.906493852732176,
+      "linguistic_features_coverage": 1.0,
+      "social_engagement_coverage": 1.0
+    }
+  },
+  "statistical_validation": {
+    "authenticity_distribution": {
+      "total_records": 682661,
+      "fake_count": 413753,
+      "real_count": 268908,
+      "fake_percentage": 60.608852710203166,
+      "real_percentage": 39.39114728979684
+    },
+    "feature_significance_tests": {
+      "visual_entropy": {
+        "fake_mean": 6.853586547978132,
+        "real_mean": 7.0524558644512645,
+        "t_statistic": -65.32389530960207,
+        "p_value": 0.0,
+        "cohens_d": -0.1680097052291177,
+        "significant": "True",
+        "effect_size": "negligible"
+      }
+    }
+  },
+  "performance_metrics": {
+    "processing_completeness": {
+      "text_processing": {
+        "completed": true,
+        "file_path": "processed_data/text_data/train_clean.parquet",
+        "record_count": 564000,
+        "columns": 17
+      },
+      "image_catalog": {
+        "completed": true,
+        "file_path": "analysis_results/image_catalog/comprehensive_image_catalog.parquet",
+        "record_count": 773563,
+        "columns": 19
+      },
+      "comment_integration": {
+        "completed": true,
+        "file_path": "processed_data/comments/comments_with_mapping.parquet",
+        "record_count": 13812385,
+        "columns": 10
+      },
+      "social_engagement": {
+        "completed": true,
+        "file_path": "processed_data/social_engagement/integrated_engagement_data.parquet",
+        "record_count": 682661,
+        "columns": 28
+      },
+      "visual_features": {
+        "completed": true,
+        "file_path": "processed_data/visual_features/visual_features_with_authenticity.parquet",
+        "record_count": 618828,
+        "columns": 34
+      },
+      "linguistic_features": {
+        "completed": true,
+        "file_path": "processed_data/linguistic_features/linguistic_features.parquet",
+        "record_count": 682661,
+        "columns": 26
+      },
+      "clustering_analysis": {
+        "completed": true,
+        "file_path": "processed_data/clustering_results/kmeans_clustering_results.parquet",
+        "record_count": 200000,
+        "columns": 32
+      },
+      "association_mining": {
+        "completed": true,
+        "file_path": "processed_data/association_rules/association_rules.parquet",
+        "record_count": 969,
+        "columns": 14
+      },
+      "temporal_analysis": {
+        "completed": true,
+        "file_path": "processed_data/temporal_analysis/yearly_authenticity_trends.parquet",
+        "record_count": 12,
+        "columns": 6
+      },
+      "comparative_analysis": {
+        "completed": true,
+        "file_path": "processed_data/comparative_analysis/content_type_categorized_data.parquet",
+        "record_count": 620665,
+        "columns": 20
+      }
+    },
+    "coverage_metrics": {
+      "visual_coverage": 0.906493852732176,
+      "social_coverage": 1.0,
+      "linguistic_coverage": 1.0
+    },
+    "modality_combinations": {
+      "full_multimodal": 191067,
+      "bimodal": 489731,
+      "text_only": 1863
+    },
+    "total_integrated_records": 682661
+  }
+}

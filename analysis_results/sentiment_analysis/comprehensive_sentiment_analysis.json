@@ -1,0 +1,55 @@
+{
+  "analysis_metadata": {
+    "total_posts_analyzed": 682661,
+    "fake_posts": 413753,
+    "real_posts": 268908,
+    "posts_with_comment_sentiment": 26005,
+    "analysis_timestamp": "2025-11-06T18:15:57.180047"
+  },
+  "title_sentiment_analysis": {
+    "fake_content": {
+      "count": 413753,
+      "title_polarity_mean": 0.034926698880320815,
+      "title_polarity_std": 0.251834809599138,
+      "title_subjectivity_mean": 0.2266827226036791,
+      "title_subjectivity_std": 0.32548103728060584,
+      "sentiment_distribution": {
+        "neutral": 285183,
+        "positive": 75958,
+        "negative": 52612
+      }
+    },
+    "real_content": {
+      "count": 268908,
+      "title_polarity_mean": 0.028301783763504767,
+      "title_polarity_std": 0.21761281287631876,
+      "title_subjectivity_mean": 0.21226341680709818,
+      "title_subjectivity_std": 0.30569332441419517,
+      "sentiment_distribution": {
+        "neutral": 192852,
+        "positive": 46312,
+        "negative": 29744
+      }
+    }
+  },
+  "comment_sentiment_analysis": {
+    "fake_content": {
+      "count": 8327,
+      "comment_polarity_mean": 0.06946550978743846,
+      "comment_polarity_std": 0.25710168750850837,
+      "comment_subjectivity_mean": 0.3419709499219407,
+      "comment_subjectivity_std": 0.3064129738023294
+    },
+    "real_content": {
+      "count": 17678,
+      "comment_polarity_mean": 0.06569503337481615,
+      "comment_polarity_std": 0.2432779719444776,
+      "comment_subjectivity_mean": 0.30280134630614325,
+      "comment_subjectivity_std": 0.3010979782006997
+    }
+  },
+  "comparative_analysis": {
+    "title_polarity_difference": 0.0066249151168160485,
+    "title_subjectivity_difference": 0.014419305796580933
+  }
+}

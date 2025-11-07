@@ -1,0 +1,198 @@
+{
+  "association_mining_overview": {
+    "total_rules": 969,
+    "authenticity_rules": 376,
+    "fake_content_rules": 97,
+    "authentic_content_rules": 91,
+    "transaction_count": 618828,
+    "min_support": 0.001,
+    "min_confidence": 0.1,
+    "min_lift": 1.0
+  },
+  "top_fake_indicators": [
+    {
+      "features": [
+        "positive_sentiment"
+      ],
+      "confidence": 0.5612173739788803,
+      "lift": 4.213542476761654,
+      "support": 0.12744898420885933
+    },
+    {
+      "features": [
+        "sentiment_compound_high"
+      ],
+      "confidence": 0.5346978346056325,
+      "lift": 4.195387181190763,
+      "support": 0.12744898420885933
+    },
+    {
+      "features": [
+        "word_count_high"
+      ],
+      "confidence": 0.400324307559535,
+      "lift": 1.885240328435931,
+      "support": 0.1918933855610929
+    },
+    {
+      "features": [
+        "text_length_high"
+      ],
+      "confidence": 0.38546735266907955,
+      "lift": 1.8369140978414975,
+      "support": 0.1918933855610929
+    },
+    {
+      "features": [
+        "flesch_reading_ease_high"
+      ],
+      "confidence": 0.6308045858126824,
+      "lift": 1.666657587746793,
+      "support": 0.3153768090648775
+    },
+    {
+      "features": [
+        "aspect_ratio_high",
+        "file_size_kb_high"
+      ],
+      "confidence": 0.9375000000000001,
+      "lift": 1.6288330769057997,
+      "support": 0.14170334891116756
+    },
+    {
+      "features": [
+        "easy_reading"
+      ],
+      "confidence": 0.5013203185204212,
+      "lift": 1.5895915746211149,
+      "support": 0.3153768090648775
+    },
+    {
+      "features": [
+        "negative_sentiment"
+      ],
+      "confidence": 0.30591018029731043,
+      "lift": 1.4406175140634676,
+      "support": 0.06311608395224522
+    },
+    {
+      "features": [
+        "negative_sentiment"
+      ],
+      "confidence": 0.3011247043343411,
+      "lift": 1.4349858963930726,
+      "support": 0.06212873367074535
+    },
+    {
+      "features": [
+        "negative_sentiment",
+        "file_size_kb_high"
+      ],
+      "confidence": 0.7984491660428782,
+      "lift": 1.3872431060037236,
+      "support": 0.06722384895318247
+    }
+  ],
+  "top_authentic_indicators": [
+    {
+      "features": [
+        "sentiment_compound_high"
+      ],
+      "confidence": 0.41804178926387436,
+      "lift": 4.195387181190763,
+      "support": 0.09964319649401772
+    },
+    {
+      "features": [
+        "positive_sentiment"
+      ],
+      "confidence": 0.4387755102040816,
+      "lift": 4.172389191704771,
+      "support": 0.09964319649401772
+    },
+    {
+      "features": [
+        "text_length_high"
+      ],
+      "confidence": 0.5160404460097706,
+      "lift": 1.914820007575173,
+      "support": 0.2568952923914238
+    },
+    {
+      "features": [
+        "word_count_high"
+      ],
+      "confidence": 0.5359300412632487,
+      "lift": 1.8773690991240246,
+      "support": 0.2568952923914238
+    },
+    {
+      "features": [
+        "text_length_high"
+      ],
+      "confidence": 0.14468050573742552,
+      "lift": 1.6539634228271551,
+      "support": 0.07202485989644941
+    },
+    {
+      "features": [
+        "word_count_high"
+      ],
+      "confidence": 0.1415187842174816,
+      "lift": 1.6178191494815581,
+      "support": 0.06783629700013574
+    },
+    {
+      "features": [
+        "text_length_high"
+      ],
+      "confidence": 0.2929057179491341,
+      "lift": 1.596257746468814,
+      "support": 0.14581434582791988
+    },
+    {
+      "features": [
+        "text_length_high"
+      ],
+      "confidence": 0.16776005063866392,
+      "lift": 1.595258180564917,
+      "support": 0.08351432061897651
+    },
+    {
+      "features": [
+        "text_length_high"
+      ],
+      "confidence": 0.1585639394283674,
+      "lift": 1.5913172700946734,
+      "support": 0.0789363118669485
+    },
+    {
+      "features": [
+        "easy_reading"
+      ],
+      "confidence": 0.2934061135371179,
+      "lift": 1.5895915746211147,
+      "support": 0.18457956007161924
+    }
+  ],
+  "rule_metrics": {
+    "support_stats": {
+      "mean": 0.1166025680035945,
+      "std": 0.06907130081675772,
+      "min": 0.03660629447924141,
+      "max": 0.4999596010523118
+    },
+    "confidence_stats": {
+      "mean": 0.41911940916393087,
+      "std": 0.22558411015677188,
+      "min": 0.1006001687065508,
+      "max": 1.0
+    },
+    "lift_stats": {
+      "mean": 1.3344733182341908,
+      "std": 0.6486843581451809,
+      "min": 1.0001809027015547,
+      "max": 4.218167369942375
+    }
+  }
+}

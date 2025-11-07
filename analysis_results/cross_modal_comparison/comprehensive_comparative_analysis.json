@@ -1,0 +1,80 @@
+{
+  "analysis_timestamp": "2025-11-05T22:21:59.799511",
+  "authenticity_patterns": {
+    "full_multimodal": {
+      "total_count": 327526,
+      "fake_count": 116232,
+      "real_count": 211294,
+      "fake_rate": 0.35487869665309013,
+      "real_rate": 0.6451213033469099
+    },
+    "bimodal": {
+      "total_count": 293138,
+      "fake_count": 240482,
+      "real_count": 52656,
+      "fake_rate": 0.8203712927017309,
+      "real_rate": 0.17962870729826907
+    },
+    "text_only": {
+      "total_count": 1,
+      "fake_count": 1,
+      "real_count": 0,
+      "fake_rate": 1.0,
+      "real_rate": 0.0
+    }
+  },
+  "statistical_tests": {
+    "chi_square_test": {
+      "chi2_statistic": 137138.9176311351,
+      "p_value": 0.0,
+      "degrees_of_freedom": 2,
+      "significant": "True",
+      "contingency_table": {
+        "0": {
+          "bimodal": 240482,
+          "full_multimodal": 116232,
+          "text_only": 1
+        },
+        "1": {
+          "bimodal": 52656,
+          "full_multimodal": 211294,
+          "text_only": 0
+        }
+      }
+    },
+    "pairwise_comparisons": {
+      "full_multimodal_vs_bimodal": {
+        "u_statistic": 70351204052.0,
+        "p_value": 0.0,
+        "cohens_d": 1.0667585677168185,
+        "effect_size": "large",
+        "significant": "True",
+        "mean_authenticity_type1": 0.6451213033469099,
+        "mean_authenticity_type2": 0.17962870729826907
+      },
+      "full_multimodal_vs_text_only": {
+        "u_statistic": 269410.0,
+        "p_value": 0.1775716251601912,
+        "cohens_d": 0,
+        "effect_size": "negligible",
+        "significant": "False",
+        "mean_authenticity_type1": 0.6451213033469099,
+        "mean_authenticity_type2": 0.0
+      },
+      "bimodal_vs_text_only": {
+        "u_statistic": 172897.0,
+        "p_value": 0.6398403474622298,
+        "cohens_d": 0,
+        "effect_size": "negligible",
+        "significant": "False",
+        "mean_authenticity_type1": 0.17962870729826907,
+        "mean_authenticity_type2": 0.0
+      }
+    }
+  },
+  "key_findings": [
+    "Analyzed 620,665 records across 3 content types",
+    "text_only content has the highest fake rate: 100.0%",
+    "Found 1 statistically significant differences between content types"
+  ]
+}

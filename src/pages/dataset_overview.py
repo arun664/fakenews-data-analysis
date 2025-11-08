@@ -21,132 +21,95 @@ def render_dataset_overview(container):
         try:
             st.header("True Multimodal Dataset Analysis")
             
-            # Load FULL data (no sampling for overview page)
+            # Load from JSON summary (deployment-ready, no Parquet files needed)
             @st.cache_data(ttl=600)  # 10 minutes cache for dataset overview (static data)
             def load_overview_data():
-                # Load full datasets
-                train_data = pd.read_parquet('processed_data/clean_datasets/train_final_clean.parquet')
-                val_data = pd.read_parquet('processed_data/clean_datasets/validation_final_clean.parquet')
-                test_data = pd.read_parquet('processed_data/clean_datasets/test_final_clean.parquet')
+                import json
                 
-                # Add split identifier
-                train_data['split'] = 'train'
-                val_data['split'] = 'validation'
-                test_data['split'] = 'test'
+                summary_path = Path('analysis_results/dashboard_data/dataset_overview_summary.json')
                 
-                # Combine all data
-                all_data = pd.concat([train_data, val_data, test_data], ignore_index=True)
+                if not summary_path.exists():
+                    raise FileNotFoundError(f"Dataset overview summary not found at {summary_path}")
                 
-                # Load comments data
-                try:
-                    comments_data = pd.read_parquet('processed_data/comments/comments_with_mapping.parquet')
-                    original_comment_size = len(comments_data)
-                    
-                    # Mark posts with comments
-                    posts_with_comments = set(comments_data['submission_id'].unique())
-                    all_data['has_comments'] = all_data['id'].isin(posts_with_comments)
-                except:
-                    comments_data = pd.DataFrame()
-                    original_comment_size = 0
-                    all_data['has_comments'] = False
+                with open(summary_path, 'r') as f:
+                    summary = json.load(f)
                 
-                # Ensure content_type column exists
-                if 'content_type' not in all_data.columns:
-                    # Infer from available data
-                    all_data['content_type'] = 'text_image'  # Default assumption
-                
-                # Create summary for display
-                summary = {
-                    'total_records': len(all_data),
-                    'splits': {
-                        'train': {
-                            'total': len(train_data),
-                            'fake': int((train_data['2_way_label'] == 0).sum()),
-                            'real': int((train_data['2_way_label'] == 1).sum())
-                        },
-                        'validation': {
-                            'total': len(val_data),
-                            'fake': int((val_data['2_way_label'] == 0).sum()),
-                            'real': int((val_data['2_way_label'] == 1).sum())
-                        },
-                        'test': {
-                            'total': len(test_data),
-                            'fake': int((test_data['2_way_label'] == 0).sum()),
-                            'real': int((test_data['2_way_label'] == 1).sum())
-                        }
-                    }
-                }
-                
-                return all_data, comments_data, original_comment_size, summary
+                return summary
             
-            all_data, comments_data, original_comment_size, dataset_summary = load_overview_data()
+            dataset_summary = load_overview_data()
             
-            # Show sampling notification if comments were sampled
-            if original_comment_size > 1000000:
-                st.info(f"📊 Performance Optimization: Comment coverage calculated from {original_comment_size:,} total comments")
+            # Extract data from summary
+            total_records = dataset_summary.get('total', {}).get('records', 0)
+            fake_count = dataset_summary.get('total', {}).get('fake', 0)
+            real_count = dataset_summary.get('total', {}).get('real', 0)
+            splits = dataset_summary.get('splits', {})
             
             # Hide loading indicator after data is loaded
             lazy_loader.hide_section_loading()
             
-            # Key metrics row with real data
+            # Key metrics row with data from summary
             col1, col2, col3, col4 = st.columns(4)
             
             with col1:
-                st.metric("📝 Total Records", f"{len(all_data):,}", 
-                         delta="After data cleaning")
+                st.metric("📝 Total Records", f"{total_records:,}", 
+                         delta="Full Dataset")
             
             with col2:
-                visual_records = len(all_data[all_data['content_type'] == 'text_image'])
-                st.metric("🖼️ Visual Records", f"{visual_records:,}", 
-                         delta=f"{visual_records/len(all_data)*100:.1f}% of total")
+                st.metric("🔴 Fake Content", f"{fake_count:,}", 
+                         delta=f"{fake_count/total_records*100:.1f}% of total")
             
             with col3:
-                comment_coverage = all_data['has_comments'].sum() / len(all_data) * 100
-                st.metric("💬 Comment Coverage", f"{comment_coverage:.1f}%", 
-                         delta=f"{all_data['has_comments'].sum():,} posts")
+                st.metric("🟢 Real Content", f"{real_count:,}", 
+                         delta=f"{real_count/total_records*100:.1f}% of total")
             
             with col4:
-                st.metric("💬 Total Comments", "13.8M", 
-                         delta="Processed comments")
+                ratio = fake_count / real_count if real_count > 0 else 0
+                st.metric("📊 Fake:Real Ratio", f"{ratio:.2f}:1", 
+                         delta="Class imbalance")
         
             st.markdown("---")
             
-            # True multimodal breakdown
+            # Dataset splits breakdown
             col1, col2 = st.columns(2)
             
-            # Calculate modality counts
-            full_multimodal = len(all_data[(all_data['content_type'] == 'text_image') & (all_data['has_comments'] == True)])
-            dual_modal_visual = len(all_data[(all_data['content_type'] == 'text_image') & (all_data['has_comments'] == False)])
-            dual_modal_text = len(all_data[(all_data['content_type'] == 'text_only') & (all_data['has_comments'] == True)])
-            single_modal = len(all_data[(all_data['content_type'] == 'text_only') & (all_data['has_comments'] == False)])
-            
             with col1:
-                st.subheader("🎯 True Multimodal Distribution")
+                st.subheader("📊 Dataset Splits")
                 
-                # Create multimodal pie chart
-                labels = ['Full Multimodal\n(Text+Image+Comments)', 'Dual Modal\n(Text+Image)', 'Dual Modal\n(Text+Comments)', 'Single Modal\n(Text Only)']
-                values = [full_multimodal, dual_modal_visual, dual_modal_text, single_modal]
-                colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
+                # Create splits bar chart
+                split_names = ['Train', 'Validation', 'Test']
+                split_totals = [
+                    splits.get('train', {}).get('total', 0),
+                    splits.get('validation', {}).get('total', 0),
+                    splits.get('test', {}).get('total', 0)
+                ]
                 
-                fig = px.pie(
-                    values=values, 
-                    names=labels,
-                    title="Multimodal Content Distribution",
-                    color_discrete_sequence=colors
+                import plotly.graph_objects as go
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
+                    x=split_names,
+                    y=split_totals,
+                    marker_color=['#3498DB', '#9B59B6', '#E74C3C'],
+                    text=[f"{v:,}" for v in split_totals],
+                    textposition='outside'
+                ))
+                fig.update_layout(
+                    title="Records by Split",
+                    yaxis_title="Number of Records",
+                    height=400
                 )
-                fig.update_traces(textposition='inside', textinfo='percent+label')
-                fig.update_layout(height=400)
                 st.plotly_chart(fig, use_container_width=True)
                 
                 # Detailed breakdown
-                st.write("**📊 Detailed Breakdown:**")
-                st.write(f"• 🎯 **Full Multimodal**: {full_multimodal:,} ({full_multimodal/len(all_data)*100:.1f}%)")
-                st.write(f"• 📊 **Dual Modal (Visual)**: {dual_modal_visual:,} ({dual_modal_visual/len(all_data)*100:.1f}%)")
-                st.write(f"• 💬 **Dual Modal (Text)**: {dual_modal_text:,} ({dual_modal_text/len(all_data)*100:.1f}%)")
-                st.write(f"• 📝 **Single Modal**: {single_modal:,} ({single_modal/len(all_data)*100:.1f}%)")
+                st.write("**📊 Split Details:**")
+                for split_name, split_key in [('Train', 'train'), ('Validation', 'validation'), ('Test', 'test')]:
+                    split_data = splits.get(split_key, {})
+                    total = split_data.get('total', 0)
+                    fake = split_data.get('fake', 0)
+                    real = split_data.get('real', 0)
+                    st.write(f"• **{split_name}**: {total:,} ({fake:,} fake, {real:,} real)")
             
             with col2:
-                st.subheader("🎭 Authenticity by Modality")
+                st.subheader("🎭 Authenticity Distribution")
                 
                 # Authenticity analysis by modality type
                 modality_auth_data = []

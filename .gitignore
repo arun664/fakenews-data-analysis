@@ -264,6 +264,8 @@ visualizations/
 !analysis_results/
 !analysis_results/**/*.json
 
+PROJECT_REPORT*.*
+
 # ============================================================================
 # NOTE: Before deployment, generate lightweight data by running:
 # python tasks/generate_all_dashboard_data.py

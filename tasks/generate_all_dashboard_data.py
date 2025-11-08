@@ -437,8 +437,8 @@ def create_social_engagement_summary():
 
 
 def create_dataset_overview_summary():
-    """Create lightweight summary of dataset overview"""
-    logger.info("Creating dataset overview summary...")
+    """Create comprehensive summary for dataset overview page with all visualizations"""
+    logger.info("Creating dataset overview summary with full statistics...")
     
     try:
         # Load datasets
@@ -456,45 +456,120 @@ def create_dataset_overview_summary():
         
         logger.info(f"Loaded datasets: train={len(train)}, val={len(val)}, test={len(test)}")
         
+        # Combine all data for comprehensive analysis
+        all_data = pd.concat([train, val, test], ignore_index=True)
+        
         # Determine content_type column
         content_type_col = None
         for col in ['content_type', 'post_type', 'type']:
-            if col in train.columns:
+            if col in all_data.columns:
                 content_type_col = col
                 break
         
         # Calculate content type distribution
         content_type_dist = {}
+        content_type_by_label = {'fake': {}, 'real': {}}
         if content_type_col:
-            all_data = pd.concat([train, val, test])
-            content_type_dist = all_data[content_type_col].value_counts().to_dict()
+            content_type_dist = {str(k): int(v) for k, v in all_data[content_type_col].value_counts().to_dict().items()}
+            
+            # Content type breakdown by authenticity label
+            for label, label_name in [(0, 'fake'), (1, 'real')]:
+                subset = all_data[all_data['2_way_label'] == label]
+                content_type_by_label[label_name] = {
+                    str(k): int(v) for k, v in subset[content_type_col].value_counts().to_dict().items()
+                }
+        
+        # Calculate coverage statistics based on content types
+        # text_image = has visual + linguistic features (dual modal)
+        # text_only = has only linguistic features (single modal)
+        visual_records = len(all_data[all_data[content_type_col] == 'text_image']) if content_type_col else 0
+        text_only_records = len(all_data[all_data[content_type_col] == 'text_only']) if content_type_col else 0
+        
+        # Load social engagement data to get accurate comment counts
+        social_engagement_path = Path('processed_data/social_engagement/integrated_engagement_data.parquet')
+        comment_posts = 0
+        
+        if social_engagement_path.exists():
+            try:
+                social_data = pd.read_parquet(social_engagement_path)
+                # Get posts that have comments
+                if 'has_comments' in social_data.columns:
+                    comment_posts = int((social_data['has_comments'] == True).sum())
+                elif 'num_comments' in social_data.columns:
+                    comment_posts = int((social_data['num_comments'] > 0).sum())
+                
+                logger.info(f"Found {comment_posts:,} posts with comments from social engagement data")
+            except Exception as e:
+                logger.warning(f"Could not load social engagement data: {e}")
+        
+        # Calculate feature availability
+        feature_availability = {
+            'visual_features': visual_records,
+            'linguistic_features': int(len(all_data)),  # All posts have text
+            'social_engagement': comment_posts,  # Posts with comments
+            'visual_pct': (visual_records / len(all_data) * 100) if len(all_data) > 0 else 0,
+            'linguistic_pct': 100.0,  # All posts have text
+            'social_pct': (comment_posts / len(all_data) * 100) if len(all_data) > 0 else 0
+        }
+        
+        # Modality interpretation based on content types
+        modality_stats = {
+            'dual_modal_visual': {
+                'total': visual_records,
+                'fake': safe_int((all_data[all_data[content_type_col] == 'text_image']['2_way_label'] == 0).sum()) if content_type_col else 0,
+                'real': safe_int((all_data[all_data[content_type_col] == 'text_image']['2_way_label'] == 1).sum()) if content_type_col else 0,
+                'percentage': (visual_records / len(all_data) * 100) if len(all_data) > 0 else 0,
+                'description': 'Text + Image (Visual + Linguistic)'
+            },
+            'single_modal': {
+                'total': text_only_records,
+                'fake': safe_int((all_data[all_data[content_type_col] == 'text_only']['2_way_label'] == 0).sum()) if content_type_col else 0,
+                'real': safe_int((all_data[all_data[content_type_col] == 'text_only']['2_way_label'] == 1).sum()) if content_type_col else 0,
+                'percentage': (text_only_records / len(all_data) * 100) if len(all_data) > 0 else 0,
+                'description': 'Text Only (Linguistic)'
+            }
+        }
         
         summary = {
             'generated_at': datetime.now().isoformat(),
             'splits': {
                 'train': {
-                    'total': len(train),
+                    'total': int(len(train)),
                     'fake': safe_int((train['2_way_label'] == 0).sum()),
-                    'real': safe_int((train['2_way_label'] == 1).sum())
+                    'real': safe_int((train['2_way_label'] == 1).sum()),
+                    'percentage': (len(train) / len(all_data) * 100) if len(all_data) > 0 else 0
                 },
                 'validation': {
-                    'total': len(val),
+                    'total': int(len(val)),
                     'fake': safe_int((val['2_way_label'] == 0).sum()),
-                    'real': safe_int((val['2_way_label'] == 1).sum())
+                    'real': safe_int((val['2_way_label'] == 1).sum()),
+                    'percentage': (len(val) / len(all_data) * 100) if len(all_data) > 0 else 0
                 },
                 'test': {
-                    'total': len(test),
+                    'total': int(len(test)),
                     'fake': safe_int((test['2_way_label'] == 0).sum()),
-                    'real': safe_int((test['2_way_label'] == 1).sum())
+                    'real': safe_int((test['2_way_label'] == 1).sum()),
+                    'percentage': (len(test) / len(all_data) * 100) if len(all_data) > 0 else 0
                 }
             },
             'total': {
-                'records': len(train) + len(val) + len(test),
-                'fake': safe_int((train['2_way_label'] == 0).sum() + (val['2_way_label'] == 0).sum() + (test['2_way_label'] == 0).sum()),
-                'real': safe_int((train['2_way_label'] == 1).sum() + (val['2_way_label'] == 1).sum() + (test['2_way_label'] == 1).sum())
+                'records': int(len(all_data)),
+                'fake': safe_int((all_data['2_way_label'] == 0).sum()),
+                'real': safe_int((all_data['2_way_label'] == 1).sum())
             },
             'content_type_distribution': content_type_dist,
-            'has_content_type': content_type_col is not None
+            'content_type_by_label': content_type_by_label,
+            'has_content_type': content_type_col is not None,
+            'modality_stats': modality_stats,
+            'feature_availability': feature_availability,
+            'coverage': {
+                'visual_records': int(visual_records),
+                'comment_posts': int(comment_posts),
+                'text_posts': int(len(all_data)),
+                'visual_coverage_pct': (visual_records / len(all_data) * 100) if len(all_data) > 0 else 0,
+                'comment_coverage_pct': (comment_posts / len(all_data) * 100) if len(all_data) > 0 else 0,
+                'text_coverage_pct': 100.0
+            }
         }
         
         # Save

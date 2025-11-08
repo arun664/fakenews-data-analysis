@@ -1,20 +1,23 @@
 {
-  "generated_at": "2025-11-08T04:02:28.751763",
+  "generated_at": "2025-11-08T04:40:06.608750",
   "splits": {
     "train": {
       "total": 372399,
       "fake": 214029,
-      "real": 158370
+      "real": 158370,
+      "percentage": 60.0
     },
     "validation": {
       "total": 124133,
       "fake": 71343,
-      "real": 52790
+      "real": 52790,
+      "percentage": 20.0
     },
     "test": {
       "total": 124133,
       "fake": 71343,
-      "real": 52790
+      "real": 52790,
+      "percentage": 20.0
     }
   },
   "total": {
@@ -26,5 +29,47 @@
     "text_image": 618828,
     "text_only": 1837
   },
-  "has_content_type": true
+  "content_type_by_label": {
+    "fake": {
+      "text_image": 356176,
+      "text_only": 539
+    },
+    "real": {
+      "text_image": 262652,
+      "text_only": 1298
+    }
+  },
+  "has_content_type": true,
+  "modality_stats": {
+    "dual_modal_visual": {
+      "total": 618828,
+      "fake": 356176,
+      "real": 262652,
+      "percentage": 99.70402713218887,
+      "description": "Text + Image (Visual + Linguistic)"
+    },
+    "single_modal": {
+      "total": 1837,
+      "fake": 539,
+      "real": 1298,
+      "percentage": 0.295972867811138,
+      "description": "Text Only (Linguistic)"
+    }
+  },
+  "feature_availability": {
+    "visual_features": 618828,
+    "linguistic_features": 620665,
+    "social_engagement": 191067,
+    "visual_pct": 99.70402713218887,
+    "linguistic_pct": 100.0,
+    "social_pct": 30.784239485068433
+  },
+  "coverage": {
+    "visual_records": 618828,
+    "comment_posts": 191067,
+    "text_posts": 620665,
+    "visual_coverage_pct": 99.70402713218887,
+    "comment_coverage_pct": 30.784239485068433,
+    "text_coverage_pct": 100.0
+  }
 }

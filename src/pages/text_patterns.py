@@ -24,9 +24,10 @@ lazy_loader = LazyLoader()
 
 
 def load_linguistic_features_data():
-    """Load detailed linguistic features from lightweight JSON summary"""
+    """Load linguistic features summary with pre-computed statistics"""
     try:
         import json
+        
         summary_path = Path("analysis_results/dashboard_data/linguistic_features_summary.json")
         
         if not summary_path.exists():
@@ -36,17 +37,9 @@ def load_linguistic_features_data():
         with open(summary_path, 'r') as f:
             summary = json.load(f)
         
-        # Convert sample data to DataFrame
-        df = pd.DataFrame(summary['sample_data'])
-        
-        # Map label column to authenticity_label for compatibility
-        if '2_way_label' in df.columns:
-            df['authenticity_label'] = df['2_way_label']
-        elif 'authenticity_label' not in df.columns:
-            st.error("No authenticity label column found in summary data")
-            return None
-        
-        return df
+        # Return the full summary (not sample_data)
+        return summary
+            
     except Exception as e:
         st.error(f"Error loading linguistic features: {e}")
         return None
@@ -54,36 +47,46 @@ def load_linguistic_features_data():
 
 def render_feature_distributions_tab(linguistic_data):
     """Tab 1: Feature Distributions - Readability, vocabulary, text length, sentence complexity"""
-    st.markdown("### 📏 Linguistic Feature Distributions")
+    st.markdown("### 📏 Linguistic Feature Distributions (Full Dataset)")
     
-    # Load detailed features
-    features_df = load_linguistic_features_data()
+    # Load summary with pre-computed data
+    summary = load_linguistic_features_data()
     
-    if features_df is not None and 'authenticity_label' in features_df.columns:
-        # Map labels to readable names
-        features_df['Authenticity'] = features_df['authenticity_label'].map({0: 'Fake', 1: 'Real'})
+    if summary is not None:
+        features_by_auth = summary.get('features_by_authenticity', {})
+        histograms = summary.get('histograms', {})
+        violin_data = summary.get('violin_data', {})
         
-        # 1. Readability Score Violin Plots
+        total_records = summary.get('total_records', 0)
+        fake_count = summary.get('fake_count', 0)
+        real_count = summary.get('real_count', 0)
+        
+        if fake_count == 0 or real_count == 0:
+            st.warning(f"⚠️ Insufficient data: {fake_count} fake, {real_count} real records. Need both types for comparison.")
+            return
+        
+        # 1. Readability Score Violin Plots (using pre-computed data)
         st.markdown("#### 📖 Readability Scores")
         col1, col2 = st.columns(2)
         
         with col1:
-            if 'flesch_reading_ease' in features_df.columns:
+            if 'flesch_reading_ease' in violin_data:
                 fig_fre = go.Figure()
-                for label, color in [('Fake', CHART_CONFIG['colors']['fake']), ('Real', CHART_CONFIG['colors']['real'])]:
-                    data = features_df[features_df['Authenticity'] == label]['flesch_reading_ease']
-                    fig_fre.add_trace(go.Violin(
-                        y=data,
-                        name=label,
-                        box_visible=True,
-                        meanline_visible=True,
-                        fillcolor=color,
-                        opacity=0.6,
-                        line_color=color
-                    ))
+                for label_name, color in [('fake', CHART_CONFIG['colors']['fake']), ('real', CHART_CONFIG['colors']['real'])]:
+                    if label_name in violin_data['flesch_reading_ease']:
+                        vdata = violin_data['flesch_reading_ease'][label_name]
+                        fig_fre.add_trace(go.Violin(
+                            y=vdata['percentiles'],
+                            name=label_name.capitalize(),
+                            box_visible=True,
+                            meanline_visible=True,
+                            fillcolor=color,
+                            opacity=0.6,
+                            line_color=color
+                        ))
                 
                 fig_fre.update_layout(
-                    title="Flesch Reading Ease Score Distribution",
+                    title=f"Flesch Reading Ease Score Distribution ({total_records:,} records)",
                     yaxis_title="Reading Ease Score",
                     showlegend=True,
                     height=400
@@ -91,70 +94,75 @@ def render_feature_distributions_tab(linguistic_data):
                 st.plotly_chart(fig_fre, use_container_width=True)
         
         with col2:
-            if 'flesch_kincaid_grade' in features_df.columns:
+            if 'flesch_kincaid_grade' in violin_data:
                 fig_fkg = go.Figure()
-                for label, color in [('Fake', CHART_CONFIG['colors']['fake']), ('Real', CHART_CONFIG['colors']['real'])]:
-                    data = features_df[features_df['Authenticity'] == label]['flesch_kincaid_grade']
-                    fig_fkg.add_trace(go.Violin(
-                        y=data,
-                        name=label,
-                        box_visible=True,
-                        meanline_visible=True,
-                        fillcolor=color,
-                        opacity=0.6,
-                        line_color=color
-                    ))
+                for label_name, color in [('fake', CHART_CONFIG['colors']['fake']), ('real', CHART_CONFIG['colors']['real'])]:
+                    if label_name in violin_data['flesch_kincaid_grade']:
+                        vdata = violin_data['flesch_kincaid_grade'][label_name]
+                        fig_fkg.add_trace(go.Violin(
+                            y=vdata['percentiles'],
+                            name=label_name.capitalize(),
+                            box_visible=True,
+                            meanline_visible=True,
+                            fillcolor=color,
+                            opacity=0.6,
+                            line_color=color
+                        ))
                 
                 fig_fkg.update_layout(
-                    title="Flesch-Kincaid Grade Level Distribution",
+                    title=f"Flesch-Kincaid Grade Level Distribution ({total_records:,} records)",
                     yaxis_title="Grade Level",
                     showlegend=True,
                     height=400
                 )
                 st.plotly_chart(fig_fkg, use_container_width=True)
         
-        # 2. Vocabulary Diversity Bar Charts
+        # 2. Vocabulary Diversity Bar Charts (using pre-computed statistics)
         st.markdown("#### 📚 Vocabulary Diversity")
-        if 'unique_word_ratio' in features_df.columns:
-            vocab_stats = features_df.groupby('Authenticity')['unique_word_ratio'].agg(['mean', 'std']).reset_index()
+        if 'unique_word_ratio' in features_by_auth.get('fake', {}) and 'unique_word_ratio' in features_by_auth.get('real', {}):
+            fake_stats = features_by_auth['fake']['unique_word_ratio']
+            real_stats = features_by_auth['real']['unique_word_ratio']
             
             fig_vocab = go.Figure()
             fig_vocab.add_trace(go.Bar(
-                x=vocab_stats['Authenticity'],
-                y=vocab_stats['mean'],
-                error_y=dict(type='data', array=vocab_stats['std']),
+                x=['Fake', 'Real'],
+                y=[fake_stats['mean'], real_stats['mean']],
+                error_y=dict(type='data', array=[fake_stats['std'], real_stats['std']]),
                 marker_color=[CHART_CONFIG['colors']['fake'], CHART_CONFIG['colors']['real']],
-                text=vocab_stats['mean'].round(4),
+                text=[f"{fake_stats['mean']:.4f}", f"{real_stats['mean']:.4f}"],
                 textposition='outside'
             ))
             
             fig_vocab.update_layout(
-                title="Unique Word Ratio by Authenticity",
+                title=f"Unique Word Ratio by Authenticity ({total_records:,} records)",
                 xaxis_title="Content Type",
                 yaxis_title="Unique Word Ratio (Mean ± SD)",
                 height=400
             )
             st.plotly_chart(fig_vocab, use_container_width=True)
         
-        # 3. Text Length Histograms
+        # 3. Text Length Histograms (using pre-computed data)
         st.markdown("#### 📝 Text Length Distributions")
         col1, col2 = st.columns(2)
         
         with col1:
-            if 'text_length' in features_df.columns:
+            if 'text_length' in histograms:
                 fig_len = go.Figure()
-                for label, color in [('Fake', CHART_CONFIG['colors']['fake']), ('Real', CHART_CONFIG['colors']['real'])]:
-                    data = features_df[features_df['Authenticity'] == label]['text_length']
-                    fig_len.add_trace(go.Histogram(
-                        x=data,
-                        name=label,
-                        opacity=0.6,
-                        marker_color=color,
-                        nbinsx=50
-                    ))
+                for label_name, color in [('fake', CHART_CONFIG['colors']['fake']), ('real', CHART_CONFIG['colors']['real'])]:
+                    if label_name in histograms['text_length']:
+                        hist = histograms['text_length'][label_name]
+                        bin_centers = [(hist['bin_edges'][i] + hist['bin_edges'][i+1]) / 2 
+                                      for i in range(len(hist['bin_edges']) - 1)]
+                        fig_len.add_trace(go.Bar(
+                            x=bin_centers,
+                            y=hist['counts'],
+                            name=label_name.capitalize(),
+                            opacity=0.6,
+                            marker_color=color
+                        ))
                 
                 fig_len.update_layout(
-                    title="Text Length Distribution",
+                    title=f"Text Length Distribution ({total_records:,} records)",
                     xaxis_title="Text Length (characters)",
                     yaxis_title="Frequency",
                     barmode='overlay',
@@ -163,20 +171,23 @@ def render_feature_distributions_tab(linguistic_data):
                 st.plotly_chart(fig_len, use_container_width=True)
         
         with col2:
-            if 'word_count' in features_df.columns:
+            if 'word_count' in histograms:
                 fig_words = go.Figure()
-                for label, color in [('Fake', CHART_CONFIG['colors']['fake']), ('Real', CHART_CONFIG['colors']['real'])]:
-                    data = features_df[features_df['Authenticity'] == label]['word_count']
-                    fig_words.add_trace(go.Histogram(
-                        x=data,
-                        name=label,
-                        opacity=0.6,
-                        marker_color=color,
-                        nbinsx=50
-                    ))
+                for label_name, color in [('fake', CHART_CONFIG['colors']['fake']), ('real', CHART_CONFIG['colors']['real'])]:
+                    if label_name in histograms['word_count']:
+                        hist = histograms['word_count'][label_name]
+                        bin_centers = [(hist['bin_edges'][i] + hist['bin_edges'][i+1]) / 2 
+                                      for i in range(len(hist['bin_edges']) - 1)]
+                        fig_words.add_trace(go.Bar(
+                            x=bin_centers,
+                            y=hist['counts'],
+                            name=label_name.capitalize(),
+                            opacity=0.6,
+                            marker_color=color
+                        ))
                 
                 fig_words.update_layout(
-                    title="Word Count Distribution",
+                    title=f"Word Count Distribution ({total_records:,} records)",
                     xaxis_title="Word Count",
                     yaxis_title="Frequency",
                     barmode='overlay',
@@ -184,21 +195,24 @@ def render_feature_distributions_tab(linguistic_data):
                 )
                 st.plotly_chart(fig_words, use_container_width=True)
         
-        # 4. Sentence Complexity Box Plots
+        # 4. Sentence Complexity (using pre-computed statistics)
         st.markdown("#### 📊 Sentence Complexity")
-        if 'avg_sentence_length' in features_df.columns:
+        if 'avg_sentence_length' in features_by_auth.get('fake', {}) and 'avg_sentence_length' in features_by_auth.get('real', {}):
+            fake_stats = features_by_auth['fake']['avg_sentence_length']
+            real_stats = features_by_auth['real']['avg_sentence_length']
+            
             fig_sent = go.Figure()
-            for label, color in [('Fake', CHART_CONFIG['colors']['fake']), ('Real', CHART_CONFIG['colors']['real'])]:
-                data = features_df[features_df['Authenticity'] == label]['avg_sentence_length']
-                fig_sent.add_trace(go.Box(
-                    y=data,
-                    name=label,
-                    marker_color=color,
-                    boxmean='sd'
-                ))
+            fig_sent.add_trace(go.Bar(
+                x=['Fake', 'Real'],
+                y=[fake_stats['mean'], real_stats['mean']],
+                error_y=dict(type='data', array=[fake_stats['std'], real_stats['std']]),
+                marker_color=[CHART_CONFIG['colors']['fake'], CHART_CONFIG['colors']['real']],
+                text=[f"{fake_stats['mean']:.2f}", f"{real_stats['mean']:.2f}"],
+                textposition='outside'
+            ))
             
             fig_sent.update_layout(
-                title="Average Sentence Length by Authenticity",
+                title=f"Average Sentence Length by Authenticity ({total_records:,} records)",
                 yaxis_title="Average Sentence Length (words)",
                 height=400
             )
@@ -232,82 +246,108 @@ def render_feature_distributions_tab(linguistic_data):
 
 def render_sentiment_analysis_tab(linguistic_data):
     """Tab 2: Sentiment Analysis - Word clouds, sentiment distribution, emotion intensity, subjectivity"""
-    st.markdown("### 😊 Sentiment & Emotion Analysis")
+    st.markdown("### 😊 Sentiment & Emotion Analysis (Full Dataset)")
     
-    features_df = load_linguistic_features_data()
+    summary = load_linguistic_features_data()
     
-    if features_df is not None and 'authenticity_label' in features_df.columns:
-        features_df['Authenticity'] = features_df['authenticity_label'].map({0: 'Fake', 1: 'Real'})
+    if summary is not None:
+        features_by_auth = summary.get('features_by_authenticity', {})
+        total_records = summary.get('total_records', 0)
         
         # 1. Word Clouds for Fake vs Real
         st.markdown("#### ☁️ Word Clouds by Authenticity")
         st.info("💡 Word clouds require text data. This visualization shows sentiment patterns instead.")
         
-        # 2. Sentiment Distribution Pie Charts
+        # 2. Sentiment Distribution Pie Charts (using pre-computed statistics)
         st.markdown("#### 🎭 Sentiment Distribution")
         
-        if all(col in features_df.columns for col in ['sentiment_positive', 'sentiment_negative', 'sentiment_neutral']):
+        if all(col in features_by_auth.get('fake', {}) for col in ['sentiment_positive', 'sentiment_negative', 'sentiment_neutral']):
             col1, col2 = st.columns(2)
             
             with col1:
-                fake_df = features_df[features_df['Authenticity'] == 'Fake']
+                fake_stats = features_by_auth.get('fake', {})
                 sentiment_fake = {
-                    'Positive': fake_df['sentiment_positive'].mean(),
-                    'Negative': fake_df['sentiment_negative'].mean(),
-                    'Neutral': fake_df['sentiment_neutral'].mean()
+                    'Positive': fake_stats['sentiment_positive']['mean'],
+                    'Negative': fake_stats['sentiment_negative']['mean'],
+                    'Neutral': fake_stats['sentiment_neutral']['mean']
                 }
                 
                 fig_pie_fake = go.Figure(data=[go.Pie(
                     labels=list(sentiment_fake.keys()),
                     values=list(sentiment_fake.values()),
                     marker=dict(colors=['#4ECDC4', '#FF6B6B', '#95A5A6']),
-                    hole=0.3
+                    hole=0.3,
+                    textinfo='label+percent',
+                    textposition='auto'
                 )])
-                fig_pie_fake.update_layout(title="Fake Content Sentiment", height=400)
+                fig_pie_fake.update_layout(title=f"Fake Content Sentiment ({summary.get('fake_count', 0):,} records)", height=400)
                 st.plotly_chart(fig_pie_fake, use_container_width=True)
             
             with col2:
-                real_df = features_df[features_df['Authenticity'] == 'Real']
+                real_stats = features_by_auth.get('real', {})
                 sentiment_real = {
-                    'Positive': real_df['sentiment_positive'].mean(),
-                    'Negative': real_df['sentiment_negative'].mean(),
-                    'Neutral': real_df['sentiment_neutral'].mean()
+                    'Positive': real_stats['sentiment_positive']['mean'],
+                    'Negative': real_stats['sentiment_negative']['mean'],
+                    'Neutral': real_stats['sentiment_neutral']['mean']
                 }
                 
                 fig_pie_real = go.Figure(data=[go.Pie(
                     labels=list(sentiment_real.keys()),
                     values=list(sentiment_real.values()),
                     marker=dict(colors=['#4ECDC4', '#FF6B6B', '#95A5A6']),
-                    hole=0.3
+                    hole=0.3,
+                    textinfo='label+percent',
+                    textposition='auto'
                 )])
-                fig_pie_real.update_layout(title="Real Content Sentiment", height=400)
+                fig_pie_real.update_layout(title=f"Real Content Sentiment ({summary.get('real_count', 0):,} records)", height=400)
                 st.plotly_chart(fig_pie_real, use_container_width=True)
         
-        # 3. Emotion Intensity Radar Charts
+        # 3. Emotion Intensity Radar Charts (using pre-computed statistics)
         st.markdown("#### 🎯 Emotion Intensity Comparison")
         
-        if all(col in features_df.columns for col in ['sentiment_positive', 'sentiment_negative', 'polarity', 'subjectivity']):
-            fake_df = features_df[features_df['Authenticity'] == 'Fake']
-            real_df = features_df[features_df['Authenticity'] == 'Real']
+        # Check for required columns
+        required_cols = ['sentiment_positive', 'sentiment_negative']
+        
+        if all(col in features_by_auth.get('fake', {}) for col in required_cols):
+            fake_stats = features_by_auth.get('fake', {})
+            real_stats = features_by_auth.get('real', {})
             
-            categories = ['Positive', 'Negative', 'Polarity', 'Subjectivity', 'Exclamation']
+            categories = []
+            fake_values = []
+            real_values = []
             
-            fake_values = [
-                fake_df['sentiment_positive'].mean(),
-                fake_df['sentiment_negative'].mean(),
-                fake_df['polarity'].mean() if 'polarity' in fake_df.columns else 0,
-                fake_df['subjectivity'].mean() if 'subjectivity' in fake_df.columns else 0,
-                fake_df['exclamation_count'].mean() if 'exclamation_count' in fake_df.columns else 0
-            ]
+            # Add sentiment scores
+            categories.append('Positive')
+            fake_values.append(fake_stats['sentiment_positive']['mean'])
+            real_values.append(real_stats['sentiment_positive']['mean'])
             
-            real_values = [
-                real_df['sentiment_positive'].mean(),
-                real_df['sentiment_negative'].mean(),
-                real_df['polarity'].mean() if 'polarity' in real_df.columns else 0,
-                real_df['subjectivity'].mean() if 'subjectivity' in real_df.columns else 0,
-                real_df['exclamation_count'].mean() if 'exclamation_count' in real_df.columns else 0
-            ]
+            categories.append('Negative')
+            fake_values.append(fake_stats['sentiment_negative']['mean'])
+            real_values.append(real_stats['sentiment_negative']['mean'])
             
+            # Add optional metrics if available
+            if 'polarity' in fake_stats and 'polarity' in real_stats:
+                categories.append('Polarity')
+                fake_values.append(abs(fake_stats['polarity']['mean']))
+                real_values.append(abs(real_stats['polarity']['mean']))
+            
+            if 'subjectivity' in fake_stats and 'subjectivity' in real_stats:
+                categories.append('Subjectivity')
+                fake_values.append(fake_stats['subjectivity']['mean'])
+                real_values.append(real_stats['subjectivity']['mean'])
+            
+            if 'exclamation_count' in fake_stats and 'exclamation_count' in real_stats:
+                categories.append('Exclamation')
+                # Normalize exclamation count to 0-1 scale
+                max_excl = max(fake_stats['exclamation_count']['max'], real_stats['exclamation_count']['max'])
+                if max_excl > 0:
+                    fake_values.append(fake_stats['exclamation_count']['mean'] / max_excl)
+                    real_values.append(real_stats['exclamation_count']['mean'] / max_excl)
+                else:
+                    fake_values.append(0)
+                    real_values.append(0)
+            
+            # Create radar chart
             fig_radar = go.Figure()
             
             fig_radar.add_trace(go.Scatterpolar(
@@ -330,34 +370,71 @@ def render_sentiment_analysis_tab(linguistic_data):
                 opacity=0.5
             ))
             
+            max_val = max(max(fake_values), max(real_values))
             fig_radar.update_layout(
-                polar=dict(radialaxis=dict(visible=True, range=[0, max(max(fake_values), max(real_values)) * 1.1])),
+                polar=dict(radialaxis=dict(visible=True, range=[0, max_val * 1.1])),
                 showlegend=True,
-                title="Emotion Intensity Radar Chart",
+                title=f"Emotion Intensity Radar Chart ({total_records:,} records)",
                 height=500
             )
             st.plotly_chart(fig_radar, use_container_width=True)
+        else:
+            st.warning("Sentiment data not available for radar chart")
         
-        # 4. Subjectivity Scatter Plot
-        st.markdown("#### 📈 Polarity vs Subjectivity")
+        # 4. Subjectivity Scatter Plot (using pre-computed 2D histogram)
+        st.markdown("#### 📈 Polarity vs Subjectivity Density")
         
-        if 'polarity' in features_df.columns and 'subjectivity' in features_df.columns:
-            # Sample for performance
-            sample_df = features_df.sample(n=min(5000, len(features_df)), random_state=42)
-            
-            fig_scatter = px.scatter(
-                sample_df,
-                x='subjectivity',
-                y='polarity',
-                color='Authenticity',
-                color_discrete_map={'Fake': CHART_CONFIG['colors']['fake'], 'Real': CHART_CONFIG['colors']['real']},
-                opacity=0.5,
-                title="Sentiment Polarity vs Subjectivity",
-                labels={'subjectivity': 'Subjectivity', 'polarity': 'Polarity'}
-            )
-            
-            fig_scatter.update_layout(height=500)
-            st.plotly_chart(fig_scatter, use_container_width=True)
+        # Load linguistic data to get scatter_data
+        try:
+            linguistic_data_path = Path("analysis_results/dashboard_data/linguistic_features_summary.json")
+            if linguistic_data_path.exists():
+                with open(linguistic_data_path, 'r') as f:
+                    ling_summary = json.load(f)
+                
+                scatter_data = ling_summary.get('scatter_data', {})
+                
+                if 'polarity_vs_subjectivity_fake' in scatter_data and 'polarity_vs_subjectivity_real' in scatter_data:
+                    # Create density heatmap from pre-computed 2D histogram
+                    fig_scatter = make_subplots(
+                        rows=1, cols=2,
+                        subplot_titles=['Fake Content', 'Real Content']
+                    )
+                    
+                    for idx, (label_name, color) in enumerate([('fake', CHART_CONFIG['colors']['fake']), 
+                                                                ('real', CHART_CONFIG['colors']['real'])], 1):
+                        scatter_key = f'polarity_vs_subjectivity_{label_name}'
+                        if scatter_key in scatter_data:
+                            data_2d = scatter_data[scatter_key]
+                            
+                            fig_scatter.add_trace(
+                                go.Heatmap(
+                                    x=data_2d['x_edges'],
+                                    y=data_2d['y_edges'],
+                                    z=data_2d['counts'],
+                                    colorscale='Viridis',
+                                    showscale=(idx == 2)
+                                ),
+                                row=1, col=idx
+                            )
+                    
+                    fig_scatter.update_xaxes(title_text="Subjectivity", row=1, col=1)
+                    fig_scatter.update_xaxes(title_text="Subjectivity", row=1, col=2)
+                    fig_scatter.update_yaxes(title_text="Polarity", row=1, col=1)
+                    fig_scatter.update_yaxes(title_text="Polarity", row=1, col=2)
+                    
+                    fig_scatter.update_layout(
+                        title="Sentiment Polarity vs Subjectivity Density (Full Dataset)",
+                        height=400
+                    )
+                    st.plotly_chart(fig_scatter, use_container_width=True)
+                    
+                    st.info("💡 Darker regions show higher density of content. Upper regions show positive sentiment, lower regions show negative sentiment.")
+                else:
+                    st.info("📊 Scatter density data not available.")
+            else:
+                st.info("📊 Linguistic features summary not found.")
+        except Exception as e:
+            st.warning(f"Could not load scatter data: {e}")
     else:
         st.info("📊 Detailed sentiment data not available.")
 
@@ -756,23 +833,8 @@ def render_text_patterns(container):
             # Hide loading indicator
             lazy_loader.hide_section_loading()
             
-            # Show sampling notification
-            summary_path = Path('analysis_results/dashboard_data/linguistic_features_summary.json')
-            if summary_path.exists():
-                with open(summary_path, 'r') as f:
-                    summary = json.load(f)
-                    sampling_info = summary.get('sampling_info', {})
-                    
-                    if sampling_info:
-                        sampling_pct = sampling_info.get('sampling_percentage', 0)
-                        total_sampled = sampling_info.get('total_sampled', 0)
-                        total_original = sampling_info.get('total_original', 0)
-                        
-                        st.info(f"""
-                        📊 **Data Sampling Notice (Deployment Optimization)**  
-                        Displaying {total_sampled:,} records ({sampling_pct:.1f}% of {total_original:,} total) to maintain deployment size under 100MB total.  
-                        Statistical patterns and distributions are representative of the full dataset.
-                        """)
+            # Load data
+            features_df = load_linguistic_features_data()
             
             if linguistic_data:
                 # Overview metrics

@@ -30,10 +30,11 @@ def render_social_patterns(container):
             - How does community interaction vary with content authenticity?
             """)
             
-            # Load social engagement data from lightweight JSON summary
+            # Load from JSON summary (FULL dataset with pre-computed visualizations)
             @st.cache_data(ttl=600)  # 10 minutes cache for social engagement data
             def load_social_data():
                 import json
+                
                 summary_path = Path('analysis_results/dashboard_data/social_engagement_summary.json')
                 
                 if not summary_path.exists():
@@ -42,45 +43,36 @@ def render_social_patterns(container):
                 with open(summary_path, 'r') as f:
                     summary = json.load(f)
                 
-                # Convert sample data to DataFrame
-                data = pd.DataFrame(summary['sample_data'])
-                
-                # Map label column for compatibility
-                if '2_way_label' in data.columns:
-                    data['authenticity_label'] = data['2_way_label']
-                elif 'authenticity_label' not in data.columns:
-                    raise ValueError("No authenticity label column found in summary data")
-                
-                original_size = summary.get('total_records', len(data))
-                return data, original_size
+                return summary
             
-            social_data, original_size = load_social_data()
+            summary = load_social_data()
             
-            # Show sampling notification if data was sampled
-            if original_size > 100000:
-                st.info(f"📊 Performance Optimization: Analyzing {len(social_data):,} sampled records (from {original_size:,} total) for optimal dashboard performance")
+            total_records = summary.get('total_records', 0)
+            fake_count = summary.get('fake_count', 0)
+            real_count = summary.get('real_count', 0)
             
             # Hide loading indicator
             lazy_loader.hide_section_loading()
             
-            if len(social_data) > 0:
+            if total_records > 0:
                 # Overall social engagement metrics
                 st.subheader("📊 Social Engagement Overview")
                 
-                fake_posts = social_data[social_data['2_way_label'] == 0]
-                real_posts = social_data[social_data['2_way_label'] == 1]
+                engagement_stats = summary.get('engagement_stats', {})
+                fake_stats = engagement_stats.get('fake', {})
+                real_stats = engagement_stats.get('real', {})
                 
                 col1, col2, col3, col4 = st.columns(4)
                 
                 with col1:
-                    st.metric("📝 Total Posts", f"{len(social_data):,}")
+                    st.metric("📝 Total Posts", f"{total_records:,}")
                 
                 with col2:
-                    fake_engagement = fake_posts['score'].mean() if 'score' in fake_posts.columns else 0
+                    fake_engagement = fake_stats.get('score', {}).get('mean', 0)
                     st.metric("🔴 Fake Avg Score", f"{fake_engagement:.1f}")
                 
                 with col3:
-                    real_engagement = real_posts['score'].mean() if 'score' in real_posts.columns else 0
+                    real_engagement = real_stats.get('score', {}).get('mean', 0)
                     st.metric("🟢 Real Avg Score", f"{real_engagement:.1f}")
                 
                 with col4:
@@ -88,30 +80,43 @@ def render_social_patterns(container):
                         engagement_ratio = fake_engagement / real_engagement
                         st.metric("📊 Fake:Real Ratio", f"{engagement_ratio:.2f}:1")
                 
-                # Engagement distribution comparison
-                st.subheader("📈 Engagement Score Distribution")
+                # Engagement distribution comparison (using pre-computed histograms)
+                st.subheader("📈 Engagement Score Distribution (Full Dataset)")
                 
-                if 'score' in social_data.columns:
+                histograms = summary.get('histograms', {})
+                if 'score' in histograms:
                     fig = go.Figure()
                     
-                    fig.add_trace(go.Histogram(
-                        x=fake_posts['score'].dropna(),
-                        name='🔴 Fake Content',
-                        opacity=0.7,
-                        marker_color='#FF6B6B',
-                        nbinsx=50
-                    ))
+                    # Add fake histogram
+                    if 'fake' in histograms['score']:
+                        fake_hist = histograms['score']['fake']
+                        bin_centers = [(fake_hist['bin_edges'][i] + fake_hist['bin_edges'][i+1]) / 2 
+                                      for i in range(len(fake_hist['bin_edges']) - 1)]
+                        
+                        fig.add_trace(go.Bar(
+                            x=bin_centers,
+                            y=fake_hist['counts'],
+                            name='🔴 Fake Content',
+                            opacity=0.7,
+                            marker_color='#FF6B6B'
+                        ))
                     
-                    fig.add_trace(go.Histogram(
-                        x=real_posts['score'].dropna(),
-                        name='🟢 Real Content',
-                        opacity=0.7,
-                        marker_color='#4ECDC4',
-                        nbinsx=50
-                    ))
+                    # Add real histogram
+                    if 'real' in histograms['score']:
+                        real_hist = histograms['score']['real']
+                        bin_centers = [(real_hist['bin_edges'][i] + real_hist['bin_edges'][i+1]) / 2 
+                                      for i in range(len(real_hist['bin_edges']) - 1)]
+                        
+                        fig.add_trace(go.Bar(
+                            x=bin_centers,
+                            y=real_hist['counts'],
+                            name='🟢 Real Content',
+                            opacity=0.7,
+                            marker_color='#4ECDC4'
+                        ))
                     
                     fig.update_layout(
-                        title="Engagement Score Distribution: Fake vs Real",
+                        title=f"Engagement Score Distribution: Fake vs Real ({total_records:,} posts)",
                         xaxis_title="Engagement Score",
                         yaxis_title="Count",
                         barmode='overlay',
@@ -120,15 +125,15 @@ def render_social_patterns(container):
                     
                     st.plotly_chart(fig, use_container_width=True)
                 
-                # Comment patterns
-                st.subheader("💬 Comment Engagement Patterns")
+                # Comment patterns (using pre-computed data)
+                st.subheader("💬 Comment Engagement Patterns (Full Dataset)")
                 
-                if 'num_comments' in social_data.columns:
+                if 'num_comments' in engagement_stats.get('fake', {}):
                     col1, col2 = st.columns(2)
                     
                     with col1:
-                        fake_comments = fake_posts['num_comments'].mean()
-                        real_comments = real_posts['num_comments'].mean()
+                        fake_comments = fake_stats.get('num_comments', {}).get('mean', 0)
+                        real_comments = real_stats.get('num_comments', {}).get('mean', 0)
                         
                         fig = go.Figure()
                         fig.add_trace(go.Bar(
@@ -140,7 +145,7 @@ def render_social_patterns(container):
                         ))
                         
                         fig.update_layout(
-                            title="Average Comments per Post",
+                            title=f"Average Comments per Post ({total_records:,} posts)",
                             yaxis_title="Number of Comments",
                             height=400
                         )
@@ -148,39 +153,64 @@ def render_social_patterns(container):
                         st.plotly_chart(fig, use_container_width=True)
                     
                     with col2:
-                        fig = go.Figure()
-                        
-                        fig.add_trace(go.Box(
-                            y=fake_posts['num_comments'].dropna(),
-                            name='🔴 Fake',
-                            marker_color='#FF6B6B',
-                            boxpoints='outliers'
-                        ))
-                        
-                        fig.add_trace(go.Box(
-                            y=real_posts['num_comments'].dropna(),
-                            name='🟢 Real',
-                            marker_color='#4ECDC4',
-                            boxpoints='outliers'
-                        ))
-                        
-                        fig.update_layout(
-                            title="Comment Count Distribution",
-                            yaxis_title="Number of Comments",
-                            height=400
-                        )
-                        
-                        st.plotly_chart(fig, use_container_width=True)
+                        # Use pre-computed box plot data
+                        boxplot_data = summary.get('boxplot_data', {})
+                        if 'num_comments' in boxplot_data:
+                            fig = go.Figure()
+                            
+                            for label_name, color in [('fake', '#FF6B6B'), ('real', '#4ECDC4')]:
+                                if label_name in boxplot_data['num_comments']:
+                                    box_stats = boxplot_data['num_comments'][label_name]
+                                    
+                                    fig.add_trace(go.Box(
+                                        name=f'{"🔴" if label_name == "fake" else "🟢"} {label_name.capitalize()}',
+                                        q1=[box_stats['q1']],
+                                        median=[box_stats['median']],
+                                        q3=[box_stats['q3']],
+                                        lowerfence=[box_stats['min']],
+                                        upperfence=[box_stats['max']],
+                                        y=box_stats.get('outliers', [])[:100],  # Limit outliers for display
+                                        marker_color=color,
+                                        boxmean='sd'
+                                    ))
+                            
+                            fig.update_layout(
+                                title=f"Comment Count Distribution ({total_records:,} posts)",
+                                yaxis_title="Number of Comments",
+                                height=400
+                            )
+                            
+                            st.plotly_chart(fig, use_container_width=True)
                 
-                # Statistical significance testing
-                st.subheader("📈 Statistical Analysis")
+                # Statistical significance testing (using full dataset statistics)
+                st.subheader("📈 Statistical Analysis (Full Dataset)")
                 
-                if 'score' in social_data.columns:
-                    fake_scores = fake_posts['score'].dropna()
-                    real_scores = real_posts['score'].dropna()
+                if 'score' in engagement_stats.get('fake', {}):
+                    # Get statistics from pre-computed data
+                    fake_score_stats = fake_stats.get('score', {})
+                    real_score_stats = real_stats.get('score', {})
                     
-                    if len(fake_scores) > 0 and len(real_scores) > 0:
-                        t_stat, p_value = stats.ttest_ind(fake_scores, real_scores)
+                    fake_mean = fake_score_stats.get('mean', 0)
+                    real_mean = real_score_stats.get('mean', 0)
+                    fake_std = fake_score_stats.get('std', 1)
+                    real_std = real_score_stats.get('std', 1)
+                    
+                    if fake_count > 1 and real_count > 1:
+                        # Calculate t-statistic from summary statistics
+                        try:
+                            # Welch's t-test formula using summary statistics
+                            se_fake = fake_std / np.sqrt(fake_count)
+                            se_real = real_std / np.sqrt(real_count)
+                            se_diff = np.sqrt(se_fake**2 + se_real**2)
+                            t_stat = (fake_mean - real_mean) / se_diff if se_diff > 0 else 0
+                            
+                            # Approximate p-value (two-tailed)
+                            from scipy import stats as sp_stats
+                            df = fake_count + real_count - 2
+                            p_value = 2 * (1 - sp_stats.t.cdf(abs(t_stat), df))
+                        except Exception as e:
+                            st.error(f"Error calculating statistics: {e}")
+                            t_stat, p_value = 0, 1
                         
                         col1, col2 = st.columns(2)
                         
@@ -189,29 +219,57 @@ def render_social_patterns(container):
                             st.write(f"• T-statistic: {t_stat:.3f}")
                             st.write(f"• P-value: {p_value:.6f}")
                             if p_value < 0.05:
-                                st.success("✅ Statistically significant difference")
+                                st.success("✅ Statistically significant difference (p < 0.05)")
+                            elif p_value < 0.10:
+                                st.info("📊 Marginally significant (p < 0.10)")
                             else:
-                                st.warning("⚠️ No significant difference")
+                                st.warning("⚠️ No significant difference (p ≥ 0.05)")
                         
                         with col2:
-                            pooled_std = np.sqrt(((len(fake_scores)-1)*fake_scores.var() + 
-                                                (len(real_scores)-1)*real_scores.var()) / 
-                                               (len(fake_scores) + len(real_scores) - 2))
-                            cohens_d = (real_scores.mean() - fake_scores.mean()) / pooled_std if pooled_std > 0 else 0
+                            # Calculate Cohen's d from summary statistics
+                            try:
+                                # Pooled standard deviation
+                                pooled_std = np.sqrt(((fake_count - 1) * fake_std**2 + (real_count - 1) * real_std**2) / (fake_count + real_count - 2))
+                                
+                                # Cohen's d
+                                if pooled_std > 0:
+                                    cohens_d = (real_mean - fake_mean) / pooled_std
+                                else:
+                                    cohens_d = 0
+                                    
+                            except Exception as e:
+                                st.error(f"Error calculating effect size: {e}")
+                                cohens_d = 0
                             
                             st.write("**Effect Size Analysis:**")
                             st.write(f"• Cohen's d: {cohens_d:.3f}")
                             
-                            if abs(cohens_d) > 0.8:
+                            # Interpret effect size
+                            abs_d = abs(cohens_d)
+                            if abs_d > 0.8:
                                 effect_size = "Large effect"
-                            elif abs(cohens_d) > 0.5:
+                                effect_emoji = "🔴"
+                            elif abs_d > 0.5:
                                 effect_size = "Medium effect"
-                            elif abs(cohens_d) > 0.2:
+                                effect_emoji = "🟡"
+                            elif abs_d > 0.2:
                                 effect_size = "Small effect"
+                                effect_emoji = "🟢"
                             else:
                                 effect_size = "Negligible effect"
+                                effect_emoji = "⚪"
                             
-                            st.write(f"• Interpretation: {effect_size}")
+                            st.write(f"• {effect_emoji} Interpretation: {effect_size}")
+                            
+                            # Direction interpretation
+                            if cohens_d > 0:
+                                st.write("• Direction: Real content has higher engagement")
+                            elif cohens_d < 0:
+                                st.write("• Direction: Fake content has higher engagement")
+                            else:
+                                st.write("• Direction: No difference")
+                    else:
+                        st.warning("⚠️ Insufficient data for statistical analysis (need at least 2 records per group)")
                 
                 # Enhanced social insights with fake vs real comparison
                 st.subheader("🎯 Social Engagement Insights: What Distinguishes Fake from Real?")
@@ -222,7 +280,7 @@ def render_social_patterns(container):
                     st.markdown("### 🔴 Fake Content Social Patterns")
                     fake_patterns = []
                     
-                    if 'score' in social_data.columns:
+                    if 'score' in engagement_stats.get('fake', {}):
                         if fake_engagement > real_engagement:
                             engagement_diff = ((fake_engagement - real_engagement) / real_engagement) * 100
                             fake_patterns.append(f"• **Higher engagement scores** (+{engagement_diff:.1f}%) - may indicate viral spread or bot activity")
@@ -230,7 +288,7 @@ def render_social_patterns(container):
                             engagement_diff = ((real_engagement - fake_engagement) / fake_engagement) * 100
                             fake_patterns.append(f"• **Lower engagement scores** (-{engagement_diff:.1f}%) - less community interest")
                     
-                    if 'num_comments' in social_data.columns:
+                    if 'num_comments' in engagement_stats.get('fake', {}):
                         if fake_comments > real_comments:
                             comment_diff = ((fake_comments - real_comments) / real_comments) * 100
                             fake_patterns.append(f"• **More comments** (+{comment_diff:.1f}%) - potentially controversial or polarizing")
@@ -248,7 +306,7 @@ def render_social_patterns(container):
                     st.markdown("### 🟢 Real Content Social Patterns")
                     real_patterns = []
                     
-                    if 'score' in social_data.columns:
+                    if 'score' in engagement_stats.get('real', {}):
                         if real_engagement > fake_engagement:
                             engagement_diff = ((real_engagement - fake_engagement) / fake_engagement) * 100
                             real_patterns.append(f"• **Higher engagement scores** (+{engagement_diff:.1f}%) - genuine community interest")
@@ -256,7 +314,7 @@ def render_social_patterns(container):
                             engagement_diff = ((fake_engagement - real_engagement) / real_engagement) * 100
                             real_patterns.append(f"• **Lower engagement scores** (-{engagement_diff:.1f}%) - more subdued response")
                     
-                    if 'num_comments' in social_data.columns:
+                    if 'num_comments' in engagement_stats.get('real', {}):
                         if real_comments > fake_comments:
                             comment_diff = ((real_comments - fake_comments) / fake_comments) * 100
                             real_patterns.append(f"• **More comments** (+{comment_diff:.1f}%) - stimulates meaningful discussion")
@@ -274,19 +332,28 @@ def render_social_patterns(container):
                 st.markdown("---")
                 st.subheader("💡 Social Engagement Summary")
                 
-                if 'score' in social_data.columns:
+                if 'score' in engagement_stats.get('fake', {}) and fake_count > 1 and real_count > 1:
+                    # Calculate engagement difference percentage
+                    if real_engagement > 0 and fake_engagement > 0:
+                        if real_engagement > fake_engagement:
+                            engagement_diff_pct = ((real_engagement - fake_engagement) / fake_engagement) * 100
+                        else:
+                            engagement_diff_pct = ((fake_engagement - real_engagement) / real_engagement) * 100
+                    else:
+                        engagement_diff_pct = 0
+                    
                     # Determine which type gets more engagement
                     if abs(cohens_d) > 0.5:
                         if real_engagement > fake_engagement:
                             st.success(f"""
-                            **Key Finding:** Real content receives significantly higher social engagement ({engagement_diff:.1f}% more) with a {effect_size.lower()}.
+                            **Key Finding:** Real content receives significantly higher social engagement ({engagement_diff_pct:.1f}% more) with a {effect_size.lower()}.
                             
                             **Implication:** Authentic content tends to generate more genuine community interaction and sustained engagement.
                             This pattern can be used as a social signal for authenticity detection.
                             """)
                         else:
                             st.warning(f"""
-                            **Key Finding:** Fake content receives significantly higher social engagement ({engagement_diff:.1f}% more) with a {effect_size.lower()}.
+                            **Key Finding:** Fake content receives significantly higher social engagement ({engagement_diff_pct:.1f}% more) with a {effect_size.lower()}.
                             
                             **Implication:** Misinformation may be designed to be more sensational or controversial, driving higher engagement.
                             High engagement alone is not a reliable indicator of authenticity and may actually signal potential misinformation.

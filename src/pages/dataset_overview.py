@@ -21,47 +21,61 @@ def render_dataset_overview(container):
         try:
             st.header("True Multimodal Dataset Analysis")
             
-            # Load data from lightweight JSON summary
+            # Load FULL data (no sampling for overview page)
             @st.cache_data(ttl=600)  # 10 minutes cache for dataset overview (static data)
             def load_overview_data():
-                import json
-                import random
-                summary_path = Path('analysis_results/dashboard_data/dataset_overview_summary.json')
+                # Load full datasets
+                train_data = pd.read_parquet('processed_data/clean_datasets/train_final_clean.parquet')
+                val_data = pd.read_parquet('processed_data/clean_datasets/validation_final_clean.parquet')
+                test_data = pd.read_parquet('processed_data/clean_datasets/test_final_clean.parquet')
                 
-                if not summary_path.exists():
-                    raise FileNotFoundError(f"Dataset overview summary not found at {summary_path}")
+                # Add split identifier
+                train_data['split'] = 'train'
+                val_data['split'] = 'validation'
+                test_data['split'] = 'test'
                 
-                with open(summary_path, 'r') as f:
-                    summary = json.load(f)
+                # Combine all data
+                all_data = pd.concat([train_data, val_data, test_data], ignore_index=True)
                 
-                # Create a synthetic all_data DataFrame with summary statistics
-                # Expand the data to have individual rows for visualization
-                all_data_rows = []
-                random.seed(42)
+                # Load comments data
+                try:
+                    comments_data = pd.read_parquet('processed_data/comments/comments_with_mapping.parquet')
+                    original_comment_size = len(comments_data)
+                    
+                    # Mark posts with comments
+                    posts_with_comments = set(comments_data['submission_id'].unique())
+                    all_data['has_comments'] = all_data['id'].isin(posts_with_comments)
+                except:
+                    comments_data = pd.DataFrame()
+                    original_comment_size = 0
+                    all_data['has_comments'] = False
                 
-                for split_name, split_info in summary['splits'].items():
-                    # Add fake records with varied content types
-                    for i in range(min(split_info['fake'], 1000)):  # Limit for performance
-                        all_data_rows.append({
-                            'split': split_name,
-                            '2_way_label': 0,
-                            'content_type': 'text_image' if random.random() > 0.3 else 'text_only',
-                            'has_comments': random.random() > 0.4  # 60% have comments
-                        })
-                    # Add real records with varied content types
-                    for i in range(min(split_info['real'], 1000)):  # Limit for performance
-                        all_data_rows.append({
-                            'split': split_name,
-                            '2_way_label': 1,
-                            'content_type': 'text_image' if random.random() > 0.3 else 'text_only',
-                            'has_comments': random.random() > 0.4  # 60% have comments
-                        })
+                # Ensure content_type column exists
+                if 'content_type' not in all_data.columns:
+                    # Infer from available data
+                    all_data['content_type'] = 'text_image'  # Default assumption
                 
-                all_data = pd.DataFrame(all_data_rows)
-                
-                # For compatibility, create empty comments_data
-                comments_data = pd.DataFrame()
-                original_comment_size = 0
+                # Create summary for display
+                summary = {
+                    'total_records': len(all_data),
+                    'splits': {
+                        'train': {
+                            'total': len(train_data),
+                            'fake': int((train_data['2_way_label'] == 0).sum()),
+                            'real': int((train_data['2_way_label'] == 1).sum())
+                        },
+                        'validation': {
+                            'total': len(val_data),
+                            'fake': int((val_data['2_way_label'] == 0).sum()),
+                            'real': int((val_data['2_way_label'] == 1).sum())
+                        },
+                        'test': {
+                            'total': len(test_data),
+                            'fake': int((test_data['2_way_label'] == 0).sum()),
+                            'real': int((test_data['2_way_label'] == 1).sum())
+                        }
+                    }
+                }
                 
                 return all_data, comments_data, original_comment_size, summary
             

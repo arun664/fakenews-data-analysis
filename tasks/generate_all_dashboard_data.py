@@ -37,8 +37,8 @@ def safe_int(value):
 
 
 def create_visual_features_summary():
-    """Create lightweight summary of visual features"""
-    logger.info("Creating visual features summary...")
+    """Create compressed visualization data using FULL dataset with binning/aggregation"""
+    logger.info("Creating visual features summary from FULL dataset...")
     
     try:
         file_path = Path('processed_data/visual_features/visual_features_with_authenticity.parquet')
@@ -46,9 +46,9 @@ def create_visual_features_summary():
             logger.warning(f"Visual features file not found: {file_path}")
             return
         
-        # Load data
+        # Load FULL data
         data = pd.read_parquet(file_path)
-        logger.info(f"Loaded {len(data)} visual feature records")
+        logger.info(f"Loaded {len(data)} visual feature records (using ALL data)")
         
         # Determine label column
         if 'authenticity_label' in data.columns:
@@ -62,73 +62,113 @@ def create_visual_features_summary():
         # Create summary
         summary = {
             'generated_at': datetime.now().isoformat(),
-            'total_records': len(data),
-            'fake_count': safe_int((data[label_col] == 0).sum()),
-            'real_count': safe_int((data[label_col] == 1).sum()),
-            'features_by_authenticity': {}
+            'total_records': int(len(data)),
+            'fake_count': int((data[label_col] == 0).sum()),
+            'real_count': int((data[label_col] == 1).sum()),
+            'features_by_authenticity': {},
+            'histograms': {},
+            'boxplot_data': {},
+            'scatter_data': {}
         }
         
         # Get numeric columns
         numeric_cols = data.select_dtypes(include=[np.number]).columns
         feature_cols = [col for col in numeric_cols if col not in ['authenticity_label', '2_way_label', 'record_id', 'id']]
         
-        logger.info(f"Processing {len(feature_cols)} features...")
+        logger.info(f"Processing {len(feature_cols)} features with full data compression")
         
-        # Calculate statistics by authenticity
+        # Key features for detailed visualization
+        key_features = [
+            'mean_brightness', 'sharpness_score', 'visual_entropy', 
+            'noise_level', 'manipulation_score', 'contrast_score', 
+            'color_diversity', 'edge_density'
+        ]
+        available_key_features = [f for f in key_features if f in feature_cols]
+        
+        # 1. Calculate statistics by authenticity
         for label, label_name in [(0, 'fake'), (1, 'real')]:
             subset = data[data[label_col] == label]
             summary['features_by_authenticity'][label_name] = {}
             
-            for col in list(feature_cols[:20]):  # Top 20 features
+            for col in feature_cols:
                 if col in subset.columns:
                     summary['features_by_authenticity'][label_name][col] = {
                         'mean': safe_float(subset[col].mean()),
                         'std': safe_float(subset[col].std()),
                         'min': safe_float(subset[col].min()),
                         'max': safe_float(subset[col].max()),
-                        'median': safe_float(subset[col].median())
+                        'median': safe_float(subset[col].median()),
+                        'q25': safe_float(subset[col].quantile(0.25)),
+                        'q75': safe_float(subset[col].quantile(0.75)),
+                        'count': int(subset[col].notna().sum())
                     }
         
-        # Maximize sample size for deployment (target: <50MB per file)
-        # Use as much data as possible while staying under size limit
-        fake_count = (data[label_col] == 0).sum()
-        real_count = (data[label_col] == 1).sum()
+        # 2. Pre-compute histograms (binned data for ALL records)
+        for feature in available_key_features:
+            summary['histograms'][feature] = {}
+            
+            for label, label_name in [(0, 'fake'), (1, 'real')]:
+                subset = data[data[label_col] == label][feature].dropna()
+                
+                if len(subset) > 0:
+                    # Create 50 bins
+                    hist, bin_edges = np.histogram(subset, bins=50)
+                    
+                    summary['histograms'][feature][label_name] = {
+                        'counts': hist.tolist(),
+                        'bin_edges': bin_edges.tolist()
+                    }
         
-        # Aim for 25,000 per class = 50,000 total (excellent statistical representation, ~40MB per file)
-        sample_size_per_class = 25000
-        fake_sample = data[data[label_col] == 0].sample(min(sample_size_per_class, fake_count), random_state=42)
-        real_sample = data[data[label_col] == 1].sample(min(sample_size_per_class, real_count), random_state=42)
-        sample_data = pd.concat([fake_sample, real_sample])
+        # 3. Pre-compute box plot data (quartiles + outliers)
+        for feature in available_key_features:
+            summary['boxplot_data'][feature] = {}
+            
+            for label, label_name in [(0, 'fake'), (1, 'real')]:
+                subset = data[data[label_col] == label][feature].dropna()
+                
+                if len(subset) > 0:
+                    q1 = subset.quantile(0.25)
+                    q3 = subset.quantile(0.75)
+                    iqr = q3 - q1
+                    lower_bound = q1 - 1.5 * iqr
+                    upper_bound = q3 + 1.5 * iqr
+                    
+                    # Get outliers (limit to 100 for size)
+                    outliers = subset[(subset < lower_bound) | (subset > upper_bound)]
+                    outlier_sample = outliers.sample(min(100, len(outliers)), random_state=42).tolist() if len(outliers) > 0 else []
+                    
+                    summary['boxplot_data'][feature][label_name] = {
+                        'min': safe_float(subset.min()),
+                        'q1': safe_float(q1),
+                        'median': safe_float(subset.median()),
+                        'q3': safe_float(q3),
+                        'max': safe_float(subset.max()),
+                        'outliers': outlier_sample,
+                        'outlier_count': int(len(outliers))
+                    }
         
-        # Store sampling info for display on dashboard
-        sampling_percentage = (len(sample_data) / len(data)) * 100
-        logger.info(f"Sampled {len(sample_data)} records ({sampling_percentage:.1f}%) from {len(data)} total for visual features")
-        
-        summary['sampling_info'] = {
-            'total_original': int(len(data)),
-            'total_sampled': int(len(sample_data)),
-            'sampling_percentage': float(sampling_percentage),
-            'fake_original': int(fake_count),
-            'fake_sampled': int(len(fake_sample)),
-            'real_original': int(real_count),
-            'real_sampled': int(len(real_sample))
-        }
-        
-        # Include all important columns for visualizations
-        important_cols = [
-            'mean_brightness', 'sharpness_score', 'visual_entropy', 'noise_level',
-            'contrast_score', 'color_diversity', 'edge_density', 'manipulation_score',
-            'processing_success'
-        ]
-        
-        # Get available columns
-        key_columns = [label_col] + [col for col in important_cols if col in sample_data.columns]
-        
-        # Add any remaining feature columns up to 20 total
-        remaining_cols = [col for col in feature_cols if col not in key_columns and col in sample_data.columns]
-        key_columns.extend(remaining_cols[:max(0, 20 - len(key_columns))])
-        
-        summary['sample_data'] = sample_data[key_columns].fillna(0).to_dict('records')
+        # 4. Pre-compute scatter plot data (2D binning for correlation plots)
+        # Example: brightness vs sharpness
+        if 'mean_brightness' in data.columns and 'sharpness_score' in data.columns:
+            for label, label_name in [(0, 'fake'), (1, 'real')]:
+                subset = data[data[label_col] == label][['mean_brightness', 'sharpness_score']].dropna()
+                
+                if len(subset) > 0:
+                    # Create 2D histogram (heatmap bins)
+                    x_bins = 30
+                    y_bins = 30
+                    
+                    hist_2d, x_edges, y_edges = np.histogram2d(
+                        subset['mean_brightness'], 
+                        subset['sharpness_score'],
+                        bins=[x_bins, y_bins]
+                    )
+                    
+                    summary['scatter_data'][f'brightness_vs_sharpness_{label_name}'] = {
+                        'x_edges': x_edges.tolist(),
+                        'y_edges': y_edges.tolist(),
+                        'counts': hist_2d.tolist()
+                    }
         
         # Save
         output_path = Path('analysis_results/dashboard_data/visual_features_summary.json')
@@ -138,7 +178,7 @@ def create_visual_features_summary():
             json.dump(summary, f, indent=2)
         
         size_mb = output_path.stat().st_size / 1024 / 1024
-        logger.info(f"✓ Visual features summary created: {size_mb:.2f} MB")
+        logger.info(f"✓ Visual features summary created: {size_mb:.2f} MB (FULL data, compressed via binning)")
         
     except Exception as e:
         logger.error(f"Error creating visual features summary: {e}")
@@ -147,8 +187,8 @@ def create_visual_features_summary():
 
 
 def create_linguistic_features_summary():
-    """Create lightweight summary of linguistic features"""
-    logger.info("Creating linguistic features summary...")
+    """Create compressed visualization data using FULL dataset with binning/aggregation"""
+    logger.info("Creating linguistic features summary from FULL dataset...")
     
     try:
         file_path = Path('processed_data/linguistic_features/linguistic_features.parquet')
@@ -156,9 +196,9 @@ def create_linguistic_features_summary():
             logger.warning(f"Linguistic features file not found: {file_path}")
             return
         
-        # Load data
+        # Load FULL data
         data = pd.read_parquet(file_path)
-        logger.info(f"Loaded {len(data)} linguistic feature records")
+        logger.info(f"Loaded {len(data)} linguistic feature records (using ALL data)")
         
         # Determine label column
         if 'authenticity_label' in data.columns:
@@ -172,24 +212,36 @@ def create_linguistic_features_summary():
         # Create summary
         summary = {
             'generated_at': datetime.now().isoformat(),
-            'total_records': len(data),
-            'fake_count': safe_int((data[label_col] == 0).sum()),
-            'real_count': safe_int((data[label_col] == 1).sum()),
-            'features_by_authenticity': {}
+            'total_records': int(len(data)),
+            'fake_count': int((data[label_col] == 0).sum()),
+            'real_count': int((data[label_col] == 1).sum()),
+            'features_by_authenticity': {},
+            'histograms': {},
+            'violin_data': {},
+            'scatter_data': {}
         }
         
         # Get numeric columns
         numeric_cols = data.select_dtypes(include=[np.number]).columns
         feature_cols = [col for col in numeric_cols if col not in ['authenticity_label', '2_way_label', 'record_id', 'id']]
         
-        logger.info(f"Processing {len(feature_cols)} features...")
+        logger.info(f"Processing {len(feature_cols)} features with full data compression")
         
-        # Calculate statistics
+        # Key features for detailed visualization
+        key_features = [
+            'flesch_reading_ease', 'flesch_kincaid_grade',
+            'text_length', 'word_count', 'avg_sentence_length',
+            'unique_word_ratio', 'sentiment_positive', 'sentiment_negative',
+            'sentiment_neutral', 'polarity', 'subjectivity'
+        ]
+        available_key_features = [f for f in key_features if f in feature_cols]
+        
+        # 1. Calculate statistics by authenticity
         for label, label_name in [(0, 'fake'), (1, 'real')]:
             subset = data[data[label_col] == label]
             summary['features_by_authenticity'][label_name] = {}
             
-            for col in list(feature_cols):
+            for col in feature_cols:
                 if col in subset.columns:
                     summary['features_by_authenticity'][label_name][col] = {
                         'mean': safe_float(subset[col].mean()),
@@ -198,35 +250,62 @@ def create_linguistic_features_summary():
                         'max': safe_float(subset[col].max()),
                         'median': safe_float(subset[col].median()),
                         'q25': safe_float(subset[col].quantile(0.25)),
-                        'q75': safe_float(subset[col].quantile(0.75))
+                        'q75': safe_float(subset[col].quantile(0.75)),
+                        'count': int(subset[col].notna().sum())
                     }
         
-        # Maximize sample for deployment (target: <50MB per file)
-        fake_count = (data[label_col] == 0).sum()
-        real_count = (data[label_col] == 1).sum()
+        # 2. Pre-compute histograms for overlapping distributions
+        for feature in available_key_features:
+            summary['histograms'][feature] = {}
+            
+            for label, label_name in [(0, 'fake'), (1, 'real')]:
+                subset = data[data[label_col] == label][feature].dropna()
+                
+                if len(subset) > 0:
+                    hist, bin_edges = np.histogram(subset, bins=50)
+                    
+                    summary['histograms'][feature][label_name] = {
+                        'counts': hist.tolist(),
+                        'bin_edges': bin_edges.tolist()
+                    }
         
-        sample_size_per_class = 25000  # 50,000 total for excellent representation (~38MB per file)
-        fake_sample = data[data[label_col] == 0].sample(min(sample_size_per_class, fake_count), random_state=42)
-        real_sample = data[data[label_col] == 1].sample(min(sample_size_per_class, real_count), random_state=42)
-        sample_data = pd.concat([fake_sample, real_sample])
+        # 3. Pre-compute violin plot data (kernel density estimation)
+        for feature in available_key_features:
+            summary['violin_data'][feature] = {}
+            
+            for label, label_name in [(0, 'fake'), (1, 'real')]:
+                subset = data[data[label_col] == label][feature].dropna()
+                
+                if len(subset) > 0:
+                    # Compute percentiles for violin shape
+                    percentiles = np.percentile(subset, np.arange(0, 101, 2))
+                    
+                    summary['violin_data'][feature][label_name] = {
+                        'percentiles': percentiles.tolist(),
+                        'mean': safe_float(subset.mean()),
+                        'median': safe_float(subset.median()),
+                        'q1': safe_float(subset.quantile(0.25)),
+                        'q3': safe_float(subset.quantile(0.75))
+                    }
         
-        sampling_percentage = (len(sample_data) / len(data)) * 100
-        logger.info(f"Sampled {len(sample_data)} records ({sampling_percentage:.1f}%) from {len(data)} total for linguistic features")
-        
-        # Store sampling info
-        summary['sampling_info'] = {
-            'total_original': int(len(data)),
-            'total_sampled': int(len(sample_data)),
-            'sampling_percentage': float(sampling_percentage),
-            'fake_original': int(fake_count),
-            'fake_sampled': int(len(fake_sample)),
-            'real_original': int(real_count),
-            'real_sampled': int(len(real_sample))
-        }
-        
-        # Convert sample data - include all features
-        key_columns = [label_col] + list(feature_cols)
-        summary['sample_data'] = sample_data[key_columns].fillna(0).to_dict('records')
+        # 4. Pre-compute scatter data (polarity vs subjectivity)
+        if 'polarity' in data.columns and 'subjectivity' in data.columns:
+            for label, label_name in [(0, 'fake'), (1, 'real')]:
+                subset = data[data[label_col] == label][['polarity', 'subjectivity']].dropna()
+                
+                if len(subset) > 0:
+                    # 2D histogram for density
+                    hist_2d, x_edges, y_edges = np.histogram2d(
+                        subset['subjectivity'], 
+                        subset['polarity'],
+                        bins=[30, 30]
+                    )
+                    
+                    summary['scatter_data'][f'polarity_vs_subjectivity_{label_name}'] = {
+                        'x_edges': x_edges.tolist(),
+                        'y_edges': y_edges.tolist(),
+                        'counts': hist_2d.tolist()
+                    }
         
         # Save
         output_path = Path('analysis_results/dashboard_data/linguistic_features_summary.json')
@@ -235,7 +314,7 @@ def create_linguistic_features_summary():
             json.dump(summary, f, indent=2)
         
         size_mb = output_path.stat().st_size / 1024 / 1024
-        logger.info(f"✓ Linguistic features summary created: {size_mb:.2f} MB")
+        logger.info(f"✓ Linguistic features summary created: {size_mb:.2f} MB (FULL data, compressed via binning)")
         
     except Exception as e:
         logger.error(f"Error creating linguistic features summary: {e}")
@@ -244,8 +323,8 @@ def create_linguistic_features_summary():
 
 
 def create_social_engagement_summary():
-    """Create lightweight summary of social engagement data"""
-    logger.info("Creating social engagement summary...")
+    """Create compressed visualization data using FULL dataset with binning/aggregation"""
+    logger.info("Creating social engagement summary from FULL dataset...")
     
     try:
         file_path = Path('processed_data/social_engagement/integrated_engagement_data.parquet')
@@ -253,12 +332,16 @@ def create_social_engagement_summary():
             logger.warning(f"Social engagement file not found: {file_path}")
             return
         
-        # Load data
+        # Load FULL data
         data = pd.read_parquet(file_path)
-        logger.info(f"Loaded {len(data)} social engagement records")
+        logger.info(f"Loaded {len(data)} social engagement records (using ALL data)")
         
         # Determine label column
         label_col = '2_way_label' if '2_way_label' in data.columns else 'authenticity_label'
+        
+        # Add num_comments as alias for comment_count if it exists
+        if 'comment_count' in data.columns and 'num_comments' not in data.columns:
+            data['num_comments'] = data['comment_count']
         
         # Create summary
         summary = {
@@ -266,57 +349,77 @@ def create_social_engagement_summary():
             'total_records': len(data),
             'fake_count': safe_int((data[label_col] == 0).sum()) if label_col in data.columns else 0,
             'real_count': safe_int((data[label_col] == 1).sum()) if label_col in data.columns else 0,
-            'engagement_stats': {}
+            'engagement_stats': {},
+            'histograms': {},
+            'boxplot_data': {}
         }
         
-        # Key engagement metrics - map to expected column names
-        engagement_cols = ['comment_count', 'engagement_score', 'share_count', 'reaction_count', 'score']
+        # Key engagement metrics
+        engagement_cols = ['score', 'num_comments']
+        available_cols = [col for col in engagement_cols if col in data.columns]
         
-        # Add num_comments as alias for comment_count if it exists
-        if 'comment_count' in data.columns and 'num_comments' not in data.columns:
-            data['num_comments'] = data['comment_count']
+        logger.info(f"Processing {len(available_cols)} engagement metrics with full data compression")
         
         if label_col in data.columns:
+            # 1. Calculate statistics
             for label, label_name in [(0, 'fake'), (1, 'real')]:
                 subset = data[data[label_col] == label]
                 summary['engagement_stats'][label_name] = {}
                 
-                for col in engagement_cols:
+                for col in available_cols:
                     if col in subset.columns:
                         summary['engagement_stats'][label_name][col] = {
                             'mean': safe_float(subset[col].mean()),
                             'std': safe_float(subset[col].std()),
-                            'median': safe_float(subset[col].median())
+                            'median': safe_float(subset[col].median()),
+                            'min': safe_float(subset[col].min()),
+                            'max': safe_float(subset[col].max()),
+                            'q25': safe_float(subset[col].quantile(0.25)),
+                            'q75': safe_float(subset[col].quantile(0.75))
                         }
             
-            # Maximize sample for deployment
-            fake_count = (data[label_col] == 0).sum()
-            real_count = (data[label_col] == 1).sum()
+            # 2. Pre-compute histograms
+            for col in available_cols:
+                summary['histograms'][col] = {}
+                
+                for label, label_name in [(0, 'fake'), (1, 'real')]:
+                    subset = data[data[label_col] == label][col].dropna()
+                    
+                    if len(subset) > 0:
+                        hist, bin_edges = np.histogram(subset, bins=50)
+                        
+                        summary['histograms'][col][label_name] = {
+                            'counts': hist.tolist(),
+                            'bin_edges': bin_edges.tolist()
+                        }
             
-            sample_size_per_class = 25000  # 50,000 total (~5MB per file)
-            fake_sample = data[data[label_col] == 0].sample(min(sample_size_per_class, fake_count), random_state=42)
-            real_sample = data[data[label_col] == 1].sample(min(sample_size_per_class, real_count), random_state=42)
-            sample_data = pd.concat([fake_sample, real_sample])
-            
-            sampling_percentage = (len(sample_data) / len(data)) * 100
-            logger.info(f"Sampled {len(sample_data)} records ({sampling_percentage:.1f}%) from {len(data)} total for social engagement")
-            
-            # Store sampling info
-            summary['sampling_info'] = {
-                'total_original': int(len(data)),
-                'total_sampled': int(len(sample_data)),
-                'sampling_percentage': float(sampling_percentage),
-                'fake_original': int(fake_count),
-                'fake_sampled': int(len(fake_sample)),
-                'real_original': int(real_count),
-                'real_sampled': int(len(real_sample))
-            }
-            
-            # Include all available engagement columns
-            available_cols = [col for col in engagement_cols + ['num_comments'] if col in sample_data.columns]
-            key_columns = [label_col] + available_cols
-            
-            summary['sample_data'] = sample_data[key_columns].fillna(0).to_dict('records')
+            # 3. Pre-compute box plot data
+            for col in available_cols:
+                summary['boxplot_data'][col] = {}
+                
+                for label, label_name in [(0, 'fake'), (1, 'real')]:
+                    subset = data[data[label_col] == label][col].dropna()
+                    
+                    if len(subset) > 0:
+                        q1 = subset.quantile(0.25)
+                        q3 = subset.quantile(0.75)
+                        iqr = q3 - q1
+                        lower_bound = q1 - 1.5 * iqr
+                        upper_bound = q3 + 1.5 * iqr
+                        
+                        # Get outliers (limit to 100 for size)
+                        outliers = subset[(subset < lower_bound) | (subset > upper_bound)]
+                        outlier_sample = outliers.sample(min(100, len(outliers)), random_state=42).tolist() if len(outliers) > 0 else []
+                        
+                        summary['boxplot_data'][col][label_name] = {
+                            'min': safe_float(subset.min()),
+                            'q1': safe_float(q1),
+                            'median': safe_float(subset.median()),
+                            'q3': safe_float(q3),
+                            'max': safe_float(subset.max()),
+                            'outliers': outlier_sample,
+                            'outlier_count': int(len(outliers))
+                        }
         
         # Save
         output_path = Path('analysis_results/dashboard_data/social_engagement_summary.json')
@@ -325,7 +428,7 @@ def create_social_engagement_summary():
             json.dump(summary, f, indent=2)
         
         size_mb = output_path.stat().st_size / 1024 / 1024
-        logger.info(f"✓ Social engagement summary created: {size_mb:.2f} MB")
+        logger.info(f"✓ Social engagement summary created: {size_mb:.2f} MB (FULL data, compressed via binning)")
         
     except Exception as e:
         logger.error(f"Error creating social engagement summary: {e}")
@@ -410,8 +513,8 @@ def create_dataset_overview_summary():
 
 
 def create_authenticity_analysis_summary():
-    """Create lightweight summary for authenticity analysis"""
-    logger.info("Creating authenticity analysis summary...")
+    """Create compressed visualization data using FULL dataset with binning/aggregation"""
+    logger.info("Creating authenticity analysis summary from FULL dataset...")
     
     try:
         file_path = Path('processed_data/final_integrated_dataset/complete_multimodal_dataset.parquet')
@@ -419,9 +522,9 @@ def create_authenticity_analysis_summary():
             logger.warning(f"Integrated dataset file not found: {file_path}")
             return
         
-        # Load data
+        # Load FULL data
         data = pd.read_parquet(file_path)
-        logger.info(f"Loaded {len(data)} integrated records")
+        logger.info(f"Loaded {len(data)} integrated records (using ALL data)")
         
         # Create summary
         summary = {
@@ -429,52 +532,47 @@ def create_authenticity_analysis_summary():
             'total_records': len(data),
             'fake_count': safe_int((data['2_way_label'] == 0).sum()),
             'real_count': safe_int((data['2_way_label'] == 1).sum()),
-            'metrics_by_authenticity': {}
+            'metrics_by_authenticity': {},
+            'histograms': {}
         }
         
-        # Key metrics - include all columns needed by authenticity_analysis page
-        key_metrics = ['engagement_score', 'comment_count', 'num_comments', 'content_type_social', 'score']
+        # Key metrics
+        key_metrics = ['score', 'num_comments']
+        available_metrics = [col for col in key_metrics if col in data.columns]
         
+        logger.info(f"Processing {len(available_metrics)} metrics with full data compression")
+        
+        # 1. Calculate statistics
         for label, label_name in [(0, 'fake'), (1, 'real')]:
             subset = data[data['2_way_label'] == label]
             summary['metrics_by_authenticity'][label_name] = {}
             
-            for col in key_metrics:
+            for col in available_metrics:
                 if col in subset.columns:
                     summary['metrics_by_authenticity'][label_name][col] = {
-                        'mean': safe_float(subset[col].mean()) if subset[col].dtype in ['float64', 'int64'] else None,
-                        'std': safe_float(subset[col].std()) if subset[col].dtype in ['float64', 'int64'] else None,
-                        'median': safe_float(subset[col].median()) if subset[col].dtype in ['float64', 'int64'] else None
+                        'mean': safe_float(subset[col].mean()),
+                        'std': safe_float(subset[col].std()),
+                        'median': safe_float(subset[col].median()),
+                        'min': safe_float(subset[col].min()),
+                        'max': safe_float(subset[col].max()),
+                        'q25': safe_float(subset[col].quantile(0.25)),
+                        'q75': safe_float(subset[col].quantile(0.75))
                     }
         
-        # Maximize sample for deployment
-        fake_count = (data['2_way_label'] == 0).sum()
-        real_count = (data['2_way_label'] == 1).sum()
-        
-        sample_size_per_class = 25000  # 50,000 total (~8MB per file)
-        fake_sample = data[data['2_way_label'] == 0].sample(min(sample_size_per_class, fake_count), random_state=42)
-        real_sample = data[data['2_way_label'] == 1].sample(min(sample_size_per_class, real_count), random_state=42)
-        sample_data = pd.concat([fake_sample, real_sample])
-        
-        sampling_percentage = (len(sample_data) / len(data)) * 100
-        logger.info(f"Sampled {len(sample_data)} records ({sampling_percentage:.1f}%) from {len(data)} total for authenticity analysis")
-        
-        # Store sampling info
-        summary['sampling_info'] = {
-            'total_original': int(len(data)),
-            'total_sampled': int(len(sample_data)),
-            'sampling_percentage': float(sampling_percentage),
-            'fake_original': int(fake_count),
-            'fake_sampled': int(len(fake_sample)),
-            'real_original': int(real_count),
-            'real_sampled': int(len(real_sample))
-        }
-        
-        # Include all available columns
-        available_cols = [col for col in key_metrics if col in sample_data.columns]
-        key_columns = ['2_way_label'] + available_cols
-        
-        summary['sample_data'] = sample_data[key_columns].fillna(0).to_dict('records')
+        # 2. Pre-compute histograms
+        for col in available_metrics:
+            summary['histograms'][col] = {}
+            
+            for label, label_name in [(0, 'fake'), (1, 'real')]:
+                subset = data[data['2_way_label'] == label][col].dropna()
+                
+                if len(subset) > 0:
+                    hist, bin_edges = np.histogram(subset, bins=50)
+                    
+                    summary['histograms'][col][label_name] = {
+                        'counts': hist.tolist(),
+                        'bin_edges': bin_edges.tolist()
+                    }
         
         # Save
         output_path = Path('analysis_results/dashboard_data/authenticity_analysis_summary.json')
@@ -483,7 +581,7 @@ def create_authenticity_analysis_summary():
             json.dump(summary, f, indent=2)
         
         size_mb = output_path.stat().st_size / 1024 / 1024
-        logger.info(f"✓ Authenticity analysis summary created: {size_mb:.2f} MB")
+        logger.info(f"✓ Authenticity analysis summary created: {size_mb:.2f} MB (FULL data, compressed via binning)")
         
     except Exception as e:
         logger.error(f"Error creating authenticity analysis summary: {e}")

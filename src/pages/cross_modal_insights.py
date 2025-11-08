@@ -6,14 +6,326 @@ COMPLETE IMPLEMENTATION - Extracted from app.py
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import json
 from pathlib import Path
 import sys
+import numpy as np
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 from src.utils.lazy_loader import LazyLoader
+from src.utils.visualization_helpers import (
+    create_heatmap,
+    create_comparison_bar_chart,
+    CHART_CONFIG
+)
 
 lazy_loader = LazyLoader()
+
+
+def create_sankey_diagram(cross_modal_data):
+    """Create Sankey diagram showing content flow across modalities."""
+    try:
+        cross_modal_auth = cross_modal_data.get("cross_modal_authenticity", {})
+        
+        # Define nodes
+        labels = [
+            "Text+Image",      # 0
+            "Full Multimodal", # 1
+            "Text Only",       # 2
+            "Fake",            # 3
+            "Real",            # 4
+            "Low Engagement",  # 5
+            "High Engagement"  # 6
+        ]
+        
+        # Build flows
+        sources = []
+        targets = []
+        values = []
+        colors = []
+        
+        # Content type to authenticity flows
+        for idx, (content_type, data) in enumerate(cross_modal_auth.items()):
+            if content_type == "text_image":
+                source_idx = 0
+            elif content_type == "full_multimodal":
+                source_idx = 1
+            else:  # text_only
+                source_idx = 2
+            
+            fake_posts = data.get("fake_posts", 0)
+            real_posts = data.get("real_posts", 0)
+            
+            if fake_posts > 0:
+                sources.append(source_idx)
+                targets.append(3)  # Fake
+                values.append(fake_posts)
+                colors.append('rgba(255, 107, 107, 0.4)')
+            
+            if real_posts > 0:
+                sources.append(source_idx)
+                targets.append(4)  # Real
+                values.append(real_posts)
+                colors.append('rgba(78, 205, 196, 0.4)')
+        
+        # Authenticity to engagement flows
+        for content_type, data in cross_modal_auth.items():
+            avg_eng_fake = data.get("avg_engagement_fake", 0)
+            avg_eng_real = data.get("avg_engagement_real", 0)
+            fake_posts = data.get("fake_posts", 0)
+            real_posts = data.get("real_posts", 0)
+            
+            # Fake to engagement
+            if fake_posts > 0 and not np.isnan(avg_eng_fake):
+                if avg_eng_fake < 100:
+                    sources.append(3)
+                    targets.append(5)
+                    values.append(fake_posts * 0.5)
+                    colors.append('rgba(255, 107, 107, 0.3)')
+                else:
+                    sources.append(3)
+                    targets.append(6)
+                    values.append(fake_posts * 0.5)
+                    colors.append('rgba(255, 107, 107, 0.3)')
+            
+            # Real to engagement
+            if real_posts > 0 and not np.isnan(avg_eng_real):
+                if avg_eng_real < 100:
+                    sources.append(4)
+                    targets.append(5)
+                    values.append(real_posts * 0.5)
+                    colors.append('rgba(78, 205, 196, 0.3)')
+                else:
+                    sources.append(4)
+                    targets.append(6)
+                    values.append(real_posts * 0.5)
+                    colors.append('rgba(78, 205, 196, 0.3)')
+        
+        fig = go.Figure(data=[go.Sankey(
+            node=dict(
+                pad=15,
+                thickness=20,
+                line=dict(color="black", width=0.5),
+                label=labels,
+                color=['#3498DB', '#9B59B6', '#95A5A6', '#FF6B6B', '#4ECDC4', '#E8E8E8', '#2ECC71']
+            ),
+            link=dict(
+                source=sources,
+                target=targets,
+                value=values,
+                color=colors
+            )
+        )])
+        
+        fig.update_layout(
+            title="Content Flow: Modality → Authenticity → Engagement",
+            font=dict(size=12, family='Source Sans Pro'),
+            height=500
+        )
+        
+        return fig
+    except Exception as e:
+        st.error(f"Error creating Sankey diagram: {e}")
+        return None
+
+
+def create_modality_correlation_heatmap(cross_modal_data):
+    """Create correlation matrix heatmap for modality features."""
+    try:
+        cross_modal_auth = cross_modal_data.get("cross_modal_authenticity", {})
+        
+        # Build feature matrix
+        features_data = []
+        for content_type, data in cross_modal_auth.items():
+            if content_type == "text_image":
+                display_name = "Text+Image"
+            elif content_type == "full_multimodal":
+                display_name = "Full Multimodal"
+            else:
+                display_name = "Text Only"
+            
+            fake_ratio = data.get("fake_posts", 0) / max(data.get("total_posts", 1), 1)
+            avg_eng_fake = data.get("avg_engagement_fake", 0)
+            avg_eng_real = data.get("avg_engagement_real", 0)
+            avg_comments_fake = data.get("avg_comments_fake", 0)
+            avg_comments_real = data.get("avg_comments_real", 0)
+            
+            # Handle NaN values
+            if np.isnan(avg_eng_fake):
+                avg_eng_fake = 0
+            if np.isnan(avg_eng_real):
+                avg_eng_real = 0
+            if np.isnan(avg_comments_fake):
+                avg_comments_fake = 0
+            if np.isnan(avg_comments_real):
+                avg_comments_real = 0
+            
+            features_data.append({
+                'Content Type': display_name,
+                'Fake Ratio': fake_ratio,
+                'Avg Engagement (Fake)': avg_eng_fake,
+                'Avg Engagement (Real)': avg_eng_real,
+                'Avg Comments (Fake)': avg_comments_fake,
+                'Avg Comments (Real)': avg_comments_real
+            })
+        
+        df = pd.DataFrame(features_data)
+        df = df.set_index('Content Type')
+        
+        # Calculate correlation matrix
+        corr_matrix = df.corr()
+        
+        # Create heatmap
+        fig = go.Figure(data=go.Heatmap(
+            z=corr_matrix.values,
+            x=corr_matrix.columns,
+            y=corr_matrix.index,
+            colorscale='RdBu_r',
+            zmid=0,
+            text=corr_matrix.values,
+            texttemplate='%{text:.2f}',
+            textfont={"size": 10},
+            colorbar=dict(title='Correlation')
+        ))
+        
+        fig.update_layout(
+            title="Modality Feature Correlation Matrix",
+            font=dict(size=11, family='Source Sans Pro'),
+            height=500,
+            xaxis=dict(tickangle=-45)
+        )
+        
+        return fig
+    except Exception as e:
+        st.error(f"Error creating correlation heatmap: {e}")
+        return None
+
+
+def create_engagement_by_content_type(cross_modal_data):
+    """Create grouped bar chart for engagement by content type."""
+    try:
+        cross_modal_auth = cross_modal_data.get("cross_modal_authenticity", {})
+        
+        # Prepare data
+        content_types = []
+        fake_engagement = []
+        real_engagement = []
+        
+        for content_type, data in cross_modal_auth.items():
+            if content_type == "text_image":
+                display_name = "Text+Image"
+            elif content_type == "full_multimodal":
+                display_name = "Full Multimodal"
+            else:
+                display_name = "Text Only"
+            
+            content_types.append(display_name)
+            
+            avg_eng_fake = data.get("avg_engagement_fake", 0)
+            avg_eng_real = data.get("avg_engagement_real", 0)
+            
+            # Handle NaN values
+            fake_engagement.append(0 if np.isnan(avg_eng_fake) else avg_eng_fake)
+            real_engagement.append(0 if np.isnan(avg_eng_real) else avg_eng_real)
+        
+        fig = go.Figure()
+        
+        fig.add_trace(go.Bar(
+            name='Fake Content',
+            x=content_types,
+            y=fake_engagement,
+            marker_color=CHART_CONFIG['colors']['fake'],
+            text=[f"{val:.1f}" for val in fake_engagement],
+            textposition='outside'
+        ))
+        
+        fig.add_trace(go.Bar(
+            name='Real Content',
+            x=content_types,
+            y=real_engagement,
+            marker_color=CHART_CONFIG['colors']['real'],
+            text=[f"{val:.1f}" for val in real_engagement],
+            textposition='outside'
+        ))
+        
+        fig.update_layout(
+            title="Average Engagement Score by Content Type and Authenticity",
+            xaxis_title="Content Type",
+            yaxis_title="Average Engagement Score",
+            barmode='group',
+            font=dict(size=12, family='Source Sans Pro'),
+            legend=dict(
+                orientation='h',
+                yanchor='bottom',
+                y=1.02,
+                xanchor='right',
+                x=1
+            ),
+            height=500
+        )
+        
+        return fig
+    except Exception as e:
+        st.error(f"Error creating engagement chart: {e}")
+        return None
+
+
+def create_authenticity_consistency_heatmap(cross_modal_data):
+    """Create heatmap showing authenticity consistency across modalities."""
+    try:
+        multimodal_consistency = cross_modal_data.get("multimodal_consistency", {})
+        
+        # Prepare data for heatmap
+        content_types = []
+        fake_ratios = []
+        real_ratios = []
+        total_posts = []
+        
+        for content_type, metrics in multimodal_consistency.items():
+            if content_type == "text_image":
+                display_name = "Text+Image"
+            elif content_type == "full_multimodal":
+                display_name = "Full Multimodal"
+            else:
+                display_name = "Text Only"
+            
+            content_types.append(display_name)
+            fake_ratios.append(metrics.get('fake_ratio', 0))
+            real_ratios.append(metrics.get('real_ratio', 0))
+            total_posts.append(metrics.get('total_posts', 0))
+        
+        # Create DataFrame for heatmap
+        heatmap_data = pd.DataFrame({
+            'Fake Ratio': fake_ratios,
+            'Real Ratio': real_ratios,
+            'Post Volume (normalized)': [p / max(total_posts) for p in total_posts]
+        }, index=content_types)
+        
+        # Create heatmap
+        fig = go.Figure(data=go.Heatmap(
+            z=heatmap_data.values.T,
+            x=heatmap_data.index,
+            y=heatmap_data.columns,
+            colorscale='RdYlGn',
+            text=heatmap_data.values.T,
+            texttemplate='%{text:.2f}',
+            textfont={"size": 12},
+            colorbar=dict(title='Value')
+        ))
+        
+        fig.update_layout(
+            title="Authenticity Consistency Across Content Modalities",
+            font=dict(size=12, family='Source Sans Pro'),
+            height=400,
+            xaxis=dict(side='bottom'),
+            yaxis=dict(side='left')
+        )
+        
+        return fig
+    except Exception as e:
+        st.error(f"Error creating authenticity consistency heatmap: {e}")
+        return None
 
 
 def render_cross_modal_insights(container):
@@ -66,6 +378,45 @@ def render_cross_modal_insights(container):
                     with col4:
                         mapping_rate = mapping_success.get("mapping_rate", 0)
                         st.metric("📊 Mapping Rate", f"{mapping_rate:.1f}%")
+                
+                st.markdown("---")
+                
+                # NEW VISUALIZATIONS - Task 1.7
+                st.subheader("📊 Enhanced Cross-Modal Visualizations")
+                
+                # 1. Sankey Diagram - Content Flow Across Modalities
+                st.markdown("#### 1️⃣ Content Flow Across Modalities")
+                sankey_fig = create_sankey_diagram(cross_modal_data)
+                if sankey_fig:
+                    st.plotly_chart(sankey_fig, use_container_width=True)
+                    st.caption("This Sankey diagram shows how content flows from source types through authenticity labels to engagement levels.")
+                
+                st.markdown("---")
+                
+                # 2. Modality Correlation Matrix Heatmap
+                st.markdown("#### 2️⃣ Modality Feature Correlation Matrix")
+                correlation_fig = create_modality_correlation_heatmap(cross_modal_data)
+                if correlation_fig:
+                    st.plotly_chart(correlation_fig, use_container_width=True)
+                    st.caption("Correlation matrix showing relationships between different modality features and authenticity.")
+                
+                st.markdown("---")
+                
+                # 3. Engagement by Content Type Grouped Bar Chart
+                st.markdown("#### 3️⃣ Engagement Patterns by Content Type")
+                engagement_fig = create_engagement_by_content_type(cross_modal_data)
+                if engagement_fig:
+                    st.plotly_chart(engagement_fig, use_container_width=True)
+                    st.caption("Comparison of engagement metrics across different content types and authenticity labels.")
+                
+                st.markdown("---")
+                
+                # 4. Authenticity Consistency Heatmap
+                st.markdown("#### 4️⃣ Authenticity Consistency Across Modalities")
+                consistency_fig = create_authenticity_consistency_heatmap(cross_modal_data)
+                if consistency_fig:
+                    st.plotly_chart(consistency_fig, use_container_width=True)
+                    st.caption("Heatmap showing the consistency of authenticity patterns across different content modalities.")
                 
                 st.markdown("---")
                 

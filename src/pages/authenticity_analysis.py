@@ -68,8 +68,7 @@ def render_authenticity_analysis(container):
             
             with col3:
                 ratio = fake_count / real_count if real_count > 0 else 0
-                st.metric("📈 Fake:Real Ratio", f"{ratio:.2f}:1", 
-                         delta="Class imbalance consideration")
+                st.metric("📈 Fake:Real Ratio", f"{ratio:.2f}:1")
             
             # Key Insight Box
             st.info(f"""
@@ -224,18 +223,18 @@ def render_authenticity_analysis(container):
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    st.write("**Engagement Score Analysis:**")
-                    st.write(f"• T-statistic: {score_t_stat:.3f}")
-                    st.write(f"• P-value: {score_p_value:.6f}")
+                    st.markdown("**Engagement Score Analysis:**")
+                    st.markdown(f"• T-statistic: {score_t_stat:.3f}")
+                    st.markdown(f"• P-value: {score_p_value:.6f}")
                     if score_p_value < 0.05:
                         st.success("✅ Statistically significant difference")
                     else:
                         st.warning("⚠️ No significant difference")
                 
                 with col2:
-                    st.write("**Comment Count Analysis:**")
-                    st.write(f"• T-statistic: {comment_t_stat:.3f}")
-                    st.write(f"• P-value: {comment_p_value:.6f}")
+                    st.markdown("**Comment Count Analysis:**")
+                    st.markdown(f"• T-statistic: {comment_t_stat:.3f}")
+                    st.markdown(f"• P-value: {comment_p_value:.6f}")
                     if comment_p_value < 0.05:
                         st.success("✅ Statistically significant difference")
                     else:

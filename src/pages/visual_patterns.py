@@ -7,6 +7,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
+import json
 from pathlib import Path
 import sys
 
@@ -79,7 +80,7 @@ def render_visual_patterns(container):
                         
                         st.info(f"""
                         📊 **Data Sampling Notice (Deployment Optimization)**  
-                        Displaying {total_sampled:,} records ({sampling_pct:.1f}% of {total_original:,} total) to maintain deployment size under 50MB per file.  
+                        Displaying {total_sampled:,} records ({sampling_pct:.1f}% of {total_original:,} total) to maintain deployment size under 100MB total.  
                         Statistical patterns and distributions are representative of the full dataset.
                         """)
             

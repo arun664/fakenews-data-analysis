@@ -94,8 +94,8 @@ def create_visual_features_summary():
         fake_count = (data[label_col] == 0).sum()
         real_count = (data[label_col] == 1).sum()
         
-        # Aim for 15,000 per class = 30,000 total (excellent statistical representation, ~24MB per file)
-        sample_size_per_class = 15000
+        # Aim for 25,000 per class = 50,000 total (excellent statistical representation, ~40MB per file)
+        sample_size_per_class = 25000
         fake_sample = data[data[label_col] == 0].sample(min(sample_size_per_class, fake_count), random_state=42)
         real_sample = data[data[label_col] == 1].sample(min(sample_size_per_class, real_count), random_state=42)
         sample_data = pd.concat([fake_sample, real_sample])
@@ -205,7 +205,7 @@ def create_linguistic_features_summary():
         fake_count = (data[label_col] == 0).sum()
         real_count = (data[label_col] == 1).sum()
         
-        sample_size_per_class = 15000  # 30,000 total for excellent representation (~23MB per file)
+        sample_size_per_class = 25000  # 50,000 total for excellent representation (~38MB per file)
         fake_sample = data[data[label_col] == 0].sample(min(sample_size_per_class, fake_count), random_state=42)
         real_sample = data[data[label_col] == 1].sample(min(sample_size_per_class, real_count), random_state=42)
         sample_data = pd.concat([fake_sample, real_sample])
@@ -293,7 +293,7 @@ def create_social_engagement_summary():
             fake_count = (data[label_col] == 0).sum()
             real_count = (data[label_col] == 1).sum()
             
-            sample_size_per_class = 15000  # 30,000 total (~3MB per file)
+            sample_size_per_class = 25000  # 50,000 total (~5MB per file)
             fake_sample = data[data[label_col] == 0].sample(min(sample_size_per_class, fake_count), random_state=42)
             real_sample = data[data[label_col] == 1].sample(min(sample_size_per_class, real_count), random_state=42)
             sample_data = pd.concat([fake_sample, real_sample])
@@ -451,7 +451,7 @@ def create_authenticity_analysis_summary():
         fake_count = (data['2_way_label'] == 0).sum()
         real_count = (data['2_way_label'] == 1).sum()
         
-        sample_size_per_class = 25000  # 50,000 total
+        sample_size_per_class = 25000  # 50,000 total (~8MB per file)
         fake_sample = data[data['2_way_label'] == 0].sample(min(sample_size_per_class, fake_count), random_state=42)
         real_sample = data[data['2_way_label'] == 1].sample(min(sample_size_per_class, real_count), random_state=42)
         sample_data = pd.concat([fake_sample, real_sample])
@@ -538,4 +538,5 @@ def main():
     logger.info("="*70)
 
 
-if __name__ == "__main__
+if __name__ == "__main__":
+    main()

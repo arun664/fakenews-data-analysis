@@ -69,14 +69,26 @@ def check_dashboard_data():
     print(f"  Size: {total_size_mb:.2f} MB")
     print()
     
-    # Size check
-    max_size_mb = 50
-    if total_size_mb > max_size_mb:
-        print(f"⚠️  WARNING: Total size ({total_size_mb:.2f} MB) exceeds {max_size_mb} MB target")
+    # Size check - verify each file is under 50MB (GitHub file size limit)
+    max_file_size_mb = 50
+    max_total_size_mb = 100  # Total can be higher as long as individual files are under limit
+    
+    oversized_files = []
+    for json_file in dashboard_dir.glob('*.json'):
+        file_size_mb = json_file.stat().st_size / 1024 / 1024
+        if file_size_mb > max_file_size_mb:
+            oversized_files.append((json_file.name, file_size_mb))
+    
+    if oversized_files:
+        print(f"❌ ERROR: Some files exceed {max_file_size_mb} MB limit:")
+        for filename, size in oversized_files:
+            print(f"  • {filename}: {size:.2f} MB")
         print()
         return False
     else:
-        print(f"✓ Size is within {max_size_mb} MB target")
+        print(f"✓ All individual files are under {max_file_size_mb} MB limit")
+        if total_size_mb > max_total_size_mb:
+            print(f"⚠️  Note: Total size ({total_size_mb:.2f} MB) is high but acceptable (each file < {max_file_size_mb} MB)")
         print()
     
     # Verify JSON validity

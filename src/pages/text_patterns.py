@@ -770,7 +770,7 @@ def render_text_patterns(container):
                         
                         st.info(f"""
                         📊 **Data Sampling Notice (Deployment Optimization)**  
-                        Displaying {total_sampled:,} records ({sampling_pct:.1f}% of {total_original:,} total) to maintain deployment size under 50MB per file.  
+                        Displaying {total_sampled:,} records ({sampling_pct:.1f}% of {total_original:,} total) to maintain deployment size under 100MB total.  
                         Statistical patterns and distributions are representative of the full dataset.
                         """)
             

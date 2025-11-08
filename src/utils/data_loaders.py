@@ -345,3 +345,108 @@ def handle_missing_data_error(data_name: str, file_path: str):
     
     To generate this data, run the appropriate analysis script from the `tasks/` directory.
     """)
+
+
+
+@st.cache_data(ttl=600)
+def load_linguistic_features_summary() -> Optional[Dict[str, Any]]:
+    """
+    Load linguistic features summary (lightweight version for deployment).
+    
+    Returns:
+        Dictionary with linguistic features summary or None if not found
+    """
+    file_path = ANALYSIS_RESULTS_PATH / 'dashboard_data' / 'linguistic_features_summary.json'
+    
+    try:
+        if not file_path.exists():
+            logger.warning(f"Linguistic features summary not found at {file_path}")
+            return None
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        logger.info(f"Loaded linguistic features summary from {file_path}")
+        return data
+    
+    except Exception as e:
+        logger.error(f"Error loading linguistic features summary: {e}")
+        return None
+
+
+@st.cache_data(ttl=600)
+def load_social_engagement_summary() -> Optional[Dict[str, Any]]:
+    """
+    Load social engagement summary (lightweight version for deployment).
+    
+    Returns:
+        Dictionary with social engagement summary or None if not found
+    """
+    file_path = ANALYSIS_RESULTS_PATH / 'dashboard_data' / 'social_engagement_summary.json'
+    
+    try:
+        if not file_path.exists():
+            logger.warning(f"Social engagement summary not found at {file_path}")
+            return None
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        logger.info(f"Loaded social engagement summary from {file_path}")
+        return data
+    
+    except Exception as e:
+        logger.error(f"Error loading social engagement summary: {e}")
+        return None
+
+
+@st.cache_data(ttl=600)
+def load_dataset_overview_summary() -> Optional[Dict[str, Any]]:
+    """
+    Load dataset overview summary (lightweight version for deployment).
+    
+    Returns:
+        Dictionary with dataset overview summary or None if not found
+    """
+    file_path = ANALYSIS_RESULTS_PATH / 'dashboard_data' / 'dataset_overview_summary.json'
+    
+    try:
+        if not file_path.exists():
+            logger.warning(f"Dataset overview summary not found at {file_path}")
+            return None
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        logger.info(f"Loaded dataset overview summary from {file_path}")
+        return data
+    
+    except Exception as e:
+        logger.error(f"Error loading dataset overview summary: {e}")
+        return None
+
+
+@st.cache_data(ttl=600)
+def load_authenticity_analysis_summary() -> Optional[Dict[str, Any]]:
+    """
+    Load authenticity analysis summary (lightweight version for deployment).
+    
+    Returns:
+        Dictionary with authenticity analysis summary or None if not found
+    """
+    file_path = ANALYSIS_RESULTS_PATH / 'dashboard_data' / 'authenticity_analysis_summary.json'
+    
+    try:
+        if not file_path.exists():
+            logger.warning(f"Authenticity analysis summary not found at {file_path}")
+            return None
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        logger.info(f"Loaded authenticity analysis summary from {file_path}")
+        return data
+    
+    except Exception as e:
+        logger.error(f"Error loading authenticity analysis summary: {e}")
+        return None

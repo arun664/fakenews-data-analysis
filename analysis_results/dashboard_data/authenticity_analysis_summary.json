@@ -1,0 +1,824 @@
+{
+  "generated_at": "2025-11-08T02:30:02.989265",
+  "total_records": 682661,
+  "fake_count": 413753,
+  "real_count": 268908,
+  "metrics_by_authenticity": {
+    "fake": {
+      "comment_count": {
+        "mean": 34.38326731165696,
+        "std": 74.52809651844886,
+        "median": 0.0
+      }
+    },
+    "real": {
+      "comment_count": {
+        "mean": 0.0,
+        "std": 0.0,
+        "median": 0.0
+      }
+    }
+  },
+  "sample_data": [
+    {
+      "2_way_label": 0,
+      "comment_count": 62.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 76.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 21.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 170.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 157.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 310.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 347.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 15.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 383.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 26.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 261.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 51.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 158.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 18.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 15.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 12.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 5.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 111.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 94.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 93.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 175.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 295.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 160.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 6.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 315.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 277.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 238.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 20.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 5.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 7.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 4.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 2.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 277.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 7.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 112.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 14.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 14.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 9.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 3.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 112.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 3.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 180.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 2.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 8.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 2.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 9.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 2.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 2.0
+    },
+    {
+      "2_way_label": 0,
+      "comment_count": 22.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    },
+    {
+      "2_way_label": 1,
+      "comment_count": 0.0
+    }
+  ]
+}

@@ -23,11 +23,38 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Verify real data availability
+    - name: Verify lightweight dashboard data
       run: |
-        echo "Checking for real data files..."
-        ls -la processed_data/text_data/ || echo "Processed data not available - app will show appropriate messages"
-        ls -la analysis_results/ || echo "Analysis results not available - app will show appropriate messages"
+        echo "Checking for lightweight dashboard data..."
+        if [ ! -d "analysis_results/dashboard_data" ]; then
+          echo "ERROR: Dashboard data directory not found!"
+          exit 1
+        fi
+        
+        echo "Dashboard data files:"
+        ls -lh analysis_results/dashboard_data/*.json
+        
+        echo ""
+        echo "Total dashboard data size:"
+        du -sh analysis_results/dashboard_data/
+        
+        # Verify key files exist
+        required_files=(
+          "visual_features_summary.json"
+          "linguistic_features_summary.json"
+          "social_engagement_summary.json"
+          "dataset_overview_summary.json"
+          "authenticity_analysis_summary.json"
+        )
+        
+        for file in "${required_files[@]}"; do
+          if [ ! -f "analysis_results/dashboard_data/$file" ]; then
+            echo "ERROR: Required file missing: $file"
+            exit 1
+          fi
+        done
+        
+        echo "✓ All required dashboard data files present"
     
     - name: Test Streamlit app
       run: |

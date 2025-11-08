@@ -1,0 +1,25 @@
+{
+  "generated_at": "2025-11-08T02:29:56.509586",
+  "splits": {
+    "train": {
+      "total": 372399,
+      "fake": 214029,
+      "real": 158370
+    },
+    "validation": {
+      "total": 124133,
+      "fake": 71343,
+      "real": 52790
+    },
+    "test": {
+      "total": 124133,
+      "fake": 71343,
+      "real": 52790
+    }
+  },
+  "total": {
+    "records": 620665,
+    "fake": 356715,
+    "real": 263950
+  }
+}

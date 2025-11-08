@@ -56,6 +56,12 @@ def render_authenticity_analysis(container):
             
             integrated_data, original_size = load_integrated_data()
             
+            # Initialize statistical variables at the start
+            score_p_value = 1.0
+            comment_p_value = 1.0
+            score_t_stat = 0.0
+            comment_t_stat = 0.0
+            
             # Show sampling notification if data was sampled
             if original_size > 100000:
                 st.info(f"📊 Performance Optimization: Analyzing 100,000 sampled records (from {original_size:,} total) for optimal dashboard performance")
@@ -220,17 +226,19 @@ def render_authenticity_analysis(container):
                     st.plotly_chart(fig, use_container_width=True)
                 
                 # Statistical significance testing
-                # T-test for engagement scores
-                score_t_stat, score_p_value = stats.ttest_ind(
-                    fake_data['score'].dropna(), 
-                    real_data['score'].dropna()
-                )
+                # T-test for engagement scores (if score column exists)
+                if 'score' in integrated_data.columns:
+                    score_t_stat, score_p_value = stats.ttest_ind(
+                        fake_data['score'].dropna(), 
+                        real_data['score'].dropna()
+                    )
                 
                 # T-test for comment counts
-                comment_t_stat, comment_p_value = stats.ttest_ind(
-                    fake_data['unified_comments'].dropna(), 
-                    real_data['unified_comments'].dropna()
-                )
+                if 'unified_comments' in integrated_data.columns:
+                    comment_t_stat, comment_p_value = stats.ttest_ind(
+                        fake_data['unified_comments'].dropna(), 
+                        real_data['unified_comments'].dropna()
+                    )
                 
                 st.subheader("📈 Statistical Significance")
                 
@@ -238,21 +246,27 @@ def render_authenticity_analysis(container):
                 
                 with col1:
                     st.markdown("**Engagement Score Analysis:**")
-                    st.markdown(f"• T-statistic: {score_t_stat:.3f}")
-                    st.markdown(f"• P-value: {score_p_value:.6f}")
-                    if score_p_value < 0.05:
-                        st.success("✅ Statistically significant difference")
+                    if 'score' in integrated_data.columns:
+                        st.markdown(f"• T-statistic: {score_t_stat:.3f}")
+                        st.markdown(f"• P-value: {score_p_value:.6f}")
+                        if score_p_value < 0.05:
+                            st.success("✅ Statistically significant difference")
+                        else:
+                            st.warning("⚠️ No significant difference")
                     else:
-                        st.warning("⚠️ No significant difference")
+                        st.info("Score data not available in summary")
                 
                 with col2:
                     st.markdown("**Comment Count Analysis:**")
-                    st.markdown(f"• T-statistic: {comment_t_stat:.3f}")
-                    st.markdown(f"• P-value: {comment_p_value:.6f}")
-                    if comment_p_value < 0.05:
-                        st.success("✅ Statistically significant difference")
+                    if 'unified_comments' in integrated_data.columns:
+                        st.markdown(f"• T-statistic: {comment_t_stat:.3f}")
+                        st.markdown(f"• P-value: {comment_p_value:.6f}")
+                        if comment_p_value < 0.05:
+                            st.success("✅ Statistically significant difference")
+                        else:
+                            st.warning("⚠️ No significant difference")
                     else:
-                        st.warning("⚠️ No significant difference")
+                        st.info("Comment data not available in summary")
             
             # Enhanced authenticity insights with comprehensive analysis
             st.subheader("🎯 Comprehensive Authenticity Analysis: Fake vs Real")
@@ -337,29 +351,33 @@ def render_authenticity_analysis(container):
             st.markdown("---")
             st.subheader("💡 Authenticity Detection Summary")
             
-            # Statistical confidence
-            if 'score' in integrated_data.columns:
-                if score_p_value < 0.05 or comment_p_value < 0.05:
-                    st.success(f"""
-                    **Statistical Significance:** Detected significant differences between fake and real content (p < 0.05).
-                    
-                    **Key Findings:**
-                    - Fake content represents {fake_count/total_count*100:.1f}% of the dataset ({ratio:.2f}:1 ratio)
-                    - Social engagement patterns differ significantly between authentic and inauthentic content
-                    - Multimodal analysis reveals distinct patterns across content types
-                    
-                    **Detection Strategy:** Combining social engagement metrics, content modality analysis, and statistical patterns 
-                    provides a robust framework for authenticity detection. The {ratio:.2f}:1 class imbalance reflects real-world 
-                    prevalence of misinformation on social media platforms.
-                    """)
-                else:
-                    st.info("""
-                    **Statistical Significance:** Minimal statistical differences detected between fake and real content.
-                    
-                    **Implication:** Sophisticated misinformation may closely mimic authentic content in social engagement patterns.
-                    This highlights the importance of multimodal analysis combining visual, textual, and social signals for 
-                    reliable authenticity detection.
-                    """)
+            # Statistical confidence - always show summary
+            if score_p_value < 0.05 or comment_p_value < 0.05:
+                st.success(f"""
+                **Statistical Significance:** Detected significant differences between fake and real content (p < 0.05).
+                
+                **Key Findings:**
+                - Fake content represents {fake_count/total_count*100:.1f}% of the dataset ({ratio:.2f}:1 ratio)
+                - Social engagement patterns differ significantly between authentic and inauthentic content
+                - Multimodal analysis reveals distinct patterns across content types
+                
+                **Detection Strategy:** Combining social engagement metrics, content modality analysis, and statistical patterns 
+                provides a robust framework for authenticity detection. The {ratio:.2f}:1 class imbalance reflects real-world 
+                prevalence of misinformation on social media platforms.
+                """)
+            else:
+                st.info(f"""
+                **Statistical Significance:** Minimal statistical differences detected between fake and real content.
+                
+                **Key Findings:**
+                - Fake content represents {fake_count/total_count*100:.1f}% of the dataset ({ratio:.2f}:1 ratio)
+                - Dataset contains {total_count:,} records across multiple content types
+                - Analysis based on lightweight JSON summaries optimized for deployment
+                
+                **Implication:** Sophisticated misinformation may closely mimic authentic content in social engagement patterns.
+                This highlights the importance of multimodal analysis combining visual, textual, and social signals for 
+                reliable authenticity detection.
+                """)
             
         except FileNotFoundError as e:
             st.error(f"📂 Data file not found: {e}")

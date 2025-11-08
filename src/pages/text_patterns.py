@@ -756,6 +756,24 @@ def render_text_patterns(container):
             # Hide loading indicator
             lazy_loader.hide_section_loading()
             
+            # Show sampling notification
+            summary_path = Path('analysis_results/dashboard_data/linguistic_features_summary.json')
+            if summary_path.exists():
+                with open(summary_path, 'r') as f:
+                    summary = json.load(f)
+                    sampling_info = summary.get('sampling_info', {})
+                    
+                    if sampling_info:
+                        sampling_pct = sampling_info.get('sampling_percentage', 0)
+                        total_sampled = sampling_info.get('total_sampled', 0)
+                        total_original = sampling_info.get('total_original', 0)
+                        
+                        st.info(f"""
+                        📊 **Data Sampling Notice (Deployment Optimization)**  
+                        Displaying {total_sampled:,} records ({sampling_pct:.1f}% of {total_original:,} total) to maintain deployment size under 50MB per file.  
+                        Statistical patterns and distributions are representative of the full dataset.
+                        """)
+            
             if linguistic_data:
                 # Overview metrics
                 st.subheader("📊 Linguistic Analysis Overview")

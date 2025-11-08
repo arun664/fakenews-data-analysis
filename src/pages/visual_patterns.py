@@ -65,9 +65,23 @@ def render_visual_patterns(container):
             # Hide loading indicator after all data is loaded
             lazy_loader.hide_section_loading()
             
-            # Show sampling notification if data was sampled
-            if original_size > 50000:
-                st.info(f"📊 Performance Optimization: Displaying analysis of 50,000 sampled images (from {original_size:,} total) for optimal dashboard performance")
+            # Show sampling notification with detailed info
+            summary_path = Path('analysis_results/dashboard_data/visual_features_summary.json')
+            if summary_path.exists():
+                with open(summary_path, 'r') as f:
+                    summary = json.load(f)
+                    sampling_info = summary.get('sampling_info', {})
+                    
+                    if sampling_info:
+                        sampling_pct = sampling_info.get('sampling_percentage', 0)
+                        total_sampled = sampling_info.get('total_sampled', len(visual_features))
+                        total_original = sampling_info.get('total_original', original_size)
+                        
+                        st.info(f"""
+                        📊 **Data Sampling Notice (Deployment Optimization)**  
+                        Displaying {total_sampled:,} records ({sampling_pct:.1f}% of {total_original:,} total) to maintain deployment size under 50MB per file.  
+                        Statistical patterns and distributions are representative of the full dataset.
+                        """)
             
             if len(visual_features) > 0:
                 # Create authenticity label mapping
@@ -111,8 +125,8 @@ def render_visual_patterns(container):
                 fig_grid = make_subplots(
                     rows=2, cols=2,
                     subplot_titles=list(feature_columns.values()),
-                    vertical_spacing=0.12,
-                    horizontal_spacing=0.1
+                    vertical_spacing=0.20,  # Increased spacing to prevent overlap
+                    horizontal_spacing=0.12
                 )
                 
                 positions = [(1, 1), (1, 2), (2, 1), (2, 2)]

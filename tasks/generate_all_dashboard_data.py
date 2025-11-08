@@ -89,13 +89,30 @@ def create_visual_features_summary():
                         'median': safe_float(subset[col].median())
                     }
         
-        # Sample data for visualizations
+        # Maximize sample size for deployment (target: <50MB per file)
+        # Use as much data as possible while staying under size limit
         fake_count = (data[label_col] == 0).sum()
         real_count = (data[label_col] == 1).sum()
         
-        fake_sample = data[data[label_col] == 0].sample(min(1000, fake_count), random_state=42)
-        real_sample = data[data[label_col] == 1].sample(min(1000, real_count), random_state=42)
+        # Aim for 15,000 per class = 30,000 total (excellent statistical representation, ~24MB per file)
+        sample_size_per_class = 15000
+        fake_sample = data[data[label_col] == 0].sample(min(sample_size_per_class, fake_count), random_state=42)
+        real_sample = data[data[label_col] == 1].sample(min(sample_size_per_class, real_count), random_state=42)
         sample_data = pd.concat([fake_sample, real_sample])
+        
+        # Store sampling info for display on dashboard
+        sampling_percentage = (len(sample_data) / len(data)) * 100
+        logger.info(f"Sampled {len(sample_data)} records ({sampling_percentage:.1f}%) from {len(data)} total for visual features")
+        
+        summary['sampling_info'] = {
+            'total_original': int(len(data)),
+            'total_sampled': int(len(sample_data)),
+            'sampling_percentage': float(sampling_percentage),
+            'fake_original': int(fake_count),
+            'fake_sampled': int(len(fake_sample)),
+            'real_original': int(real_count),
+            'real_sampled': int(len(real_sample))
+        }
         
         # Include all important columns for visualizations
         important_cols = [
@@ -184,16 +201,31 @@ def create_linguistic_features_summary():
                         'q75': safe_float(subset[col].quantile(0.75))
                     }
         
-        # Sample data
+        # Maximize sample for deployment (target: <50MB per file)
         fake_count = (data[label_col] == 0).sum()
         real_count = (data[label_col] == 1).sum()
         
-        fake_sample = data[data[label_col] == 0].sample(min(500, fake_count), random_state=42)
-        real_sample = data[data[label_col] == 1].sample(min(500, real_count), random_state=42)
+        sample_size_per_class = 15000  # 30,000 total for excellent representation (~23MB per file)
+        fake_sample = data[data[label_col] == 0].sample(min(sample_size_per_class, fake_count), random_state=42)
+        real_sample = data[data[label_col] == 1].sample(min(sample_size_per_class, real_count), random_state=42)
         sample_data = pd.concat([fake_sample, real_sample])
         
-        # Convert sample
-        key_columns = [label_col] + list(feature_cols[:15])
+        sampling_percentage = (len(sample_data) / len(data)) * 100
+        logger.info(f"Sampled {len(sample_data)} records ({sampling_percentage:.1f}%) from {len(data)} total for linguistic features")
+        
+        # Store sampling info
+        summary['sampling_info'] = {
+            'total_original': int(len(data)),
+            'total_sampled': int(len(sample_data)),
+            'sampling_percentage': float(sampling_percentage),
+            'fake_original': int(fake_count),
+            'fake_sampled': int(len(fake_sample)),
+            'real_original': int(real_count),
+            'real_sampled': int(len(real_sample))
+        }
+        
+        # Convert sample data - include all features
+        key_columns = [label_col] + list(feature_cols)
         summary['sample_data'] = sample_data[key_columns].fillna(0).to_dict('records')
         
         # Save
@@ -237,8 +269,12 @@ def create_social_engagement_summary():
             'engagement_stats': {}
         }
         
-        # Key engagement metrics
-        engagement_cols = ['comment_count', 'engagement_score', 'share_count', 'reaction_count']
+        # Key engagement metrics - map to expected column names
+        engagement_cols = ['comment_count', 'engagement_score', 'share_count', 'reaction_count', 'score']
+        
+        # Add num_comments as alias for comment_count if it exists
+        if 'comment_count' in data.columns and 'num_comments' not in data.columns:
+            data['num_comments'] = data['comment_count']
         
         if label_col in data.columns:
             for label, label_name in [(0, 'fake'), (1, 'real')]:
@@ -253,16 +289,33 @@ def create_social_engagement_summary():
                             'median': safe_float(subset[col].median())
                         }
             
-            # Sample data
+            # Maximize sample for deployment
             fake_count = (data[label_col] == 0).sum()
             real_count = (data[label_col] == 1).sum()
             
-            fake_sample = data[data[label_col] == 0].sample(min(200, fake_count), random_state=42)
-            real_sample = data[data[label_col] == 1].sample(min(200, real_count), random_state=42)
+            sample_size_per_class = 15000  # 30,000 total (~3MB per file)
+            fake_sample = data[data[label_col] == 0].sample(min(sample_size_per_class, fake_count), random_state=42)
+            real_sample = data[data[label_col] == 1].sample(min(sample_size_per_class, real_count), random_state=42)
             sample_data = pd.concat([fake_sample, real_sample])
             
-            # Convert sample
-            key_columns = [label_col] + [col for col in engagement_cols if col in sample_data.columns]
+            sampling_percentage = (len(sample_data) / len(data)) * 100
+            logger.info(f"Sampled {len(sample_data)} records ({sampling_percentage:.1f}%) from {len(data)} total for social engagement")
+            
+            # Store sampling info
+            summary['sampling_info'] = {
+                'total_original': int(len(data)),
+                'total_sampled': int(len(sample_data)),
+                'sampling_percentage': float(sampling_percentage),
+                'fake_original': int(fake_count),
+                'fake_sampled': int(len(fake_sample)),
+                'real_original': int(real_count),
+                'real_sampled': int(len(real_sample))
+            }
+            
+            # Include all available engagement columns
+            available_cols = [col for col in engagement_cols + ['num_comments'] if col in sample_data.columns]
+            key_columns = [label_col] + available_cols
+            
             summary['sample_data'] = sample_data[key_columns].fillna(0).to_dict('records')
         
         # Save
@@ -379,8 +432,8 @@ def create_authenticity_analysis_summary():
             'metrics_by_authenticity': {}
         }
         
-        # Key metrics
-        key_metrics = ['engagement_score', 'comment_count']
+        # Key metrics - include all columns needed by authenticity_analysis page
+        key_metrics = ['engagement_score', 'comment_count', 'num_comments', 'content_type_social', 'score']
         
         for label, label_name in [(0, 'fake'), (1, 'real')]:
             subset = data[data['2_way_label'] == label]
@@ -389,21 +442,38 @@ def create_authenticity_analysis_summary():
             for col in key_metrics:
                 if col in subset.columns:
                     summary['metrics_by_authenticity'][label_name][col] = {
-                        'mean': safe_float(subset[col].mean()),
-                        'std': safe_float(subset[col].std()),
-                        'median': safe_float(subset[col].median())
+                        'mean': safe_float(subset[col].mean()) if subset[col].dtype in ['float64', 'int64'] else None,
+                        'std': safe_float(subset[col].std()) if subset[col].dtype in ['float64', 'int64'] else None,
+                        'median': safe_float(subset[col].median()) if subset[col].dtype in ['float64', 'int64'] else None
                     }
         
-        # Sample data
+        # Maximize sample for deployment
         fake_count = (data['2_way_label'] == 0).sum()
         real_count = (data['2_way_label'] == 1).sum()
         
-        fake_sample = data[data['2_way_label'] == 0].sample(min(100, fake_count), random_state=42)
-        real_sample = data[data['2_way_label'] == 1].sample(min(100, real_count), random_state=42)
+        sample_size_per_class = 25000  # 50,000 total
+        fake_sample = data[data['2_way_label'] == 0].sample(min(sample_size_per_class, fake_count), random_state=42)
+        real_sample = data[data['2_way_label'] == 1].sample(min(sample_size_per_class, real_count), random_state=42)
         sample_data = pd.concat([fake_sample, real_sample])
         
-        # Convert sample
-        key_columns = ['2_way_label'] + [col for col in key_metrics if col in sample_data.columns]
+        sampling_percentage = (len(sample_data) / len(data)) * 100
+        logger.info(f"Sampled {len(sample_data)} records ({sampling_percentage:.1f}%) from {len(data)} total for authenticity analysis")
+        
+        # Store sampling info
+        summary['sampling_info'] = {
+            'total_original': int(len(data)),
+            'total_sampled': int(len(sample_data)),
+            'sampling_percentage': float(sampling_percentage),
+            'fake_original': int(fake_count),
+            'fake_sampled': int(len(fake_sample)),
+            'real_original': int(real_count),
+            'real_sampled': int(len(real_sample))
+        }
+        
+        # Include all available columns
+        available_cols = [col for col in key_metrics if col in sample_data.columns]
+        key_columns = ['2_way_label'] + available_cols
+        
         summary['sample_data'] = sample_data[key_columns].fillna(0).to_dict('records')
         
         # Save
@@ -468,5 +538,4 @@ def main():
     logger.info("="*70)
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__

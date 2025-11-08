@@ -221,23 +221,33 @@ def render_dataset_overview(container):
             
             with col1:
                 st.write("**Text Quality Metrics**")
-                avg_title_length = all_data['title'].str.len().mean()
-                short_titles = len(all_data[all_data['title'].str.len() < 10])
-                long_titles = len(all_data[all_data['title'].str.len() > 200])
-                
-                st.write(f"• Avg Title Length: {avg_title_length:.1f} chars")
-                st.write(f"• Short Titles: {short_titles:,}")
-                st.write(f"• Long Titles: {long_titles:,}")
+                if 'title' in all_data.columns:
+                    avg_title_length = all_data['title'].str.len().mean()
+                    short_titles = len(all_data[all_data['title'].str.len() < 10])
+                    long_titles = len(all_data[all_data['title'].str.len() > 200])
+                    
+                    st.write(f"• Avg Title Length: {avg_title_length:.1f} chars")
+                    st.write(f"• Short Titles: {short_titles:,}")
+                    st.write(f"• Long Titles: {long_titles:,}")
+                else:
+                    # Use summary data
+                    total_records = dataset_summary['total']['records']
+                    st.write(f"• Total Records: {total_records:,}")
+                    st.write(f"• Train Split: {dataset_summary['splits']['train']['total']:,}")
+                    st.write(f"• Val Split: {dataset_summary['splits']['validation']['total']:,}")
             
             with col2:
                 st.write("**Content Distribution**")
                 fake_count = len(all_data[all_data['2_way_label'] == 0])
                 real_count = len(all_data[all_data['2_way_label'] == 1])
-                fake_pct = (fake_count / len(all_data)) * 100
+                fake_pct = (fake_count / len(all_data)) * 100 if len(all_data) > 0 else 0
                 
                 st.write(f"• Fake Content: {fake_count:,} ({fake_pct:.1f}%)")
                 st.write(f"• Real Content: {real_count:,} ({100-fake_pct:.1f}%)")
-                st.write(f"• Class Imbalance: {fake_count/real_count:.2f}:1")
+                if real_count > 0:
+                    st.write(f"• Class Imbalance: {fake_count/real_count:.2f}:1")
+                else:
+                    st.write(f"• Class Imbalance: N/A")
             
             with col3:
                 st.write("**Multimodal Coverage**")

@@ -92,29 +92,33 @@ def load_sentiment_data() -> Optional[Dict[str, Any]]:
 @st.cache_data(ttl=600)
 def load_visual_features(sample: bool = True) -> Optional[pd.DataFrame]:
     """
-    Load visual features data with caching.
+    Load visual features data from lightweight JSON summary.
     
     Args:
-        sample: Whether to sample large datasets
+        sample: Whether to sample large datasets (ignored, summary is already sampled)
     
     Returns:
         DataFrame with visual features or None if not found
     """
-    file_path = PROCESSED_DATA_PATH / 'visual_features' / 'visual_features_with_authenticity.parquet'
+    file_path = ANALYSIS_RESULTS_PATH / 'dashboard_data' / 'visual_features_summary.json'
     
     try:
         if not file_path.exists():
-            logger.warning(f"Visual features not found at {file_path}")
+            logger.warning(f"Visual features summary not found at {file_path}")
             return None
         
-        data = pd.read_parquet(file_path)
+        with open(file_path, 'r', encoding='utf-8') as f:
+            summary = json.load(f)
         
-        if sample:
-            data = sample_for_visualization(
-                data,
-                SAMPLING_THRESHOLDS['visual_features'],
-                stratify_column='2_way_label' if '2_way_label' in data.columns else None
-            )
+        # Convert sample data to DataFrame
+        data = pd.DataFrame(summary['sample_data'])
+        
+        # Map label column for compatibility
+        if '2_way_label' in data.columns:
+            data['authenticity_label'] = data['2_way_label']
+        elif 'authenticity_label' not in data.columns:
+            logger.error("No authenticity label column found in summary data")
+            return None
         
         logger.info(f"Loaded visual features from {file_path} ({len(data)} rows)")
         return data

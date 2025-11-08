@@ -30,14 +30,28 @@ def render_social_patterns(container):
             - How does community interaction vary with content authenticity?
             """)
             
-            # Load social engagement data with performance optimization
+            # Load social engagement data from lightweight JSON summary
             @st.cache_data(ttl=600)  # 10 minutes cache for social engagement data
             def load_social_data():
-                data = pd.read_parquet('processed_data/social_engagement/integrated_engagement_data.parquet')
-                original_size = len(data)
-                # Performance optimization: Sample very large datasets
-                if original_size > 100000:
-                    data = data.sample(n=100000, random_state=42)
+                import json
+                summary_path = Path('analysis_results/dashboard_data/social_engagement_summary.json')
+                
+                if not summary_path.exists():
+                    raise FileNotFoundError(f"Social engagement summary not found at {summary_path}")
+                
+                with open(summary_path, 'r') as f:
+                    summary = json.load(f)
+                
+                # Convert sample data to DataFrame
+                data = pd.DataFrame(summary['sample_data'])
+                
+                # Map label column for compatibility
+                if '2_way_label' in data.columns:
+                    data['authenticity_label'] = data['2_way_label']
+                elif 'authenticity_label' not in data.columns:
+                    raise ValueError("No authenticity label column found in summary data")
+                
+                original_size = summary.get('total_records', len(data))
                 return data, original_size
             
             social_data, original_size = load_social_data()

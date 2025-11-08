@@ -30,14 +30,28 @@ def render_authenticity_analysis(container):
             - What are the statistical signatures of misinformation?
             """)
             
-            # Lazy load integrated data with caching and performance optimization
+            # Load integrated data from lightweight JSON summary
             @st.cache_data(ttl=600)  # 10 minutes cache for integrated dataset
             def load_integrated_data():
-                data = pd.read_parquet('processed_data/final_integrated_dataset/complete_multimodal_dataset.parquet')
-                original_size = len(data)
-                # Performance optimization: Sample very large datasets
-                if original_size > 100000:
-                    data = data.sample(n=100000, random_state=42)
+                import json
+                summary_path = Path('analysis_results/dashboard_data/authenticity_analysis_summary.json')
+                
+                if not summary_path.exists():
+                    raise FileNotFoundError(f"Authenticity analysis summary not found at {summary_path}")
+                
+                with open(summary_path, 'r') as f:
+                    summary = json.load(f)
+                
+                # Convert sample data to DataFrame
+                data = pd.DataFrame(summary['sample_data'])
+                
+                # Map label column for compatibility
+                if '2_way_label' in data.columns:
+                    data['authenticity_label'] = data['2_way_label']
+                elif 'authenticity_label' not in data.columns:
+                    raise ValueError("No authenticity label column found in summary data")
+                
+                original_size = summary.get('total_records', len(data))
                 return data, original_size
             
             integrated_data, original_size = load_integrated_data()

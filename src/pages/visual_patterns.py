@@ -36,17 +36,31 @@ def render_visual_patterns(container):
             - How do image quality metrics correlate with authenticity?
             """)
             
-            # Lazy load visual features data with caching and performance optimization
+            # Lazy load visual features data from lightweight JSON summary
             @st.cache_data(ttl=600)  # Cache for 10 minutes
-            def load_visual_features():
-                data = pd.read_parquet('processed_data/visual_features/visual_features_with_authenticity.parquet')
-                original_size = len(data)
-                # Performance optimization: Sample large datasets
-                if original_size > 50000:
-                    data = data.sample(n=50000, random_state=42)
+            def load_visual_features_from_summary():
+                import json
+                summary_path = Path('analysis_results/dashboard_data/visual_features_summary.json')
+                
+                if not summary_path.exists():
+                    raise FileNotFoundError(f"Visual features summary not found at {summary_path}")
+                
+                with open(summary_path, 'r') as f:
+                    summary = json.load(f)
+                
+                # Convert sample data to DataFrame
+                data = pd.DataFrame(summary['sample_data'])
+                
+                # Map label column to authenticity_label for compatibility
+                if '2_way_label' in data.columns:
+                    data['authenticity_label'] = data['2_way_label']
+                elif 'authenticity_label' not in data.columns:
+                    raise ValueError("No authenticity label column found in summary data")
+                
+                original_size = summary.get('total_records', len(data))
                 return data, original_size
             
-            visual_features, original_size = load_visual_features()
+            visual_features, original_size = load_visual_features_from_summary()
             
             # Hide loading indicator after all data is loaded
             lazy_loader.hide_section_loading()

@@ -24,19 +24,29 @@ lazy_loader = LazyLoader()
 
 
 def load_linguistic_features_data():
-    """Load detailed linguistic features for visualizations"""
+    """Load detailed linguistic features from lightweight JSON summary"""
     try:
-        features_path = Path("processed_data/linguistic_features/linguistic_features.parquet")
-        if features_path.exists():
-            # Load with sampling for performance
-            df = pd.read_parquet(features_path)
-            if len(df) > 50000:
-                # Stratified sampling
-                df = df.groupby('authenticity_label').apply(
-                    lambda x: x.sample(n=min(len(x), 25000), random_state=42)
-                ).reset_index(drop=True)
-            return df
-        return None
+        import json
+        summary_path = Path("analysis_results/dashboard_data/linguistic_features_summary.json")
+        
+        if not summary_path.exists():
+            st.warning(f"Linguistic features summary not found at {summary_path}")
+            return None
+        
+        with open(summary_path, 'r') as f:
+            summary = json.load(f)
+        
+        # Convert sample data to DataFrame
+        df = pd.DataFrame(summary['sample_data'])
+        
+        # Map label column to authenticity_label for compatibility
+        if '2_way_label' in df.columns:
+            df['authenticity_label'] = df['2_way_label']
+        elif 'authenticity_label' not in df.columns:
+            st.error("No authenticity label column found in summary data")
+            return None
+        
+        return df
     except Exception as e:
         st.error(f"Error loading linguistic features: {e}")
         return None

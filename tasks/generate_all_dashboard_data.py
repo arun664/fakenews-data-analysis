@@ -97,8 +97,20 @@ def create_visual_features_summary():
         real_sample = data[data[label_col] == 1].sample(min(1000, real_count), random_state=42)
         sample_data = pd.concat([fake_sample, real_sample])
         
-        # Convert sample to records
-        key_columns = [label_col] + list(feature_cols[:10])
+        # Include all important columns for visualizations
+        important_cols = [
+            'mean_brightness', 'sharpness_score', 'visual_entropy', 'noise_level',
+            'contrast_score', 'color_diversity', 'edge_density', 'manipulation_score',
+            'processing_success'
+        ]
+        
+        # Get available columns
+        key_columns = [label_col] + [col for col in important_cols if col in sample_data.columns]
+        
+        # Add any remaining feature columns up to 20 total
+        remaining_cols = [col for col in feature_cols if col not in key_columns and col in sample_data.columns]
+        key_columns.extend(remaining_cols[:max(0, 20 - len(key_columns))])
+        
         summary['sample_data'] = sample_data[key_columns].fillna(0).to_dict('records')
         
         # Save
@@ -288,6 +300,19 @@ def create_dataset_overview_summary():
         
         logger.info(f"Loaded datasets: train={len(train)}, val={len(val)}, test={len(test)}")
         
+        # Determine content_type column
+        content_type_col = None
+        for col in ['content_type', 'post_type', 'type']:
+            if col in train.columns:
+                content_type_col = col
+                break
+        
+        # Calculate content type distribution
+        content_type_dist = {}
+        if content_type_col:
+            all_data = pd.concat([train, val, test])
+            content_type_dist = all_data[content_type_col].value_counts().to_dict()
+        
         summary = {
             'generated_at': datetime.now().isoformat(),
             'splits': {
@@ -311,7 +336,9 @@ def create_dataset_overview_summary():
                 'records': len(train) + len(val) + len(test),
                 'fake': safe_int((train['2_way_label'] == 0).sum() + (val['2_way_label'] == 0).sum() + (test['2_way_label'] == 0).sum()),
                 'real': safe_int((train['2_way_label'] == 1).sum() + (val['2_way_label'] == 1).sum() + (test['2_way_label'] == 1).sum())
-            }
+            },
+            'content_type_distribution': content_type_dist,
+            'has_content_type': content_type_col is not None
         }
         
         # Save

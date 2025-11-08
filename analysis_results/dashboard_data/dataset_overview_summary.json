@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-11-08T02:29:56.509586",
+  "generated_at": "2025-11-08T02:43:54.445440",
   "splits": {
     "train": {
       "total": 372399,
@@ -21,5 +21,10 @@
     "records": 620665,
     "fake": 356715,
     "real": 263950
-  }
+  },
+  "content_type_distribution": {
+    "text_image": 618828,
+    "text_only": 1837
+  },
+  "has_content_type": true
 }

@@ -7,7 +7,7 @@ Analyze how visual and textual misinformation strategies differ by content type.
 Study multimodal consistency and perform statistical significance testing.
 
 Author: Data Mining Project
-Date: November 2024
+Date: November 2025
 """
 
 import pandas as pd

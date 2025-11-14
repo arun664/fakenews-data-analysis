@@ -14,7 +14,7 @@ Key Features:
 - Statistical validation of discovered patterns
 
 Author: Data Mining Project
-Date: November 2024
+Date: November 2025
 """
 
 import pandas as pd

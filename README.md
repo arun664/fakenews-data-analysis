@@ -1,4 +1,4 @@
-# Multimodal Fake News Detection System
+# Multimodal Fake News Detection using Data Mining Techniques
 
 ## 🚀 Live Dashboard
 

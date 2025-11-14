@@ -1,5 +1,11 @@
 # Multimodal Fake News Detection System
 
+## 🚀 Live Dashboard
+
+**View the interactive dashboard here:** [https://fakenews-data-analysis.streamlit.app/](https://fakenews-data-analysis.streamlit.app/)
+
+---
+
 ## 📋 Overview
 
 This project provides a comprehensive multimodal analysis system for fake news detection, processing 620,665+ social media posts with text, images, and social engagement data. The system consists of two phases:
